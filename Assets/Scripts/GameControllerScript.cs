@@ -31,20 +31,8 @@ public class GameControllerScript : MonoBehaviour {
         }
         if (Input.GetKey(KeyCode.Escape))
         {
-
             int scene = SceneManager.GetActiveScene().buildIndex;
             SceneManager.LoadScene(scene, LoadSceneMode.Single);
-        }
-        if (Input.GetKey(KeyCode.Keypad1))
-        {
-           // int scene = SceneManager.GetSceneByName("testScene").buildIndex;
-            SceneManager.LoadScene(0, LoadSceneMode.Single);
-
-        }
-        if (Input.GetKey(KeyCode.Keypad2))
-        {
-          //  int scene = SceneManager.GetSceneByName("testcity").buildIndex;
-            SceneManager.LoadScene(1, LoadSceneMode.Single);
         }
     }
     public void setPlayerDead()
