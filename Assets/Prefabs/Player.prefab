@@ -122,7 +122,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1296714925945314}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c6767b32608e1d4fa39597ac86c66a6, type: 3}
+  m_Script: {fileID: 11500000, guid: 2b01e9081cb736b4f860a2627e998ea6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &114800673393192644
@@ -133,9 +133,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1296714925945314}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 58505bb27f888f041b42c9bfd0901fab, type: 3}
+  m_Script: {fileID: 11500000, guid: fdfdcb0caa56d5b4a99824e4af1ffffc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 20
+  jumpForce: 10
+  maxVelocity: 20
+  wallFriction: 6
+  timeBetweensteps: 0.5
+  steps: []
 --- !u!114 &114800883750071708
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -144,13 +150,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1296714925945314}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3d91f34805b6e574bb90b2bffa51a206, type: 3}
+  m_Script: {fileID: 11500000, guid: e16722ce1a7b59c4d9f59d5ca8822b4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 20
-  jumpForce: 4
-  maxVelocity: 10
-  wallFriction: 10
 --- !u!120 &120655438309874742
 LineRenderer:
   m_ObjectHideFlags: 1
