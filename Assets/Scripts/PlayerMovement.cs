@@ -3,176 +3,230 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour {
-    public AudioClip[] steps;
+
+    // Use this for initialization
     public float speed = 20;
-    public float jumpForce = 4;
-    public float maxVelocity_run = 20;
-    public float maxVelocity_walk = 10;
-    public float maxVelocity_sneak = 5;
+    public float jumpForce = 10;
+    public float maxVelocity = 20;
     public float wallFriction = 6;
     public float timeBetweensteps = 0.5f;
+    float stepTimer = 0;
+    public AudioClip[] steps;
     AudioSource stepAudio;
     Rigidbody2D playerRig;
     SpriteRenderer sr;
     Animator anim;
-    float maxVelocity = 5;
-    float stepTimer;
-    int facing; // 1= RIGHT -1 = LEFT
     bool grounded;
     bool moving;
-    bool wallJumpAble;
+    bool wallJumAble;
     bool wallJumped;
-    enum charSpeed
+    enum facingDirection
     {
-        sneak,
-        walk,
-        run
+        right,
+        left
     };
-    charSpeed cSpeed;
-
-    void Awake()
-    {
+    facingDirection facing;
+	void Awake () {
         playerRig = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
         stepAudio = GetComponent<AudioSource>();
-    }
-
-    void Start()
+	}
+	void Start()
     {
-        anim.Play("Idle");
-        facing = 1;
         grounded = false;
         moving = false;
-        wallJumpAble = false;
+        wallJumAble = false;
+        facing = facingDirection.right;
+        anim.Play("Idle");
         wallJumped = false;
+        
     }
-
     void Update()
     {
-
+        stepTimer += Time.deltaTime;
         flipHandler();
-
     }
-    void FixedUpdate()
-    {
-        movementHandler();
+	// Update is called once per frame
+	void FixedUpdate () {
+        movementHandler(); 
+        if (grounded && moving&&playerRig.velocity.x !=0)
+        {
+            stepSounds();
+        }
+        else
+        {
+            stepTimer = 0;
+        }
+        speedHandler();
     }
-
-    void movementHandler()
-    {
-        float x = Input.GetAxisRaw("Horizontal");
-        move(x);
-    }
-    void move(float x)
-    {
-        charSpeedDefiner(x);
-        if (grounded)
-        {
-           playerRig.AddForce(new Vector2((x * speed*Time.deltaTime), 0));
-        }
-        if (x < 0)
-        {
-            facing = -1;
-        }
-        else if (x > 0)
-        {
-            facing = 1;
-        }
-    }
-
-    void charSpeedHandler()
-    {
-        switch (cSpeed)
-        {
-            case charSpeed.walk:
-                maxVelocity = maxVelocity_walk;
-                break;
-            case charSpeed.run:
-                maxVelocity = maxVelocity_run;
-                break;
-            case charSpeed.sneak:
-                maxVelocity = maxVelocity_sneak;
-                break;
-            default:
-                maxVelocity = maxVelocity_walk;
-                break;
-        }
-    }
-
-    void charSpeedDefiner(float x)
-    {
-        if (x <= 0.35f)
-        {
-            cSpeed = charSpeed.sneak;
-        }
-        else if (x <= 0.75f)
-        {
-            cSpeed = charSpeed.walk;
-        }
-        else if (x > 0.75f)
-        {
-            cSpeed = charSpeed.run;
-        }
-        charSpeedHandler();
-    }
-
-    void jump()
-    {
-        if (grounded && Input.GetButton("Jump"))
-        {
-            playerRig.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
-            grounded = false;
-        }
-    }
-    void wallJump()
-    {
-        if (wallJumpAble)
-        {
-            if (Input.GetButton("Jump"))
-            {
-                int dir = facing * -1;
-                playerRig.AddForce(new Vector2(dir * jumpForce / 1.5f, jumpForce), ForceMode2D.Impulse);
-                wallJumped = true;
-            }
-        }
-    }
-    void frictionHandler()
+    void speedHandler()
     {
         if (Input.GetAxisRaw("Horizontal") == 0 && grounded)
         {
-            playerRig.velocity = new Vector2(playerRig.velocity.x * 0.8f, playerRig.velocity.y);
+            playerRig.velocity = new Vector2(playerRig.velocity.x * 0.95f, playerRig.velocity.y);
         }
-        if (wallJumpAble && !Input.GetButton("Jump"))
+        if (wallJumped)
         {
-            playerRig.velocity = new Vector2(playerRig.velocity.x, -wallFriction * Time.deltaTime);
+            if (playerRig.velocity.y < 0)
+            {
+                wallJumped = false;
+   
+            }
         }
+    }
+    void stepSounds()
+    {
+        if (stepTimer >= timeBetweensteps)
+        {
+            int step = Random.Range(0, steps.Length);
+            stepAudio.clip = steps[step];
+            stepAudio.pitch = Random.Range(0.8f, 1);
+            stepAudio.Play();
+            stepTimer = 0;
+        }
+    }
+    public bool isFacingRight()
+    {
+        if (facing== facingDirection.right)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    void movementHandler()
+    {
+        float x = Input.GetAxisRaw("Horizontal");
+        float y = Input.GetAxisRaw("Vertical");
+        if (y < 0 || x != 0||Input.GetButton("Jump")&&grounded)
+        {
+            
+            move(x);
+            if (Input.GetButton("Jump")&&grounded)
+            {
+                jump();
+            }
+            moving = true;
+        }
+        else
+        {
+            moving = false;
+        }
+        if (playerRig.velocity.y > maxVelocity)
+        {
+            playerRig.velocity = new Vector2(playerRig.velocity.x, maxVelocity);
+        }
+        if (Mathf.Abs(playerRig.velocity.x) > maxVelocity)
+        {
+            float maxSpeed = maxVelocity;
+            if (playerRig.velocity.x < 0)
+            {
+                maxSpeed *= -1;
+            }
+            playerRig.velocity = new Vector2(maxSpeed, playerRig.velocity.y);
+        }
+        if (x == 0 && grounded)
+        {
+            anim.Play("Idle");
+        }
+        else if (x != 0&&grounded)
+        {
+            anim.Play("Run");
+        }
+        if (!grounded&&!wallJumAble)
+        {
+            anim.Play("MidAir");
+        }
+        
+        if (wallJumAble)
+        {
+            anim.Play("WallJump");
+        }
+    }
+
+    void move(float x)
+    {
+        if (grounded)
+        {
+            playerRig.AddForce(new Vector2((x * speed), 0));
+        }
+        else
+        {
+            playerRig.AddForce(new Vector2((x * (speed/3)), 0));
+        }
+        if ( x < 0)
+        {
+            facing = facingDirection.left;
+        }
+        else if (x > 0)
+        {
+            facing = facingDirection.right;
+        }
+       
     }
 
     void flipHandler()
     {
-        if (facing == 1)
+        if (facing == facingDirection.left)
         {
-            sr.flipX = false;
+
+            sr.flipX = true;
         }
         else
         {
-            sr.flipX = true;
+            sr.flipX = false;
         }
     }
+
+    void jump()
+    {
+        playerRig.AddForce(new Vector2(0,jumpForce), ForceMode2D.Impulse);
+        grounded = false;
+    }
+
+    void wallJump()
+    {
+        float x = Input.GetAxisRaw("Horizontal");
+        //RaycastHit2D ground = Physics2D.Raycast(this.transform.position, -this.transform.up);
+        if (Input.GetButton("Jump"))
+        {
+
+            int dir = 1;
+            if (facing == facingDirection.right)
+            {
+                dir *= -1;
+            }
+
+            playerRig.AddForce(new Vector2(dir * jumpForce / 1.5f, jumpForce), ForceMode2D.Impulse);
+            
+            wallJumped = true;
+        }
+
+        
+    }
+
     void OnCollisionStay2D(Collision2D col)
     {
         BoxCollider2D box = GetComponent<BoxCollider2D>();
+        //RaycastHit2D ground = Physics2D.Raycast(this.transform.position, -this.transform.up);
         RaycastHit2D right = Physics2D.Raycast(this.transform.position, this.transform.right);
         RaycastHit2D left = Physics2D.Raycast(this.transform.position, -this.transform.right);
-        RaycastHit2D ground = Physics2D.CircleCast(this.transform.position, box.size.x / 2, -this.transform.up);
-
+        RaycastHit2D ground = Physics2D.CircleCast(this.transform.position, box.size.x/2, -this.transform.up);
+        
         if (ground)
         {
-            if (ground.collider == col.collider)
-            {
-                grounded = true;
-            }
+           // if (Vector2.Distance(this.transform.position - this.transform.up, ground.point) < 0.1f)
+         //   {
+                if (ground.collider == col.collider)
+                {
+                    grounded = true;
+                }
+         //   }
+            Debug.Log(Vector2.Distance(this.transform.position - this.transform.up, ground.point));  
+            
         }
         if (left)
         {
@@ -180,13 +234,14 @@ public class PlayerMovement : MonoBehaviour {
             {
                 if (!grounded)
                 {
-                    if (Input.GetAxisRaw("Horizontal") < 0)
-                    {
-                        wallJumpAble = true;
+                    if (Input.GetAxisRaw("Horizontal") < 0){
+                        wallJump();
+                        wallJumAble = true;
+                        //Anim walljump ready position
                     }
                     else
                     {
-                        wallJumpAble = false;
+                        wallJumAble = false;
                     }
                 }
             }
@@ -197,18 +252,25 @@ public class PlayerMovement : MonoBehaviour {
             {
                 if (!grounded)
                 {
-                    if (Input.GetAxisRaw("Horizontal") > 0)
-                    {
-                        wallJumpAble = true;
+                    if (Input.GetAxisRaw("Horizontal") > 0){
+                        wallJump();
+                        wallJumAble = true;
+                        //Anim walljump ready position
                     }
                     else
                     {
-                        wallJumpAble = false;
+                        wallJumAble = false;
                     }
                 }
             }
         }
+        if (wallJumAble&&!Input.GetButton("Jump"))
+        {
+            playerRig.velocity = new Vector2(playerRig.velocity.x, -wallFriction * Time.deltaTime);
+        }
+
     }
+
     void OnCollisionExit2D(Collision2D col)
     {
         BoxCollider2D box = GetComponent<BoxCollider2D>();
@@ -220,18 +282,7 @@ public class PlayerMovement : MonoBehaviour {
                 grounded = false;
             }
         }
-        wallJumpAble = false;
-    }
-    public bool isFacingRight()
-    {
-        if (facing == 1)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        wallJumAble = false;
     }
     public bool playerMoving()
     {

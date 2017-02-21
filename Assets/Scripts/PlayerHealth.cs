@@ -9,7 +9,7 @@ public class PlayerHealth : MonoBehaviour {
     GameControllerScript gScript;
     void Awake()
     {
-       // gScript = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameControllerScript>();
+        gScript = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameControllerScript>();
     }
     void Start () {
         health = 100;
