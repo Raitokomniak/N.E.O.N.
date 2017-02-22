@@ -35,10 +35,13 @@ public class GrapplingHook : MonoBehaviour {
             shootSpot = null;
         }
        
-        if (ableToShoot && Input.GetButton("FireGHook"))
+        if (ableToShoot && Input.GetButton("FireGHook")&&!connected)
         {
+            float closestDistance = 0;
+            shootSpot = null;
             for (int i = 0; i < targets.Count; i++)
             {
+                //Very much in the works
                 int dir = 1;
                 if (!playMov.isFacingRight())
                 {
@@ -47,14 +50,47 @@ public class GrapplingHook : MonoBehaviour {
                 Vector2 directionToTarget = transform.position - targets[i].transform.position;
                 float angle = Vector2.Angle(transform.right * dir, directionToTarget);
                 float distance = directionToTarget.magnitude;
+                if (closestDistance == 0)
+                {
+                    closestDistance = distance;
+                }
+                if (distance < closestDistance&&angle > 90)
+                {
+                    closestDistance = distance;
+                }
                 if (angle > 90)
                 {
-                    shootSpot = targets[i];
+                    if (closestDistance == distance&&targets[i].transform.position.y > this.transform.position.y)
+                    {
+                        shootSpot = targets[i];
+                    }
                 }
             }
-            if (targets.Count == 1)
+            if (!shootSpot)
             {
-                shootSpot = targets[0];
+                for (int i=0; i < targets.Count; i++)
+                {
+                    int dir = 1;
+                    if (!playMov.isFacingRight())
+                    {
+                        dir *= -1;
+                    }
+                    Vector2 directionToTarget = transform.position - targets[i].transform.position;
+                    float angle = Vector2.Angle(transform.right * dir, directionToTarget);
+                    float distance = directionToTarget.magnitude;
+                    if (distance < closestDistance && angle > 90)
+                    {
+                        closestDistance = distance;
+                    }
+                    if (angle > 90)
+                    {
+
+                        if (closestDistance == distance)
+                        {
+                            shootSpot = targets[i];
+                        }
+                    }
+                }
             }
             if (shootSpot)
             {
