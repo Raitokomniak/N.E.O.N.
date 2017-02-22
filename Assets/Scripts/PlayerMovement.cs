@@ -50,9 +50,7 @@ public class PlayerMovement : MonoBehaviour {
 
     void Update()
     {
-
         flipHandler();
-
     }
     void FixedUpdate()
     {
@@ -63,13 +61,21 @@ public class PlayerMovement : MonoBehaviour {
     {
         float x = Input.GetAxisRaw("Horizontal");
         move(x);
+        frictionHandler();
+        jump();
+        wallJump();
+        animationHandler(x);
     }
     void move(float x)
     {
         charSpeedDefiner(x);
         if (grounded)
         {
-           playerRig.AddForce(new Vector2((x * speed*Time.deltaTime), 0));
+           playerRig.AddForce(new Vector2((x * speed), 0));
+        }
+        else
+        {
+            playerRig.AddForce(new Vector2((x * (speed / 3)), 0));
         }
         if (x < 0)
         {
@@ -78,6 +84,35 @@ public class PlayerMovement : MonoBehaviour {
         else if (x > 0)
         {
             facing = 1;
+        }
+        if(x != 0)
+        {
+            moving = true;
+        }
+        else
+        {
+            moving = false;
+        }
+    }
+
+    void animationHandler(float x)
+    {
+        if (x == 0 && grounded)
+        {
+            anim.Play("Idle");
+        }
+        else if (x != 0 && grounded)
+        {
+            anim.Play("Run");
+        }
+        if (!grounded && !wallJumpAble)
+        {
+            anim.Play("MidAir");
+        }
+
+        if (wallJumpAble)
+        {
+            anim.Play("WallJump");
         }
     }
 
@@ -141,7 +176,7 @@ public class PlayerMovement : MonoBehaviour {
     {
         if (Input.GetAxisRaw("Horizontal") == 0 && grounded)
         {
-            playerRig.velocity = new Vector2(playerRig.velocity.x * 0.8f, playerRig.velocity.y);
+            playerRig.velocity = new Vector2(playerRig.velocity.x * 0.9f, playerRig.velocity.y);
         }
         if (wallJumpAble && !Input.GetButton("Jump"))
         {
