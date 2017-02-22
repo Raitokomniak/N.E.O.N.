@@ -105,7 +105,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1923293649421786}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -13.15, y: 0.04, z: 0}
+  m_LocalPosition: {x: -11.81, y: 0.04, z: 0}
   m_LocalScale: {x: 3, y: 3, z: 1}
   m_Children:
   - {fileID: 4401910046791840}
@@ -354,7 +354,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gunBarrell: {fileID: 4295662446186712}
-  bullet: {fileID: 1081764111275878, guid: 637d6fbeacfea094f8ad32a0de7149d9, type: 2}
+  bullet: {fileID: 1081764111275878, guid: 9f3f1c5b07d0add4295a281d7760dfbf, type: 2}
   velocity: 20
   timeBetweenBullets: 0.5
   speed: 5
