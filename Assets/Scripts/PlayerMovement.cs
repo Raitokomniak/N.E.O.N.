@@ -22,13 +22,18 @@ public class PlayerMovement : MonoBehaviour {
     bool moving;
     bool wallJumpAble;
     bool wallJumped;
-    enum charSpeed
+    enum charStates
     {
+        idle,
         sneak,
         walk,
-        run
+        run,
+        jump,
+        midAir,
+        wallSlide,
+        wallJump
     };
-    charSpeed cSpeed;
+    charStates state;
 
     void Awake()
     {
@@ -51,6 +56,7 @@ public class PlayerMovement : MonoBehaviour {
     void Update()
     {
         flipHandler();
+        Debug.Log(state);
     }
     void FixedUpdate()
     {
@@ -68,10 +74,10 @@ public class PlayerMovement : MonoBehaviour {
     }
     void move(float x)
     {
-        charSpeedDefiner(x);
         if (grounded)
         {
            playerRig.AddForce(new Vector2((x * speed), 0));
+           charSpeedDefiner(x);
         }
         else
         {
@@ -97,7 +103,7 @@ public class PlayerMovement : MonoBehaviour {
 
     void animationHandler(float x)
     {
-        if (x == 0 && grounded)
+      /*  if (x == 0 && grounded)
         {
             anim.Play("Idle");
         }
@@ -113,20 +119,38 @@ public class PlayerMovement : MonoBehaviour {
         if (wallJumpAble)
         {
             anim.Play("WallJump");
+        }*/
+        switch (state)
+        {
+            case charStates.idle:
+                anim.Play("Idle");
+                break;
+            case charStates.run:
+                anim.Play("Run");
+                break;
+            case charStates.midAir:
+                anim.Play("MidAir");
+                break;
+            case charStates.wallSlide:
+                anim.Play("WallJump");
+                break;
+            default:
+                anim.Play("MidAir");
+                break;
         }
     }
 
     void charSpeedHandler()
     {
-        switch (cSpeed)
+        switch (state)
         {
-            case charSpeed.walk:
+            case charStates.walk:
                 maxVelocity = maxVelocity_walk;
                 break;
-            case charSpeed.run:
+            case charStates.run:
                 maxVelocity = maxVelocity_run;
                 break;
-            case charSpeed.sneak:
+            case charStates.sneak:
                 maxVelocity = maxVelocity_sneak;
                 break;
             default:
@@ -137,17 +161,22 @@ public class PlayerMovement : MonoBehaviour {
 
     void charSpeedDefiner(float x)
     {
-        if (x <= 0.35f)
+        x = Mathf.Abs(x);
+        if (x == 0)
         {
-            cSpeed = charSpeed.sneak;
+            state = charStates.idle;
+        }
+        else if (x <= 0.35f)
+        {
+            state = charStates.sneak;
         }
         else if (x <= 0.75f)
         {
-            cSpeed = charSpeed.walk;
+            state = charStates.walk;
         }
         else if (x > 0.75f)
         {
-            cSpeed = charSpeed.run;
+            state = charStates.run;
         }
         charSpeedHandler();
     }
@@ -158,6 +187,7 @@ public class PlayerMovement : MonoBehaviour {
         {
             playerRig.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
             grounded = false;
+            state = charStates.jump;
         }
     }
     void wallJump()
@@ -168,6 +198,7 @@ public class PlayerMovement : MonoBehaviour {
             {
                 int dir = facing * -1;
                 playerRig.AddForce(new Vector2(dir * jumpForce / 1.5f, jumpForce), ForceMode2D.Impulse);
+                state = charStates.wallJump;
                 wallJumped = true;
             }
         }
@@ -218,13 +249,16 @@ public class PlayerMovement : MonoBehaviour {
                     if (Input.GetAxisRaw("Horizontal") < 0)
                     {
                         wallJumpAble = true;
+                        state = charStates.wallSlide;
                     }
                     else
                     {
                         wallJumpAble = false;
+                        state = charStates.midAir;
                     }
                 }
             }
+
         }
         if (right)
         {
@@ -234,14 +268,17 @@ public class PlayerMovement : MonoBehaviour {
                 {
                     if (Input.GetAxisRaw("Horizontal") > 0)
                     {
+                        state = charStates.wallSlide;
                         wallJumpAble = true;
                     }
                     else
                     {
                         wallJumpAble = false;
+                        state = charStates.midAir;
                     }
                 }
             }
+
         }
     }
     void OnCollisionExit2D(Collision2D col)
