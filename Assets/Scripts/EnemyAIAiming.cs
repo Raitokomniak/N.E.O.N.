@@ -8,7 +8,7 @@ public class EnemyAIAiming : MonoBehaviour {
     public float aimSpeed = 1;
     public Transform gunBarrell;
     EnemyAISensing sensing;
-    EnemyAIMovement movement;
+    EnemyPatrollingMovement movement;
     Quaternion normalPos;
     public Light light;
     SpriteRenderer sr;
@@ -18,7 +18,7 @@ public class EnemyAIAiming : MonoBehaviour {
     void Awake()
     {
         sensing = GetComponentInParent<EnemyAISensing>();
-        movement = GetComponentInParent<EnemyAIMovement>();
+        movement = GetComponentInParent<EnemyPatrollingMovement>();
         sr = GetComponent<SpriteRenderer>();
         player = GameObject.FindGameObjectWithTag("Player");
         gScript = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameControllerScript>();
