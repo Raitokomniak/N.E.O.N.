@@ -14,7 +14,7 @@ public class TimeHandler : MonoBehaviour {
 
 	void Awake() {
         playerMov = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
-        playerRig = GameObject.FindGameObjectWithTag("Player").GetComponent<Rigidbody2D>();
+      	playerRig = GameObject.FindGameObjectWithTag("Player").GetComponent<Rigidbody2D>();
         gScript = GetComponent<GameControllerScript>();
         
     }
@@ -26,7 +26,7 @@ public class TimeHandler : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        handleTime();
+       handleTime();
     }
 
     void handleTime()
