@@ -12,6 +12,8 @@ public class CutsceneHandler : MonoBehaviour {
 	int onGoingPage;
 	int onGoingPanel;
 
+	bool cutSceneRunning;
+
 	GameObject currentPage;
 	public Image[] panels;
 
@@ -19,18 +21,20 @@ public class CutsceneHandler : MonoBehaviour {
 
 	void Awake () {
 		//Check progression (which cutscene to load)
-
 		StartCutscene ();
 	}
 	
 
 	void Update () {
 		if (Input.GetKeyDown (KeyCode.Mouse0)) {
-			NextPanel ();
+			if (cutSceneRunning) {
+				NextPanel ();
+			}
 		}
 	}
 
 	void StartCutscene(){
+		cutSceneRunning = true;
 		onGoingPage = -1;
 		onGoingPanel = -1;
 		NextPage ();
@@ -47,7 +51,7 @@ public class CutsceneHandler : MonoBehaviour {
 			NewPage ();
 			NextPanel ();
 		} else {
-			Debug.Log ("End cutscene");
+			EndCutScene ();
 		}
 
 	}
@@ -65,13 +69,12 @@ public class CutsceneHandler : MonoBehaviour {
 		Image panel1 = currentPage.transform.GetChild (0).GetComponent<Image>();
 
 		foreach (Image panel in panels) {
-			Debug.Log (panel.name);
 			panel.color = new Color (1,1,1,0);
 		}
 	}
 
 	void NextPanel(){
-		
+		//Force fade in prev panel
 			if (onGoingPanel != -1) {
 				StopCoroutine (FadeIn);
 				Image previousPanel = panels [onGoingPanel];
@@ -79,8 +82,8 @@ public class CutsceneHandler : MonoBehaviour {
 			}	
 
 			onGoingPanel++;
+
 		if (onGoingPanel < panels.Length) {
-			Debug.Log (panels.Length + " vs " + onGoingPanel);
 			Image currentPanel = panels [onGoingPanel]; 
 			currentPanel.color = new Color (1, 1, 1, 1);
 			FadeIn = _FadeIn (currentPanel);
@@ -91,9 +94,9 @@ public class CutsceneHandler : MonoBehaviour {
 	}
 
 	IEnumerator _FadeIn(Image panel){
-		for (float a = 0.0f; a <= 1.0f; a += 0.05f) {
+		for (float a = 0.0f; a <= 1.0f; a += 0.01f) {
 			panel.color = new Color (1, 1, 1, a);
-			yield return new WaitForSeconds (0.05f);
+			yield return new WaitForSeconds (0.01f);
 		}
 		panel.color = new Color (1, 1, 1, 1);
 	}
@@ -103,5 +106,10 @@ public class CutsceneHandler : MonoBehaviour {
 		if (fadein) {
 			panel.color = new Color (1, 1, 1, 1);
 		}
+	}
+
+	void EndCutScene(){
+		cutSceneRunning = false;
+		Debug.Log ("End cutscene");
 	}
 }
