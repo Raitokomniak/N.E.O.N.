@@ -120,10 +120,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chapter1_a_pages:
   - {fileID: 1320028708242744, guid: 34b794a2bc3dadc40bacd8da9cb90c3e, type: 2}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 1320028708242744, guid: 34b794a2bc3dadc40bacd8da9cb90c3e, type: 2}
+  - {fileID: 1320028708242744, guid: 34b794a2bc3dadc40bacd8da9cb90c3e, type: 2}
+  - {fileID: 1320028708242744, guid: 34b794a2bc3dadc40bacd8da9cb90c3e, type: 2}
+  - {fileID: 1320028708242744, guid: 34b794a2bc3dadc40bacd8da9cb90c3e, type: 2}
   cutsceneCanvas: {fileID: 456670787}
   panels: []
 --- !u!4 &332153734

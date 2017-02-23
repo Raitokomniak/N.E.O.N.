@@ -12,6 +12,7 @@ public class CutsceneHandler : MonoBehaviour {
 	int onGoingPage;
 	int onGoingPanel;
 
+	GameObject currentPage;
 	public Image[] panels;
 
 	IEnumerator FadeIn;
@@ -25,11 +26,7 @@ public class CutsceneHandler : MonoBehaviour {
 
 	void Update () {
 		if (Input.GetKeyDown (KeyCode.Mouse0)) {
-			if (onGoingPanel != panels.Length) {
-				NextPanel ();
-			} else {
-				NextPage ();
-			}
+			NextPanel ();
 		}
 	}
 
@@ -40,42 +37,57 @@ public class CutsceneHandler : MonoBehaviour {
 	}
 
 	void NextPage(){
-		//Delete previous page
+		if (currentPage != null) {
+			Destroy (currentPage);
+		}
+
 		onGoingPage++;
-		NewPage();
+		if (onGoingPage < chapter1_a_pages.Length) {
+			onGoingPanel = -1;
+			NewPage ();
+			NextPanel ();
+		} else {
+			Debug.Log ("End cutscene");
+		}
+
 	}
 
 	void NewPage(){
 		//Create new page
 
-		GameObject page = Instantiate (chapter1_a_pages [onGoingPage]);
-		page.transform.SetParent (cutsceneCanvas.transform);
-		page.transform.localScale = new Vector3 (1, 1, 1);
-		page.transform.position = new Vector3 (0, 0, 0);
+		currentPage = Instantiate (chapter1_a_pages [onGoingPage]);
+		currentPage.transform.SetParent (cutsceneCanvas.transform);
+		currentPage.transform.localScale = new Vector3 (1, 1, 1);
+		currentPage.transform.position = new Vector3 (0, 0, 0);
 
-		panels = page.transform.GetComponentsInChildren<Image> ();
+		panels = currentPage.transform.GetComponentsInChildren<Image> ();
 
-		Image panel1 = page.transform.GetChild (0).GetComponent<Image>();
+		Image panel1 = currentPage.transform.GetChild (0).GetComponent<Image>();
 
 		foreach (Image panel in panels) {
 			Debug.Log (panel.name);
 			panel.color = new Color (1,1,1,0);
 		}
-		NextPanel ();
 	}
 
 	void NextPanel(){
-		if (onGoingPanel != -1) {
-			StopCoroutine (FadeIn);
-			Image previousPanel = panels [onGoingPanel];
-			ForceFade (true, previousPanel);
-		}
+		
+			if (onGoingPanel != -1) {
+				StopCoroutine (FadeIn);
+				Image previousPanel = panels [onGoingPanel];
+				ForceFade (true, previousPanel);
+			}	
 
-		onGoingPanel++;
-		Image currentPanel = panels [onGoingPanel]; 
-		currentPanel.color = new Color (1, 1, 1, 1);
-		FadeIn = _FadeIn(currentPanel);
-		StartCoroutine (FadeIn);
+			onGoingPanel++;
+		if (onGoingPanel < panels.Length) {
+			Debug.Log (panels.Length + " vs " + onGoingPanel);
+			Image currentPanel = panels [onGoingPanel]; 
+			currentPanel.color = new Color (1, 1, 1, 1);
+			FadeIn = _FadeIn (currentPanel);
+			StartCoroutine (FadeIn);
+		} else {
+			NextPage ();
+		}
 	}
 
 	IEnumerator _FadeIn(Image panel){
