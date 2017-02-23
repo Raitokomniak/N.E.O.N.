@@ -18,6 +18,7 @@ public class CutsceneHandler : MonoBehaviour {
 	public Image[] panels;
 
 	IEnumerator FadeIn;
+	IEnumerator PanelTimer;
 
 	void Awake () {
 		//Check progression (which cutscene to load)
@@ -57,16 +58,12 @@ public class CutsceneHandler : MonoBehaviour {
 	}
 
 	void NewPage(){
-		//Create new page
-
 		currentPage = Instantiate (chapter1_a_pages [onGoingPage]);
 		currentPage.transform.SetParent (cutsceneCanvas.transform);
 		currentPage.transform.localScale = new Vector3 (1, 1, 1);
 		currentPage.transform.position = new Vector3 (0, 0, 0);
 
 		panels = currentPage.transform.GetComponentsInChildren<Image> ();
-
-		Image panel1 = currentPage.transform.GetChild (0).GetComponent<Image>();
 
 		foreach (Image panel in panels) {
 			panel.color = new Color (1,1,1,0);
@@ -77,6 +74,7 @@ public class CutsceneHandler : MonoBehaviour {
 		//Force fade in prev panel
 			if (onGoingPanel != -1) {
 				StopCoroutine (FadeIn);
+				StopCoroutine (PanelTimer);
 				Image previousPanel = panels [onGoingPanel];
 				ForceFade (true, previousPanel);
 			}	
@@ -87,9 +85,19 @@ public class CutsceneHandler : MonoBehaviour {
 			Image currentPanel = panels [onGoingPanel]; 
 			currentPanel.color = new Color (1, 1, 1, 1);
 			FadeIn = _FadeIn (currentPanel);
+			PanelTimer = _PanelTimer ();
 			StartCoroutine (FadeIn);
+			StartCoroutine (PanelTimer);
 		} else {
 			NextPage ();
+		}
+	}
+
+	IEnumerator _PanelTimer(){
+		yield return new WaitForSeconds (3f);
+		if (onGoingPanel < panels.Length - 1) {
+			NextPanel ();
+		} else {
 		}
 	}
 
