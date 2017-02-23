@@ -83,7 +83,6 @@ public class CutsceneHandler : MonoBehaviour {
 
 		if (onGoingPanel < panels.Length) {
 			Image currentPanel = panels [onGoingPanel]; 
-			currentPanel.color = new Color (1, 1, 1, 1);
 			FadeIn = _FadeIn (currentPanel);
 			PanelTimer = _PanelTimer ();
 			StartCoroutine (FadeIn);
@@ -97,7 +96,6 @@ public class CutsceneHandler : MonoBehaviour {
 		yield return new WaitForSeconds (3f);
 		if (onGoingPanel < panels.Length - 1) {
 			NextPanel ();
-		} else {
 		}
 	}
 
@@ -109,8 +107,7 @@ public class CutsceneHandler : MonoBehaviour {
 		panel.color = new Color (1, 1, 1, 1);
 	}
 
-	void ForceFade(bool fadein, Image panel)
-	{
+	void ForceFade(bool fadein, Image panel){
 		if (fadein) {
 			panel.color = new Color (1, 1, 1, 1);
 		}
