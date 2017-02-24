@@ -3,52 +3,30 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-
-class Panel
-{
-	public Image[] overlays;
-
-	public Panel (int overlayCount)
-	{
-		overlays = new Image[overlayCount];
-	}
-}
-
-class Page
-{
+class Page {
 	public int panelCount;
-
-	public Page (int _panelCount)
-	{
+	public Page (int _panelCount){
 		panelCount = _panelCount;
 	}
 }
-
-class CutScene
-{
-	public int pageCount;
+class CutScene {
 	public Page[] pages;
-
-	public CutScene (int _pages)
-	{
-		pageCount = _pages;
+	public CutScene (int _pages){
 		pages = new Page[_pages];
 	}
 }
 
 public class CutsceneHandler : MonoBehaviour
 {
-
-	public GameObject[] chapter1_a_pages;
 	public Canvas cutsceneCanvas;
 
-	int chapter;
+	int onGoingCutscene;
 	int onGoingPage;
 	int onGoingPanel;
-	Panel currentPanel;
 	int overlayCount;
 
 	CutScene currentCutscene;
+	public GameObject[] cutscenePages;
 	bool cutSceneRunning;
 
 	GameObject currentPage;
@@ -61,7 +39,9 @@ public class CutsceneHandler : MonoBehaviour
 	void Awake ()
 	{
 		//Check progression (which cutscene to load)
-		CreateCutscene ();
+		onGoingCutscene = 1;
+
+		currentCutscene = CreateCutscene ();
 		StartCutscene ();
 	}
 
@@ -69,42 +49,50 @@ public class CutsceneHandler : MonoBehaviour
 	void Update ()
 	{
 		if (Input.GetKeyDown (KeyCode.Mouse0)) {
-			if (cutSceneRunning) {
+			if (cutSceneRunning)
 				NextPanel ();
-			}
 		}
 	}
 
 	CutScene CreateCutscene ()
 	{
-		CutScene cs1 = new CutScene (5);
-		cs1.pages [0] = new Page (4);
-		cs1.pages [1] = new Page (4);
-		cs1.pages [2] = new Page (5);
-		cs1.pages [3] = new Page (4);
-		cs1.pages [4] = new Page (4);
-		return cs1;
+		CutScene cutscene = new CutScene (6);
+		cutscene.pages [0] = new Page (4);
+		cutscene.pages [1] = new Page (4);
+		cutscene.pages [2] = new Page (5);
+		cutscene.pages [3] = new Page (4);
+		cutscene.pages [4] = new Page (4);
+		cutscene.pages [5] = new Page (4);	
+
+		cutscenePages = new GameObject[cutscene.pages.Length];
+
+		for (int i = 0; i < cutscene.pages.Length; i++) {
+			string path = "Cutscenes/Cutscene" + onGoingCutscene + "/Cutscene" + onGoingCutscene + "_Page" + i;
+			Debug.Log (path);
+			cutscenePages [i] = Resources.Load (path) as GameObject;
+		}
+
+		return cutscene;
 	}
 
 	void StartCutscene ()
 	{
-		currentCutscene = CreateCutscene ();
 		cutSceneRunning = true;
 		onGoingPage = -1;
 		onGoingPanel = -1;
 		overlayCount = -1;
-		NextPage ();
+
+		//NextPage ();
 	}
+
 
 	void NextPage ()
 	{
-		if (currentPage != null) {
-			Destroy (currentPage);
-		}
+		if (currentPage != null) Destroy (currentPage);
 
 		onGoingPage++;
 
-		if (onGoingPage < chapter1_a_pages.Length) {
+		if (onGoingPage < currentCutscene.pages.Length) {
 			onGoingPanel = -1;
 			NewPage ();
 			NextPanel ();
@@ -116,7 +104,7 @@ public class CutsceneHandler : MonoBehaviour
 
 	void NewPage ()
 	{
-		currentPage = Instantiate (chapter1_a_pages [onGoingPage]);
+		currentPage = Instantiate (cutscenePages [onGoingPage]);
 		currentPage.transform.SetParent (cutsceneCanvas.transform);
 		currentPage.transform.localScale = new Vector3 (1, 1, 1);
 		currentPage.transform.position = new Vector3 (0, 0, 0);
@@ -137,11 +125,9 @@ public class CutsceneHandler : MonoBehaviour
 
 	void NextPanel ()
 	{
-	
 		overlayCount = -1;
-		//Force fade in prev panel
+
 		if (onGoingPanel != -1) {
-				
 			StopCoroutine (FadeInPanel);
 			StopCoroutine (PanelTimer);
 			Image previousPanel = panels [onGoingPanel];
@@ -164,7 +150,7 @@ public class CutsceneHandler : MonoBehaviour
 
 	IEnumerator _PanelTimer ()
 	{
-		yield return new WaitForSeconds (6f);
+		yield return new WaitForSeconds (5f);
 		if (onGoingPanel < panels.Length - 1) {
 			NextPanel ();
 		}
@@ -178,20 +164,18 @@ public class CutsceneHandler : MonoBehaviour
 				overlay.color = new Color (1, 1, 1, a);
 				yield return new WaitForSeconds (0.01f);
 			}
+			overlay.color = new Color (1, 1, 1, 1);
 		}
-		panel.color = new Color (1, 1, 1, 1);
 	}
 
 	void ForceFade (bool fadein, Image panel)
 	{
 		overlays = panel.GetComponentsInChildren<Image> ();
 		foreach (Image overlay in overlays) {
-
 			if (fadein) {
 				overlay.color = new Color (1, 1, 1, 1);
 			}
 		}
-
 	}
 
 	void EndCutScene ()

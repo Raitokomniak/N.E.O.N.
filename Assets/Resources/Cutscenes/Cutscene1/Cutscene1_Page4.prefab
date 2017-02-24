@@ -54,7 +54,7 @@ GameObject:
   m_Component:
   - component: {fileID: 224064667323290608}
   m_Layer: 5
-  m_Name: Chapter1_a_Page4_Prefab
+  m_Name: Cutscene1_Page4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
