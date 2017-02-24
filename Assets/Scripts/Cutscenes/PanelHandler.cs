@@ -74,19 +74,19 @@ public class PanelHandler : MonoBehaviour
 
 	public void ForceFade (bool fadein)
 	{
+		
 		textIndex = 0;
 		foreach (Image component in components) {
 			if (fadein) {
 				component.color = new Color (1, 1, 1, 1);
 
 				if (component.tag == "Cutscene_SpeechBubble") {
-					Text textComponent = component.transform.GetComponentInChildren<Text> ();
-					if (textComponent != null) {
-						Debug.Log ("textcomp");
-						textComponent.color = new Color (0, 0, 0, 1);
-						ForceText (textComponent, textIndex);
-						textIndex++;
-					}
+					StopAllCoroutines ();
+					Debug.Log ("textcomp");
+					Text textComponent = component.GetComponentInChildren<Text> ();
+					textComponent.color = new Color (0, 0, 0, 1);
+					ForceText (textComponent, textIndex);
+					textIndex++;
 				}
 			}
 		}
