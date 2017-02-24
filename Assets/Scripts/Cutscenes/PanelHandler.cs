@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PanelHandler : MonoBehaviour {
-
-	public int layers;
+public class PanelHandler : MonoBehaviour
+{
 	public ArrayList components;
-	public ArrayList overlays;
-	public ArrayList SFX;
-	public ArrayList speechBubbles;
+	//public ArrayList overlays;
+	//public ArrayList SFX;
+	//public ArrayList speechBubbles;
 	ArrayList textArray;
 	int textIndex;
 
@@ -20,30 +19,32 @@ public class PanelHandler : MonoBehaviour {
 	AudioClip SFXClip;
 
 	// Use this for initialization
-	void Awake () {
+	void Awake ()
+	{
 		components = new ArrayList ();
-		overlays = new ArrayList ();
-		SFX = new ArrayList ();
-		speechBubbles = new ArrayList ();
-		cutsceneHandler = GameObject.Find ("CutsceneHandler").GetComponent<CutsceneHandler>();
+		//overlays = new ArrayList ();
+		//SFX = new ArrayList ();
+		//speechBubbles = new ArrayList ();
+		cutsceneHandler = GameObject.Find ("CutsceneHandler").GetComponent<CutsceneHandler> ();
 		audioSource = cutsceneHandler.GetComponent<AudioSource> ();
 
 		FetchComponents ();
 	}
 
-	void FetchComponents(){
+	void FetchComponents ()
+	{
 		components.AddRange (GetComponentsInChildren<Image> ());
 		foreach (Image component in components) {
 			switch (component.tag) {
 			case "Cutscene_Overlay":
-				overlays.Add (component);
+				//overlays.Add (component);
 				break;
 			case "Cutscene_SpeechBubble":
-				speechBubbles.Add (component);
+				//speechBubbles.Add (component);
 				textIndex = 0;
 				break;
 			case "Cutscene_SFX":
-				SFX.Add (component);
+				//SFX.Add (component);
 				break;
 			}
 		}
@@ -73,42 +74,58 @@ public class PanelHandler : MonoBehaviour {
 
 	public void ForceFade (bool fadein)
 	{
+		textIndex = 0;
 		foreach (Image component in components) {
 			if (fadein) {
 				component.color = new Color (1, 1, 1, 1);
-				if (component.transform.GetComponentInChildren<Text>()) {
-					Debug.Log ("text component");
-					component.transform.GetComponentInChildren<Text>().color = new Color (0, 0, 0, 1);
+
+				if (component.tag == "Cutscene_SpeechBubble") {
+					Text textComponent = component.transform.GetComponentInChildren<Text> ();
+					if (textComponent != null) {
+						Debug.Log ("textcomp");
+						textComponent.color = new Color (0, 0, 0, 1);
+						ForceText (textComponent, textIndex);
+						textIndex++;
+					}
 				}
 			}
 		}
 	}
 
-	void PlaySFX(int panel, int page){
-		SFXClip = Resources.Load ("Cutscenes/SFX/" + GetSFX(panel, page)) as AudioClip;
+	void ForceText(Text textComponent, int index){
+		//
+
+		textComponent.text = textArray[index] as string;
+		/*textArray.Reverse();
+		textArray.RemoveAt (0);
+		textArray.Reverse();*/
+	}
+
+	void PlaySFX (int panel, int page)
+	{
+		SFXClip = Resources.Load ("Cutscenes/SFX/" + GetSFX (panel, page)) as AudioClip;
 		audioSource.volume = 0.2f;
 		audioSource.PlayOneShot (SFXClip);
 	}
 
-	IEnumerator _ProcessText(Image speechBubble){
-		Text textBox = speechBubble.GetComponentInChildren<Text>();
+	IEnumerator _ProcessText (Image speechBubble)
+	{
+		Text textBox = speechBubble.GetComponentInChildren<Text> ();
 		textBox.color = new Color (0, 0, 0, 1);
 
 		string text = textArray [textIndex] as string;
 		textIndex++;
-		//foreach (string text in textArray) {
+		char[] characters = text.ToCharArray ();
+		textBox.text = "";
 
-			char[] characters = text.ToCharArray ();
-			textBox.text = "";
-
-			for (int i = 0; i < characters.Length; i++) {
-				textBox.text = textBox.text + characters [i];
-				float dynamicWrite = Random.Range (0.03f, 0.06f);
-				yield return new WaitForSeconds (dynamicWrite);
-			}
-		//}
+		for (int i = 0; i < characters.Length; i++) {
+			textBox.text = textBox.text + characters [i];
+			float dynamicWrite = Random.Range (0.03f, 0.06f);
+			yield return new WaitForSeconds (dynamicWrite);
+		}
 		yield return new WaitForSeconds (1f);
 	}
+
 
 
 
@@ -117,17 +134,17 @@ public class PanelHandler : MonoBehaviour {
 	// DO NOT TOUCH
 	/////////////////////////
 	/// 
-	string GetSFX(int panel, int page){
+	string GetSFX (int panel, int page)
+	{
 		string path = "Cutscenes/Cutscene1/Panel_Properties";
 		TextAsset propertyFile = Resources.Load (path) as TextAsset;
 		string toProcess = propertyFile.text;
-		string[] toSplit = toProcess.Split('\n');
+		string[] toSplit = toProcess.Split ('\n');
 
 		string clipName = "";
 
-		for(int i = 1; i < toSplit.Length; i++){
+		for (int i = 1; i < toSplit.Length; i++) {
 			string[] prop = toSplit [i].Split ('\t');
-			Debug.Log (prop [1]);
 			int checkedPage = int.Parse (prop [1]);
 			if (checkedPage == page) {
 				int checkedPanel = int.Parse (prop [2]);
@@ -139,15 +156,16 @@ public class PanelHandler : MonoBehaviour {
 		return clipName;
 	}
 
-	void GetText(int panel, int page){
+	void GetText (int panel, int page)
+	{
 		string path = "Cutscenes/Cutscene1/Cutscene_Text";
 		TextAsset propertyFile = Resources.Load (path) as TextAsset;
 		string toProcess = propertyFile.text;
-		string[] toSplit = toProcess.Split('\n');
+		string[] toSplit = toProcess.Split ('\n');
 
 		textArray = new ArrayList ();
 
-		for(int i = 1; i < toSplit.Length; i++){
+		for (int i = 1; i < toSplit.Length; i++) {
 			string[] prop = toSplit [i].Split ('\t');
 			int checkedPage = int.Parse (prop [0]);
 			if (checkedPage == page) {
