@@ -332,7 +332,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c28e32b816428a040aae677713a68da7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  layers: 3
 --- !u!114 &114405243788638338
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -344,7 +343,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c28e32b816428a040aae677713a68da7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  layers: 1
 --- !u!114 &114435347361161066
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -443,7 +441,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c28e32b816428a040aae677713a68da7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  layers: 2
 --- !u!114 &114697515049100026
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -617,7 +614,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c28e32b816428a040aae677713a68da7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  layers: 1
 --- !u!222 &222104758427067190
 CanvasRenderer:
   m_ObjectHideFlags: 1

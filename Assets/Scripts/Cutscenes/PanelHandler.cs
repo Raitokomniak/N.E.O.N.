@@ -18,13 +18,11 @@ public class PanelHandler : MonoBehaviour
 	AudioSource audioSource;
 	AudioClip SFXClip;
 
+	public Text endText;
+
 	// Use this for initialization
 	void Awake ()
 	{
-		components = new ArrayList ();
-		//overlays = new ArrayList ();
-		//SFX = new ArrayList ();
-		//speechBubbles = new ArrayList ();
 		cutsceneHandler = GameObject.Find ("CutsceneHandler").GetComponent<CutsceneHandler> ();
 		audioSource = cutsceneHandler.GetComponent<AudioSource> ();
 
@@ -33,7 +31,11 @@ public class PanelHandler : MonoBehaviour
 
 	void FetchComponents ()
 	{
+		components = new ArrayList ();
 		components.AddRange (GetComponentsInChildren<Image> ());
+		//overlays = new ArrayList ();
+		//SFX = new ArrayList ();
+		//speechBubbles = new ArrayList ();
 		foreach (Image component in components) {
 			switch (component.tag) {
 			case "Cutscene_Overlay":
@@ -62,9 +64,10 @@ public class PanelHandler : MonoBehaviour
 				StartCoroutine (ProcessText);
 			}
 			if (component.tag == "Cutscene_SFX") {
+				Debug.Log ("play sfx");
 				PlaySFX (panelIndex, pageIndex);
 			}
-			for (float a = 0.0f; a <= 1.0f; a += 0.01f) {
+			for (float a = 0.0f; a <= 1.0f; a += 0.02f) {
 				component.color = new Color (1, 1, 1, a);
 				yield return new WaitForSeconds (0.01f);
 			}
@@ -74,38 +77,27 @@ public class PanelHandler : MonoBehaviour
 
 	public void ForceFade (bool fadein)
 	{
-		
 		textIndex = 0;
 		foreach (Image component in components) {
 			if (fadein) {
 				component.color = new Color (1, 1, 1, 1);
-
 				if (component.tag == "Cutscene_SpeechBubble") {
 					StopAllCoroutines ();
-					Debug.Log ("textcomp");
 					Text textComponent = component.GetComponentInChildren<Text> ();
 					textComponent.color = new Color (0, 0, 0, 1);
-					ForceText (textComponent, textIndex);
+					textComponent.text = textArray[textIndex] as string;
 					textIndex++;
 				}
 			}
 		}
 	}
 
-	void ForceText(Text textComponent, int index){
-		//
-
-		textComponent.text = textArray[index] as string;
-		/*textArray.Reverse();
-		textArray.RemoveAt (0);
-		textArray.Reverse();*/
-	}
 
 	void PlaySFX (int panel, int page)
 	{
 		SFXClip = Resources.Load ("Cutscenes/SFX/" + GetSFX (panel, page)) as AudioClip;
-		audioSource.volume = 0.2f;
 		audioSource.PlayOneShot (SFXClip);
+		Debug.Log (audioSource.isPlaying);
 	}
 
 	IEnumerator _ProcessText (Image speechBubble)

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 class Page {
 	public int panelCount;
@@ -39,10 +40,14 @@ public class CutsceneHandler : MonoBehaviour
 	IEnumerator FadeInPanel;
 	IEnumerator PanelTimer;
 
+	public Text endText;
+
+
 	void Awake ()
 	{
 		//Check progression (which cutscene to load)
 		onGoingCutscene = 1;
+		endText.gameObject.SetActive (false);
 
 		currentCutscene = CreateCutscene ();
 		StartCutscene ();
@@ -97,27 +102,6 @@ public class CutsceneHandler : MonoBehaviour
 		return properties;
 	}
 
-	string GetText(int page, int panel){
-		string path = "Cutscenes/Cutscene" + onGoingCutscene + "/Cutscene_Text";
-		TextAsset propertyFile = Resources.Load (path) as TextAsset;
-		string toProcess = propertyFile.text;
-		string[] toSplit = toProcess.Split('\n');
-		string[] textProperties = new string[toSplit.Length - 1];
-
-		/*int[] properties = new int[textProperties.Length];
-
-		foreach (string property in textProperties) {
-			
-		}
-
-		for (int i = 0; i < textProperties.Length; i++) {
-			string[] split = toSplit [i + 1].Split ('\t');
-			properties[i] = int.Parse(split[1]);
-		}*/
-		Debug.Log (textProperties [0]);
-		string text = "";
-		return text;
-	}
 
 	CutScene CreateCutscene ()
 	{
@@ -145,7 +129,15 @@ public class CutsceneHandler : MonoBehaviour
 		onGoingPanel = -1;
 		overlayCount = -1;
 
+		PlayBGM ();
 		NextPage ();
+	}
+
+	void PlayBGM(){
+		AudioSource audioSource = GetComponent<AudioSource> ();
+		AudioClip bgm = Resources.Load ("Cutscenes/BGM/neon_slow") as AudioClip;
+		audioSource.clip = bgm;
+		audioSource.Play ();
 	}
 
 
@@ -223,11 +215,13 @@ public class CutsceneHandler : MonoBehaviour
 
 	void EndCutScene ()
 	{
+		endText.gameObject.SetActive (true);
 		cutSceneRunning = false;
 		Debug.Log ("End cutscene");
 	}
 
 	void NextScene(){
 		//Progress to next gameplay scene
+		SceneManager.LoadScene("testLevel1");
 	}
 }
