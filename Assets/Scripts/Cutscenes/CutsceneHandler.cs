@@ -193,7 +193,7 @@ public class CutsceneHandler : MonoBehaviour
 			StopCoroutine (FadeInPanel);
 			StopCoroutine (PanelTimer);
 			Image previousPanel = panels [onGoingPanel];
-			ForceFade (true, previousPanel);
+			previousPanel.GetComponent<PanelHandler>().ForceFade (true);
 		}	
 
 		onGoingPanel++;
@@ -219,15 +219,7 @@ public class CutsceneHandler : MonoBehaviour
 		}
 	}
 
-	void ForceFade (bool fadein, Image panel)
-	{
-		overlays = panel.GetComponentsInChildren<Image> ();
-		foreach (Image overlay in overlays) {
-			if (fadein) {
-				overlay.color = new Color (1, 1, 1, 1);
-			}
-		}
-	}
+
 
 	void EndCutScene ()
 	{

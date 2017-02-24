@@ -1,3 +1,2 @@
 CUTSCENE	PAGE	PANEL	LAYER	FADETIME	SOUNDFX	
-1	1	1	2	1	Sound_Name
-1	1	2	2	2	Sound_name
+1	0	1	2	1	Breath1
