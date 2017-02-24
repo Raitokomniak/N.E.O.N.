@@ -102,7 +102,7 @@ GameObject:
   - component: {fileID: 159128114}
   - component: {fileID: 159128113}
   m_Layer: 5
-  m_Name: Text
+  m_Name: TestEndText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -204,6 +204,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   panels: []
+  endText: {fileID: 159128113}
 --- !u!4 &332153734
 Transform:
   m_ObjectHideFlags: 0

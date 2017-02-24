@@ -20,40 +20,33 @@ class CutScene {
 public class CutsceneHandler : MonoBehaviour
 {
 	public Canvas cutsceneCanvas;
+	public Text endText;
 
 	int onGoingCutscene;
 	int onGoingPage;
 	int onGoingPanel;
-	int overlayCount;
 
-	CutScene currentCutscene;
 	public GameObject[] cutscenePages;
-	bool cutSceneRunning;
-
-	GameObject currentPage;
 	public Image[] panels;
 	Image[] overlays;
 
-	int musicIndex;
-	int ambientIndex;
+	bool cutSceneRunning;
+
+	CutScene currentCutscene;
+	GameObject currentPage;
 
 	IEnumerator FadeInPanel;
 	IEnumerator PanelTimer;
-
-	public Text endText;
 
 
 	void Awake ()
 	{
 		//Check progression (which cutscene to load)
-		onGoingCutscene = 1;
+		onGoingCutscene = 1;  //this comes from progression
 		endText.gameObject.SetActive (false);
-
-		currentCutscene = CreateCutscene ();
 		StartCutscene ();
 	}
-
-
+		
 	void Update ()
 	{
 		if (Input.GetKeyDown (KeyCode.Mouse0)) {
@@ -66,80 +59,21 @@ public class CutsceneHandler : MonoBehaviour
 	}
 
 
-	int[] LoadCutsceneProperties(){
-
-		string path = "Cutscenes/Cutscene" + onGoingCutscene + "/Cutscene_Properties";
-		TextAsset propertyFile = Resources.Load (path) as TextAsset;
-		string toProcess = propertyFile.text;
-		string[] toSplit = toProcess.Split('\n');
-		string[] textProperties = toSplit [1].Split ('\t');
-
-		int[] properties = new int[textProperties.Length];
-
-		for(int i = 0; i < textProperties.Length; i++)
-		{
-			properties [i] = int.Parse(textProperties [i]);
-		}
-
-		musicIndex = properties [1];
-		ambientIndex = properties [2];
-
-		return properties;
-	}
-
-	int[] LoadPageProperties(){
-		string path = "Cutscenes/Cutscene" + onGoingCutscene + "/Page_Properties";
-		TextAsset propertyFile = Resources.Load (path) as TextAsset;
-		string toProcess = propertyFile.text;
-		string[] toSplit = toProcess.Split('\n');
-		string[] textProperties = new string[toSplit.Length - 1];
-		int[] properties = new int[textProperties.Length];
-
-		for (int i = 0; i < textProperties.Length; i++) {
-			string[] split = toSplit [i + 1].Split ('\t');
-			properties[i] = int.Parse(split[1]);
-		}
-		return properties;
-	}
-
-
-	CutScene CreateCutscene ()
-	{
-		int[] properties = LoadCutsceneProperties ();
-		int[] pageProperties = LoadPageProperties ();
-		CutScene cutscene = new CutScene (properties[0]);
-		for (int i = 0; i < pageProperties.Length; i++) {
-			cutscene.pages [i] = new Page (pageProperties[i]);
-		}
-
-		cutscenePages = new GameObject[cutscene.pages.Length];
-
-		for (int i = 0; i < cutscene.pages.Length; i++) {
-			string path = "Cutscenes/Cutscene" + onGoingCutscene + "/Cutscene" + onGoingCutscene + "_Page" + i;
-			cutscenePages [i] = Resources.Load (path) as GameObject;
-		}
-
-		return cutscene;
-	}
-
 	void StartCutscene ()
 	{
+		currentCutscene = CreateCutscene ();
 		cutSceneRunning = true;
 		onGoingPage = -1;
 		onGoingPanel = -1;
-		overlayCount = -1;
-
-		PlayBGM ();
 		NextPage ();
 	}
 
-	void PlayBGM(){
+	void PlayBGM(string _bgm){
 		AudioSource audioSource = GetComponent<AudioSource> ();
-		AudioClip bgm = Resources.Load ("Cutscenes/BGM/neon_slow") as AudioClip;
+		AudioClip bgm = Resources.Load ("Cutscenes/BGM/" + _bgm) as AudioClip;
 		audioSource.clip = bgm;
 		audioSource.Play ();
 	}
-
 
 	void NextPage ()
 	{
@@ -148,7 +82,6 @@ public class CutsceneHandler : MonoBehaviour
 		onGoingPage++;
 
 		if (onGoingPage < currentCutscene.pages.Length) {
-			onGoingPanel = -1;
 			NewPage ();
 			NextPanel ();
 		} else {
@@ -157,8 +90,57 @@ public class CutsceneHandler : MonoBehaviour
 
 	}
 
+	void NextPanel ()
+	{
+		Image panel;
+
+		if (onGoingPanel != -1) {
+			StopAllCoroutines ();
+			panel = panels [onGoingPanel];
+			panel.GetComponent<PanelHandler>().ForceFade (true);
+		}	
+
+		onGoingPanel++;
+
+		if (onGoingPanel < panels.Length) {
+			panel = panels [onGoingPanel];
+			PanelHandler panelHandler = panel.GetComponent<PanelHandler> ();
+			FadeInPanel = panelHandler.FadeInPanel (panel, onGoingPanel, onGoingPage);
+			PanelTimer = _PanelTimer ();
+			StartCoroutine (FadeInPanel);
+			StartCoroutine (PanelTimer);
+		} else {
+			NextPage ();
+		}
+	}
+
+
+	IEnumerator _PanelTimer (){
+		yield return new WaitForSeconds (5f);
+		if (onGoingPanel < panels.Length - 1) {
+			NextPanel ();
+		}
+	}
+
+	void EndCutScene (){
+		endText.gameObject.SetActive (true);
+		cutSceneRunning = false;
+		Debug.Log ("End cutscene");
+	}
+
+	void NextScene(){
+		SceneManager.LoadScene("testLevel1");
+	}
+
+
+	////////////////////////////////////////////////////
+	// BACKGROUND PROCESSES
+	// DO NOT TOUCH
+	///////////////////////////////////////////////////
+
 	void NewPage ()
 	{
+		onGoingPanel = -1;
 		currentPage = Instantiate (cutscenePages [onGoingPage]);
 		currentPage.transform.SetParent (cutsceneCanvas.transform);
 		currentPage.transform.localScale = new Vector3 (1, 1, 1);
@@ -178,50 +160,53 @@ public class CutsceneHandler : MonoBehaviour
 		}
 	}
 
-	void NextPanel ()
-	{
-		overlayCount = -1;
-		if (onGoingPanel != -1) {
-			StopCoroutine (FadeInPanel);
-			StopCoroutine (PanelTimer);
-			Image previousPanel = panels [onGoingPanel];
-			previousPanel.GetComponent<PanelHandler>().ForceFade (true);
-		}	
+	string[] LoadCutsceneProperties(){
 
-		onGoingPanel++;
+		string path = "Cutscenes/Cutscene" + onGoingCutscene + "/Cutscene_Properties";
+		TextAsset propertyFile = Resources.Load (path) as TextAsset;
+		string toProcess = propertyFile.text;
+		string[] toSplit = toProcess.Split('\n');
+		string[] textProperties = toSplit [1].Split ('\t');
 
-		if (onGoingPanel < panels.Length) {
-			Image currentPanel = panels [onGoingPanel];
-			PanelHandler panelHandler = currentPanel.GetComponent<PanelHandler> ();
-			FadeInPanel = panelHandler.FadeInPanel (currentPanel, onGoingPanel, onGoingPage);
-			PanelTimer = _PanelTimer ();
-			StartCoroutine (FadeInPanel);
-			StartCoroutine (PanelTimer);
-		} else {
-			NextPage ();
+		string musicPath = textProperties [1];
+		string ambientPath = textProperties [2];
+
+		PlayBGM (musicPath);
+
+		return textProperties;
+	}
+
+	int[] LoadPageProperties(){
+		string path = "Cutscenes/Cutscene" + onGoingCutscene + "/Page_Properties";
+		TextAsset propertyFile = Resources.Load (path) as TextAsset;
+		string toProcess = propertyFile.text;
+		string[] toSplit = toProcess.Split('\n');
+		string[] textProperties = new string[toSplit.Length - 1];
+		int[] properties = new int[textProperties.Length];
+
+		for (int i = 0; i < textProperties.Length; i++) {
+			string[] split = toSplit [i + 1].Split ('\t');
+			properties[i] = int.Parse(split[1]);
 		}
+		return properties;
 	}
 
-
-	IEnumerator _PanelTimer ()
+	CutScene CreateCutscene ()
 	{
-		yield return new WaitForSeconds (5f);
-		if (onGoingPanel < panels.Length - 1) {
-			NextPanel ();
+		string[] properties = LoadCutsceneProperties ();
+		int[] pageProperties = LoadPageProperties ();
+		CutScene cutscene = new CutScene (int.Parse(properties[0]));
+		for (int i = 0; i < pageProperties.Length; i++) {
+			cutscene.pages [i] = new Page (pageProperties[i]);
 		}
-	}
 
+		cutscenePages = new GameObject[cutscene.pages.Length];
 
+		for (int i = 0; i < cutscene.pages.Length; i++) {
+			string path = "Cutscenes/Cutscene" + onGoingCutscene + "/Cutscene" + onGoingCutscene + "_Page" + i;
+			cutscenePages [i] = Resources.Load (path) as GameObject;
+		}
 
-	void EndCutScene ()
-	{
-		endText.gameObject.SetActive (true);
-		cutSceneRunning = false;
-		Debug.Log ("End cutscene");
-	}
-
-	void NextScene(){
-		//Progress to next gameplay scene
-		SceneManager.LoadScene("testLevel1");
+		return cutscene;
 	}
 }

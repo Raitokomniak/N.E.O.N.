@@ -6,9 +6,6 @@ using UnityEngine.UI;
 public class PanelHandler : MonoBehaviour
 {
 	public ArrayList components;
-	//public ArrayList overlays;
-	//public ArrayList SFX;
-	//public ArrayList speechBubbles;
 	ArrayList textArray;
 	int textIndex;
 
@@ -18,11 +15,8 @@ public class PanelHandler : MonoBehaviour
 	AudioSource audioSource;
 	AudioClip SFXClip;
 
-	public Text endText;
 
-	// Use this for initialization
-	void Awake ()
-	{
+	void Awake (){
 		cutsceneHandler = GameObject.Find ("CutsceneHandler").GetComponent<CutsceneHandler> ();
 		audioSource = cutsceneHandler.GetComponent<AudioSource> ();
 
@@ -33,26 +27,8 @@ public class PanelHandler : MonoBehaviour
 	{
 		components = new ArrayList ();
 		components.AddRange (GetComponentsInChildren<Image> ());
-		//overlays = new ArrayList ();
-		//SFX = new ArrayList ();
-		//speechBubbles = new ArrayList ();
-		foreach (Image component in components) {
-			switch (component.tag) {
-			case "Cutscene_Overlay":
-				//overlays.Add (component);
-				break;
-			case "Cutscene_SpeechBubble":
-				//speechBubbles.Add (component);
-				textIndex = 0;
-				break;
-			case "Cutscene_SFX":
-				//SFX.Add (component);
-				break;
-			}
-		}
 	}
-
-	////////////////////////////////////////////////
+		
 
 	public IEnumerator FadeInPanel (Image panel, int panelIndex, int pageIndex)
 	{
@@ -64,7 +40,6 @@ public class PanelHandler : MonoBehaviour
 				StartCoroutine (ProcessText);
 			}
 			if (component.tag == "Cutscene_SFX") {
-				Debug.Log ("play sfx");
 				PlaySFX (panelIndex, pageIndex);
 			}
 			for (float a = 0.0f; a <= 1.0f; a += 0.02f) {
@@ -91,41 +66,18 @@ public class PanelHandler : MonoBehaviour
 			}
 		}
 	}
-
-
-	void PlaySFX (int panel, int page)
-	{
+		
+	void PlaySFX (int panel, int page){
 		SFXClip = Resources.Load ("Cutscenes/SFX/" + GetSFX (panel, page)) as AudioClip;
 		audioSource.PlayOneShot (SFXClip);
-		Debug.Log (audioSource.isPlaying);
-	}
-
-	IEnumerator _ProcessText (Image speechBubble)
-	{
-		Text textBox = speechBubble.GetComponentInChildren<Text> ();
-		textBox.color = new Color (0, 0, 0, 1);
-
-		string text = textArray [textIndex] as string;
-		textIndex++;
-		char[] characters = text.ToCharArray ();
-		textBox.text = "";
-
-		for (int i = 0; i < characters.Length; i++) {
-			textBox.text = textBox.text + characters [i];
-			float dynamicWrite = Random.Range (0.03f, 0.06f);
-			yield return new WaitForSeconds (dynamicWrite);
-		}
-		yield return new WaitForSeconds (1f);
 	}
 
 
-
-
-	//////////////////////////
+	////////////////////////////////////////////////////
 	// BACKGROUND PROCESSES
 	// DO NOT TOUCH
-	/////////////////////////
-	/// 
+	///////////////////////////////////////////////////
+
 	string GetSFX (int panel, int page)
 	{
 		string path = "Cutscenes/Cutscene1/Panel_Properties";
@@ -168,6 +120,24 @@ public class PanelHandler : MonoBehaviour
 				}
 			}
 		}
+	}
+
+	IEnumerator _ProcessText (Image speechBubble)
+	{
+		Text textBox = speechBubble.GetComponentInChildren<Text> ();
+		textBox.color = new Color (0, 0, 0, 1);
+
+		string text = textArray [textIndex] as string;
+		textIndex++;
+		char[] characters = text.ToCharArray ();
+		textBox.text = "";
+
+		for (int i = 0; i < characters.Length; i++) {
+			textBox.text = textBox.text + characters [i];
+			float dynamicWrite = Random.Range (0.03f, 0.06f);
+			yield return new WaitForSeconds (dynamicWrite);
+		}
+		yield return new WaitForSeconds (1f);
 	}
 
 }
