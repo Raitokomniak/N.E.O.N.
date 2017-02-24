@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 114384668706140706}
   m_Layer: 5
   m_Name: Overlay
-  m_TagString: Overlay
+  m_TagString: Cutscene_Overlay
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -40,7 +40,7 @@ GameObject:
   - component: {fileID: 114348313107680104}
   m_Layer: 5
   m_Name: SpeechBubble_Shout
-  m_TagString: Untagged
+  m_TagString: Cutscene_SpeechBubble
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -70,6 +70,7 @@ GameObject:
   - component: {fileID: 224906356997830424}
   - component: {fileID: 222240204676118890}
   - component: {fileID: 114718051116863322}
+  - component: {fileID: 114273120228354710}
   m_Layer: 5
   m_Name: Panel1
   m_TagString: Untagged
@@ -87,6 +88,7 @@ GameObject:
   - component: {fileID: 224967447406134524}
   - component: {fileID: 222577055958937944}
   - component: {fileID: 114348628171470362}
+  - component: {fileID: 114983967013369808}
   m_Layer: 5
   m_Name: Panel4
   m_TagString: Untagged
@@ -104,6 +106,7 @@ GameObject:
   - component: {fileID: 224555987101907890}
   - component: {fileID: 222463150433605806}
   - component: {fileID: 114210812762110408}
+  - component: {fileID: 114583324901252196}
   m_Layer: 5
   m_Name: Panel3
   m_TagString: Untagged
@@ -123,7 +126,7 @@ GameObject:
   - component: {fileID: 114066464224820784}
   m_Layer: 5
   m_Name: SFX
-  m_TagString: Overlay
+  m_TagString: Cutscene_SFX
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -140,7 +143,7 @@ GameObject:
   - component: {fileID: 114833141506857092}
   m_Layer: 5
   m_Name: Overlay
-  m_TagString: Overlay
+  m_TagString: Cutscene_Overlay
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -155,6 +158,7 @@ GameObject:
   - component: {fileID: 224330167810178078}
   - component: {fileID: 222381577542555288}
   - component: {fileID: 114836976205566108}
+  - component: {fileID: 114605592438370874}
   m_Layer: 5
   m_Name: Panel2
   m_TagString: Untagged
@@ -216,6 +220,18 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114273120228354710
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1483546711737116}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c28e32b816428a040aae677713a68da7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  layers: 3
 --- !u!114 &114348313107680104
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -297,6 +313,30 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114583324901252196
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1696282092916570}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c28e32b816428a040aae677713a68da7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  layers: 1
+--- !u!114 &114605592438370874
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1992247446626054}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c28e32b816428a040aae677713a68da7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  layers: 2
 --- !u!114 &114718051116863322
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -378,6 +418,18 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114983967013369808
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1638226980544924}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c28e32b816428a040aae677713a68da7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  layers: 1
 --- !u!222 &222067132266309864
 CanvasRenderer:
   m_ObjectHideFlags: 1

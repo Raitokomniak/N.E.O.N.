@@ -74,7 +74,6 @@ public class CutsceneHandler : MonoBehaviour
 		for(int i = 0; i < textProperties.Length; i++)
 		{
 			properties [i] = int.Parse(textProperties [i]);
-			Debug.Log (properties[i]);
 		}
 
 		musicIndex = properties [1];
@@ -94,9 +93,30 @@ public class CutsceneHandler : MonoBehaviour
 		for (int i = 0; i < textProperties.Length; i++) {
 			string[] split = toSplit [i + 1].Split ('\t');
 			properties[i] = int.Parse(split[1]);
-			Debug.Log (properties [i]);
 		}
 		return properties;
+	}
+
+	string GetText(int page, int panel){
+		string path = "Cutscenes/Cutscene" + onGoingCutscene + "/Cutscene_Text";
+		TextAsset propertyFile = Resources.Load (path) as TextAsset;
+		string toProcess = propertyFile.text;
+		string[] toSplit = toProcess.Split('\n');
+		string[] textProperties = new string[toSplit.Length - 1];
+
+		/*int[] properties = new int[textProperties.Length];
+
+		foreach (string property in textProperties) {
+			
+		}
+
+		for (int i = 0; i < textProperties.Length; i++) {
+			string[] split = toSplit [i + 1].Split ('\t');
+			properties[i] = int.Parse(split[1]);
+		}*/
+		Debug.Log (textProperties [0]);
+		string text = "";
+		return text;
 	}
 
 	CutScene CreateCutscene ()
@@ -154,8 +174,6 @@ public class CutsceneHandler : MonoBehaviour
 
 		panels = new Image[currentCutscene.pages [onGoingPage].panelCount];
 
-		Debug.Log (currentPage.transform.childCount + " children");
-
 		for (int i = 0; i < currentCutscene.pages [onGoingPage].panelCount; i++) {
 			panels [i] = currentPage.transform.GetChild (i).GetComponent<Image> ();
 		}
@@ -171,7 +189,6 @@ public class CutsceneHandler : MonoBehaviour
 	void NextPanel ()
 	{
 		overlayCount = -1;
-
 		if (onGoingPanel != -1) {
 			StopCoroutine (FadeInPanel);
 			StopCoroutine (PanelTimer);
@@ -182,8 +199,9 @@ public class CutsceneHandler : MonoBehaviour
 		onGoingPanel++;
 
 		if (onGoingPanel < panels.Length) {
-			Image currentPanel = panels [onGoingPanel]; 
-			FadeInPanel = _FadeInPanel (currentPanel);
+			Image currentPanel = panels [onGoingPanel];
+			PanelHandler panelHandler = currentPanel.GetComponent<PanelHandler> ();
+			FadeInPanel = panelHandler.FadeInPanel (currentPanel, onGoingPanel, onGoingPage);
 			PanelTimer = _PanelTimer ();
 			StartCoroutine (FadeInPanel);
 			StartCoroutine (PanelTimer);
@@ -198,18 +216,6 @@ public class CutsceneHandler : MonoBehaviour
 		yield return new WaitForSeconds (5f);
 		if (onGoingPanel < panels.Length - 1) {
 			NextPanel ();
-		}
-	}
-		
-	IEnumerator _FadeInPanel (Image panel)
-	{
-		overlays = panel.GetComponentsInChildren<Image> ();
-		foreach (Image overlay in overlays) {
-			for (float a = 0.0f; a <= 1.0f; a += 0.01f) {
-				overlay.color = new Color (1, 1, 1, a);
-				yield return new WaitForSeconds (0.01f);
-			}
-			overlay.color = new Color (1, 1, 1, 1);
 		}
 	}
 

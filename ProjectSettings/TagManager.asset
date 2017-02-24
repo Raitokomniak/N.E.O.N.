@@ -4,8 +4,9 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - SpeechBubble
-  - Overlay
+  - Cutscene_Overlay
+  - Cutscene_SpeechBubble
+  - Cutscene_SFX
   layers:
   - Default
   - TransparentFX

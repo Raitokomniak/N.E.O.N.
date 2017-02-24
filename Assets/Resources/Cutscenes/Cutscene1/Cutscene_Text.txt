@@ -1,0 +1,3 @@
+PAGE	PANEL	TEXT
+0	2	Guards to chamber 10!
+1	3	More text stuff
