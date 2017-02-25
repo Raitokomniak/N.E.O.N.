@@ -33,7 +33,7 @@ public class TimeHandler : MonoBehaviour {
     {
         if (!gScript.isDead())
         {
-            if (!playerMov.playerMoving() && playerRig.velocity.sqrMagnitude < 1)
+            if (!playerMov.playerMoving() && playerRig.velocity.sqrMagnitude < 1&&playerMov.isGrounded())
             {
                 Time.timeScale = Mathf.Lerp(Time.timeScale, 0.01f, 30 * Time.deltaTime);
                 Time.fixedDeltaTime = Mathf.Lerp(Time.fixedDeltaTime, 0.02F * Time.timeScale, 30 * Time.fixedDeltaTime);
