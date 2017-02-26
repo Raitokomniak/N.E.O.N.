@@ -31,7 +31,10 @@ public class PlayerMovement : MonoBehaviour {
         jump,
         midAir,
         wallSlide,
-        wallJump
+        wallJump,
+        death,
+        crouch,
+        crouchWalk
     };
     charStates state;
 
@@ -56,7 +59,6 @@ public class PlayerMovement : MonoBehaviour {
     void Update()
     {
         flipHandler();
-        Debug.Log(state);
     }
     void FixedUpdate()
     {
@@ -71,6 +73,7 @@ public class PlayerMovement : MonoBehaviour {
         jump();
         wallJump();
         animationHandler(x);
+        groundChecker();
     }
     void move(float x)
     {
@@ -99,27 +102,11 @@ public class PlayerMovement : MonoBehaviour {
         {
             moving = false;
         }
+        speedLimiter();
     }
 
     void animationHandler(float x)
     {
-      /*  if (x == 0 && grounded)
-        {
-            anim.Play("Idle");
-        }
-        else if (x != 0 && grounded)
-        {
-            anim.Play("Run");
-        }
-        if (!grounded && !wallJumpAble)
-        {
-            anim.Play("MidAir");
-        }
-
-        if (wallJumpAble)
-        {
-            anim.Play("WallJump");
-        }*/
         switch (state)
         {
             case charStates.idle:
@@ -159,6 +146,20 @@ public class PlayerMovement : MonoBehaviour {
         }
     }
 
+    void speedLimiter()
+    {
+        if (Mathf.Abs(playerRig.velocity.x) > maxVelocity)
+        {
+            float maxSpeed = maxVelocity;
+            if (playerRig.velocity.x < 0)
+            {
+                maxSpeed *= -1;
+            }
+            float _maxSpeed = Mathf.Lerp(playerRig.velocity.x, maxSpeed, 6 * Time.deltaTime);
+            playerRig.velocity = new Vector2(_maxSpeed, playerRig.velocity.y);
+        }
+    }
+
     void charSpeedDefiner(float x)
     {
         x = Mathf.Abs(x);
@@ -194,12 +195,15 @@ public class PlayerMovement : MonoBehaviour {
     {
         if (wallJumpAble)
         {
+            state = charStates.wallSlide;
             if (Input.GetButton("Jump"))
             {
                 int dir = facing * -1;
                 playerRig.AddForce(new Vector2(dir * jumpForce / 1.5f, jumpForce), ForceMode2D.Impulse);
                 state = charStates.wallJump;
                 wallJumped = true;
+                wallJumpAble = false;
+                facing *= -1;
             }
         }
     }
@@ -226,11 +230,52 @@ public class PlayerMovement : MonoBehaviour {
             sr.flipX = true;
         }
     }
+
+    void wallCheck(Collider2D col)
+    {
+        RaycastHit2D right = Physics2D.Raycast(this.transform.position, this.transform.right);
+        RaycastHit2D left = Physics2D.Raycast(this.transform.position, -this.transform.right);
+        if (left)
+        {
+            if (left.collider == col)
+            {
+                facing = -1;
+                wallJumpAble = true;
+            }
+        }
+        if (right)
+        {
+            if (right.collider == col)
+            {
+                facing = 1;
+                wallJumpAble = true;
+            }
+        }
+    }
+
+    void groundChecker()
+    {
+       
+        BoxCollider2D box = GetComponent<BoxCollider2D>();
+        RaycastHit2D ground = Physics2D.CircleCast(this.transform.position, box.size.x / 2, -this.transform.up);
+        
+        if (ground)
+        {
+            Debug.Log(Vector2.Distance(this.transform.position, ground.point));
+            if (Vector2.Distance(this.transform.position, ground.point) > 1.2f)
+            {
+                grounded = false;
+                state = charStates.midAir;
+            }
+        }
+        else
+        {
+            grounded = false;
+        }
+    }
     void OnCollisionStay2D(Collision2D col)
     {
         BoxCollider2D box = GetComponent<BoxCollider2D>();
-        RaycastHit2D right = Physics2D.Raycast(this.transform.position, this.transform.right);
-        RaycastHit2D left = Physics2D.Raycast(this.transform.position, -this.transform.right);
         RaycastHit2D ground = Physics2D.CircleCast(this.transform.position, box.size.x / 2, -this.transform.up);
 
         if (ground)
@@ -240,59 +285,34 @@ public class PlayerMovement : MonoBehaviour {
                 grounded = true;
             }
         }
-        if (left)
+        if (!grounded)
         {
-            if (left.collider.gameObject == col.gameObject)
-            {
-                if (!grounded)
-                {
-                    if (Input.GetAxisRaw("Horizontal") < 0)
-                    {
-                        wallJumpAble = true;
-                        state = charStates.wallSlide;
-                    }
-                    else
-                    {
-                        wallJumpAble = false;
-                        state = charStates.midAir;
-                    }
-                }
-            }
-
-        }
-        if (right)
-        {
-            if (right.collider.gameObject == col.gameObject && !grounded)
-            {
-                if (!grounded)
-                {
-                    if (Input.GetAxisRaw("Horizontal") > 0)
-                    {
-                        state = charStates.wallSlide;
-                        wallJumpAble = true;
-                    }
-                    else
-                    {
-                        wallJumpAble = false;
-                        state = charStates.midAir;
-                    }
-                }
-            }
-
+            wallCheck(col.collider);
         }
     }
     void OnCollisionExit2D(Collision2D col)
     {
         BoxCollider2D box = GetComponent<BoxCollider2D>();
         RaycastHit2D ground = Physics2D.CircleCast(this.transform.position, box.size.x / 2, -this.transform.up);
-        if (ground)
+        RaycastHit2D right = Physics2D.Raycast(this.transform.position, this.transform.right);
+        RaycastHit2D left = Physics2D.Raycast(this.transform.position, -this.transform.right);
+        
+        if (!grounded)
         {
-            if (ground.collider.gameObject == col.gameObject)
+            if (left || right)
             {
-                grounded = false;
+                if (left.collider == col.collider)
+                {
+                    wallJumpAble = false;
+                    state = charStates.midAir;
+                }
+                if (right.collider == col.collider)
+                {
+                    wallJumpAble = false;
+                    state = charStates.midAir;
+                }
             }
         }
-        wallJumpAble = false;
     }
     public bool isFacingRight()
     {
@@ -308,5 +328,10 @@ public class PlayerMovement : MonoBehaviour {
     public bool playerMoving()
     {
         return moving;
+    }
+
+    public bool isGrounded()
+    {
+        return grounded;
     }
 }
