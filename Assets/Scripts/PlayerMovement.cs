@@ -261,7 +261,7 @@ public class PlayerMovement : MonoBehaviour {
         
         if (ground)
         {
-            Debug.Log(Vector2.Distance(this.transform.position, ground.point));
+            //Debug.Log(Vector2.Distance(this.transform.position, ground.point));
             if (Vector2.Distance(this.transform.position, ground.point) > 1.2f)
             {
                 grounded = false;

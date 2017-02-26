@@ -7,7 +7,11 @@ public class EnemyPatrollingMovement : MonoBehaviour {
     public Transform[] waypoints;
     public float speed = 5;
     public int currentWayPoint;
-    public bool doPatrol = true;
+    bool patrol = true;
+    /*
+    bool alert = false;
+    bool caution = false;
+    */
     public Vector2 target;
     public Vector2 moveDirection;
     public Vector2 velocity;
@@ -32,6 +36,7 @@ public class EnemyPatrollingMovement : MonoBehaviour {
         enemyRig = GetComponent<Rigidbody2D>();
         spriteRend = GetComponent<SpriteRenderer>();
         sensing = GetComponent<EnemyAISensing>();
+        timer = 0f;
     }
 
     void Start()
@@ -41,14 +46,28 @@ public class EnemyPatrollingMovement : MonoBehaviour {
 
     void Update ()
     {
-        
-        if (!sensing.playerInSight() && doPatrol)
+        //Debug.Log(timer);
+        if (!sensing.playerInSight() && patrol)
         {
+            timer = 0f;
             WaypointPatrol();
         }
-        else if (sensing.playerInSight() || timer >= 0f)
+        else if (sensing.playerInSight())
         {
+            patrol = false;
             Alert();
+        }
+        else if (!sensing.playerInSight() && !patrol)
+        {
+            timer = timer + Time.deltaTime;
+            if(timer >= timerLimit)
+            {
+                patrol = true;
+            }
+            else
+            {
+                Alert();
+            }
         }
         flipHandler();		
 	}
@@ -74,7 +93,7 @@ public class EnemyPatrollingMovement : MonoBehaviour {
 
         else
         {
-            if (doPatrol)
+            if (patrol)
             {
                 currentWayPoint = 0;
             }
@@ -122,14 +141,57 @@ public class EnemyPatrollingMovement : MonoBehaviour {
     {
         //moves outside of patrol routes
         //return to patrol in x seconds
+        /*
+                ObstacleCheck();
+        if (!sensing.playerInSight())
+        {
+            //if (wayPoints == null)
+            //   {
+            int dir = 1;
+            if (facing == facingDir.left)
+            {
+                dir *= -1;
+            }
+
+            if (ledgeSpotted || obstacleSpotted)
+            {
+                enemyRig.velocity = new Vector2(0, enemyRig.velocity.y);
+                if (facing == facingDir.right)
+                {
+                    facing = facingDir.left;
+                }
+                else
+                {
+                    facing = facingDir.right;
+                }
+            }
+            else
+            {
+                if (grounded)
+                {
+                    if (facing == facingDir.right)
+                    {
+                        enemyRig.velocity = new Vector2(speed, enemyRig.velocity.y);
+                    }
+                    else
+                    {
+                        enemyRig.velocity = new Vector2(speed * -1, enemyRig.velocity.y);
+                    }
+                }
+            }
+            // }
+        }
+        */
 
     }
     void Alert()
     {
         //if player in sight break out from the patrol movement
         //return to caution in X seconds
+        
+        /*NEED TO CHANGE: this funcktion works at the moment like Caution()
+        need change it to follow player more closely*/
         Debug.Log("Alerted");
-        doPatrol = false;
         ObstacleCheck();
         if (!sensing.playerInSight())
         {
