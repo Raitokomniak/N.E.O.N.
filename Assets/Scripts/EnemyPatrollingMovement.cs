@@ -24,6 +24,7 @@ public class EnemyPatrollingMovement : MonoBehaviour {
     float timer;
     float timerLimit = 5f;
 
+
     enum facingDir
     {
         right,
