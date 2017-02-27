@@ -15,6 +15,8 @@ public class PanelHandler : MonoBehaviour
 	AudioSource audioSource;
 	AudioClip SFXClip;
 
+	Image previousComponent;
+	public bool switchingOverlay;
 
 	void Awake (){
 		cutsceneHandler = GameObject.Find ("CutsceneHandler").GetComponent<CutsceneHandler> ();
@@ -42,15 +44,41 @@ public class PanelHandler : MonoBehaviour
 			if (component.tag == "Cutscene_SFX") {
 				PlaySFX (panelIndex, pageIndex);
 			}
+			if (switchingOverlay && component.tag == "Cutscene_Overlay" && previousComponent.tag == "Cutscene_Overlay") {
+					StartCoroutine(FadeOut (previousComponent));
+			}
+
 			for (float a = 0.0f; a <= 1.0f; a += 0.02f) {
 				component.color = new Color (1, 1, 1, a);
 				yield return new WaitForSeconds (0.01f);
 			}
 			component.color = new Color (1, 1, 1, 1);
+
+			previousComponent = component;
 		}
 	}
 
-	public void ForceFade (bool fadein)
+	IEnumerator FadeOut(Image component){
+		for (float a = 1.0f; a > 0.0f; a -= 0.02f) {
+			component.color = new Color (1, 1, 1, a);
+			yield return new WaitForSeconds (0.01f);
+		}
+		component.color = new Color (1, 1, 1, 0);
+	}
+
+	//use for single components
+	public void ForceFade(Image component, bool fadein)
+	{
+		if (fadein) {
+			component.color = new Color (1, 1, 1, 1);
+		}
+		else {
+			component.color = new Color (1, 1, 1, 0);
+		}
+	}
+
+	//use for all components in panel
+	public void ForceFadeAll (bool fadein)
 	{
 		textIndex = 0;
 		foreach (Image component in components) {

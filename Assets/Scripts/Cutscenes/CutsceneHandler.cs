@@ -97,7 +97,7 @@ public class CutsceneHandler : MonoBehaviour
 		if (onGoingPanel != -1) {
 			StopAllCoroutines ();
 			panel = panels [onGoingPanel];
-			panel.GetComponent<PanelHandler>().ForceFade (true);
+			panel.GetComponent<PanelHandler>().ForceFadeAll (true);
 		}	
 
 		onGoingPanel++;
