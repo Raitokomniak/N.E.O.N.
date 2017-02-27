@@ -106,6 +106,14 @@ public class PanelHandler : MonoBehaviour
 	// DO NOT TOUCH
 	///////////////////////////////////////////////////
 
+	float GetProperties(int panel, int page){
+
+		//fetch panel properties from file
+		// return fade time to panel fade
+		float fadeTime = 1f;
+		return fadeTime;
+	}
+
 	string GetSFX (int panel, int page)
 	{
 		string path = "Cutscenes/Cutscene1/Panel_Properties";
