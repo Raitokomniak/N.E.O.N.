@@ -157,6 +157,10 @@ MonoBehaviour:
   target: {x: 0, y: 0}
   moveDirection: {x: 0, y: 0}
   velocity: {x: 0, y: 0}
+  gunBarrell: {fileID: 1548903046}
+  bullet: {fileID: 1081764111275878, guid: 9f3f1c5b07d0add4295a281d7760dfbf, type: 2}
+  bulletVelocity: 20
+  timeBetweenBullets: 0.5
 --- !u!4 &124233780 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4227773749689022, guid: ba6bddb509230714aa82669ace2b0bc9,
@@ -350,6 +354,11 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!4 &1548903046 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 4295662446186712, guid: ba6bddb509230714aa82669ace2b0bc9,
+    type: 2}
+  m_PrefabInternal: {fileID: 186560367}
 --- !u!1 &1571008509
 GameObject:
   m_ObjectHideFlags: 0

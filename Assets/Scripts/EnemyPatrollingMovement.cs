@@ -24,7 +24,13 @@ public class EnemyPatrollingMovement : MonoBehaviour {
     float timer;
     float timerLimit = 5f;
 
-
+    public Transform gunBarrell;
+    public GameObject bullet;
+    AudioSource gunAudio;
+    public float bulletVelocity = 20f;
+    public float timeBetweenBullets = 0.5f;
+    float bulletTimer;
+    float timeToShoot;
     enum facingDir
     {
         right,
@@ -38,6 +44,7 @@ public class EnemyPatrollingMovement : MonoBehaviour {
         spriteRend = GetComponent<SpriteRenderer>();
         sensing = GetComponent<EnemyAISensing>();
         timer = 0f;
+        gunAudio = GetComponent<AudioSource>();
     }
 
     void Start()
@@ -55,6 +62,7 @@ public class EnemyPatrollingMovement : MonoBehaviour {
         }
         else if (sensing.playerInSight())
         {
+            Shoot();
             patrol = false;
             Alert();
         }
@@ -234,6 +242,28 @@ public class EnemyPatrollingMovement : MonoBehaviour {
         }
     }
 
+    void Shoot()
+    {
+        if (sensing.playerInSight())
+        {
+            bulletTimer += Time.deltaTime;
+            if (bulletTimer >= timeBetweenBullets)
+            {
+
+                GameObject projectile = (GameObject)Instantiate(bullet, gunBarrell.position, gunBarrell.rotation);
+                Rigidbody2D rigidbody = projectile.GetComponent<Rigidbody2D>();
+                gunAudio.Play();
+
+                rigidbody.velocity = projectile.transform.right * bulletVelocity;
+                bulletTimer = 0;
+            }
+        }
+        else
+        {
+            bulletTimer = 0;
+        }
+        gunAudio.pitch = Time.timeScale;
+    }
     void ObstacleCheck()
     {
         RaycastHit2D see;
