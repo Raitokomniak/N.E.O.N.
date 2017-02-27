@@ -79,6 +79,8 @@ public class PlayerMovement : MonoBehaviour {
         wallJump();
         animationHandler(x);
         groundChecker();
+        
+       
     }
     void move(float x)
     {
