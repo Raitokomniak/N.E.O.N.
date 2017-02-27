@@ -15,6 +15,7 @@ public class PlayerMovement : MonoBehaviour {
     Rigidbody2D playerRig;
     SpriteRenderer sr;
     Animator anim;
+    GroundCheck_feet feet;
     float maxVelocity = 5;
     float stepTimer;
     float nroOfCollisions;
@@ -45,6 +46,7 @@ public class PlayerMovement : MonoBehaviour {
         sr = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
         stepAudio = GetComponent<AudioSource>();
+        feet = GetComponentInChildren<GroundCheck_feet>();
     }
 
     void Start()
@@ -61,7 +63,7 @@ public class PlayerMovement : MonoBehaviour {
     void Update()
     {
         flipHandler();
-        Debug.Log(nroOfCollisions);
+       // Debug.Log(nroOfCollisions);
     }
     void FixedUpdate()
     {
@@ -265,22 +267,6 @@ public class PlayerMovement : MonoBehaviour {
 
     void groundChecker()
     {
-       
-      /*  BoxCollider2D box = GetComponent<BoxCollider2D>();
-        RaycastHit2D ground = Physics2D.CircleCast(this.transform.position, box.size.x / 2, -this.transform.up);
-        
-        if (ground)
-        {
-            if (Vector2.Distance(this.transform.position, ground.point) > 1.2f)
-            {
-                grounded = false;
-                state = charStates.midAir;
-            }
-        }
-        else
-        {
-            grounded = false;
-        }*/
         if (nroOfCollisions == 0)
         {
             grounded = false;
@@ -300,14 +286,15 @@ public class PlayerMovement : MonoBehaviour {
         BoxCollider2D box = GetComponent<BoxCollider2D>();
         RaycastHit2D ground = Physics2D.CircleCast(this.transform.position, box.size.x / 2, -this.transform.up);
 
-        if (ground)
+        if (ground&&feet.isFeetOnGround())
         {
             if (ground.collider == col.collider)
             {
                 grounded = true;
+                wallJumpAble = false;
             }
         }
-        if (!grounded)
+        else if (!grounded&&!feet.isFeetOnGround())
         {
             wallCheck(col.collider);
         }
