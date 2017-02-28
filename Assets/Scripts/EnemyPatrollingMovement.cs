@@ -83,7 +83,7 @@ public class EnemyPatrollingMovement : MonoBehaviour {
 
     void WaypointPatrol()
     {
-        Debug.Log("Patrolling");
+        //Debug.Log("Patrolling");
         if (currentWayPoint < waypoints.Length)
         {
             target = waypoints[currentWayPoint].position;
@@ -200,7 +200,7 @@ public class EnemyPatrollingMovement : MonoBehaviour {
         
         /*NEED TO CHANGE: this funcktion works at the moment like Caution()
         need change it to follow player more closely*/
-        Debug.Log("Alerted");
+        //Debug.Log("Alerted");
         ObstacleCheck();
         if (!sensing.playerInSight())
         {
