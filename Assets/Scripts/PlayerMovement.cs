@@ -15,6 +15,7 @@ public class PlayerMovement : MonoBehaviour {
     Rigidbody2D playerRig;
     SpriteRenderer sr;
     Animator anim;
+    GroundCheck_feet feet;
     float maxVelocity = 5;
     float stepTimer;
     int facing; // 1= RIGHT -1 = LEFT
@@ -44,6 +45,7 @@ public class PlayerMovement : MonoBehaviour {
         sr = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
         stepAudio = GetComponent<AudioSource>();
+        feet = GetComponentInChildren<GroundCheck_feet>();
     }
 
     void Start()
@@ -59,6 +61,10 @@ public class PlayerMovement : MonoBehaviour {
     void Update()
     {
         flipHandler();
+<<<<<<< HEAD
+=======
+       // Debug.Log(nroOfCollisions);
+>>>>>>> 97cccb4ec90322c1a5fee1d90b5833c2eaefa3d0
     }
     void FixedUpdate()
     {
@@ -74,6 +80,8 @@ public class PlayerMovement : MonoBehaviour {
         wallJump();
         animationHandler(x);
         groundChecker();
+        
+       
     }
     void move(float x)
     {
@@ -255,6 +263,7 @@ public class PlayerMovement : MonoBehaviour {
 
     void groundChecker()
     {
+<<<<<<< HEAD
        
         BoxCollider2D box = GetComponent<BoxCollider2D>();
         RaycastHit2D ground = Physics2D.CircleCast(this.transform.position, box.size.x / 2, -this.transform.up);
@@ -271,6 +280,13 @@ public class PlayerMovement : MonoBehaviour {
         else
         {
             grounded = false;
+=======
+        if (nroOfCollisions == 0)
+        {
+            grounded = false;
+            wallJumpAble = false;
+            state = charStates.midAir;
+>>>>>>> 97cccb4ec90322c1a5fee1d90b5833c2eaefa3d0
         }
     }
     void OnCollisionStay2D(Collision2D col)
@@ -278,14 +294,15 @@ public class PlayerMovement : MonoBehaviour {
         BoxCollider2D box = GetComponent<BoxCollider2D>();
         RaycastHit2D ground = Physics2D.CircleCast(this.transform.position, box.size.x / 2, -this.transform.up);
 
-        if (ground)
+        if (ground&&feet.isFeetOnGround())
         {
             if (ground.collider == col.collider)
             {
                 grounded = true;
+                wallJumpAble = false;
             }
         }
-        if (!grounded)
+        else if (!grounded&&!feet.isFeetOnGround())
         {
             wallCheck(col.collider);
         }
