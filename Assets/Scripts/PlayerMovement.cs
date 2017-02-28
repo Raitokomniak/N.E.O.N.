@@ -1,8 +1,10 @@
-﻿using System.Collections;
+﻿
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour {
+public class PlayerMovement : MonoBehaviour
+{
     public AudioClip[] steps;
     public float speed = 20;
     public float jumpForce = 4;
@@ -18,6 +20,7 @@ public class PlayerMovement : MonoBehaviour {
     GroundCheck_feet feet;
     float maxVelocity = 5;
     float stepTimer;
+    float nroOfCollisions;
     int facing; // 1= RIGHT -1 = LEFT
     bool grounded;
     bool moving;
@@ -56,15 +59,13 @@ public class PlayerMovement : MonoBehaviour {
         moving = false;
         wallJumpAble = false;
         wallJumped = false;
+        nroOfCollisions = 0;
     }
 
     void Update()
     {
         flipHandler();
-<<<<<<< HEAD
-=======
-       // Debug.Log(nroOfCollisions);
->>>>>>> 97cccb4ec90322c1a5fee1d90b5833c2eaefa3d0
+        // Debug.Log(nroOfCollisions);
     }
     void FixedUpdate()
     {
@@ -80,15 +81,15 @@ public class PlayerMovement : MonoBehaviour {
         wallJump();
         animationHandler(x);
         groundChecker();
-        
-       
+
+
     }
     void move(float x)
     {
         if (grounded)
         {
-           playerRig.AddForce(new Vector2((x * speed), 0));
-           charSpeedDefiner(x);
+            playerRig.AddForce(new Vector2((x * speed), 0));
+            charSpeedDefiner(x);
         }
         else
         {
@@ -102,7 +103,7 @@ public class PlayerMovement : MonoBehaviour {
         {
             facing = 1;
         }
-        if(x != 0)
+        if (x != 0)
         {
             moving = true;
         }
@@ -117,8 +118,15 @@ public class PlayerMovement : MonoBehaviour {
     {
         switch (state)
         {
+            //To be changed when animations arrive
             case charStates.idle:
                 anim.Play("Idle");
+                break;
+            case charStates.sneak:
+                anim.Play("Run");
+                break;
+            case charStates.walk:
+                anim.Play("Run");
                 break;
             case charStates.run:
                 anim.Play("Run");
@@ -263,38 +271,26 @@ public class PlayerMovement : MonoBehaviour {
 
     void groundChecker()
     {
-<<<<<<< HEAD
-       
-        BoxCollider2D box = GetComponent<BoxCollider2D>();
-        RaycastHit2D ground = Physics2D.CircleCast(this.transform.position, box.size.x / 2, -this.transform.up);
-        
-        if (ground)
-        {
-            //Debug.Log(Vector2.Distance(this.transform.position, ground.point));
-            if (Vector2.Distance(this.transform.position, ground.point) > 1.2f)
-            {
-                grounded = false;
-                state = charStates.midAir;
-            }
-        }
-        else
-        {
-            grounded = false;
-=======
         if (nroOfCollisions == 0)
         {
             grounded = false;
             wallJumpAble = false;
             state = charStates.midAir;
->>>>>>> 97cccb4ec90322c1a5fee1d90b5833c2eaefa3d0
         }
     }
+
+    void OnCollisionEnter2D(Collision2D col)
+    {
+        nroOfCollisions++;
+    }
+
+
     void OnCollisionStay2D(Collision2D col)
     {
         BoxCollider2D box = GetComponent<BoxCollider2D>();
         RaycastHit2D ground = Physics2D.CircleCast(this.transform.position, box.size.x / 2, -this.transform.up);
 
-        if (ground&&feet.isFeetOnGround())
+        if (ground && feet.isFeetOnGround())
         {
             if (ground.collider == col.collider)
             {
@@ -302,7 +298,7 @@ public class PlayerMovement : MonoBehaviour {
                 wallJumpAble = false;
             }
         }
-        else if (!grounded&&!feet.isFeetOnGround())
+        else if (!grounded && !feet.isFeetOnGround())
         {
             wallCheck(col.collider);
         }
@@ -313,7 +309,7 @@ public class PlayerMovement : MonoBehaviour {
         RaycastHit2D ground = Physics2D.CircleCast(this.transform.position, box.size.x / 2, -this.transform.up);
         RaycastHit2D right = Physics2D.Raycast(this.transform.position, this.transform.right);
         RaycastHit2D left = Physics2D.Raycast(this.transform.position, -this.transform.right);
-        
+
         if (!grounded)
         {
             if (left || right)
@@ -330,6 +326,7 @@ public class PlayerMovement : MonoBehaviour {
                 }
             }
         }
+        nroOfCollisions--;
     }
     public bool isFacingRight()
     {
