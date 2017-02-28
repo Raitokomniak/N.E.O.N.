@@ -19,6 +19,7 @@ class CutScene {
 
 public class CutsceneHandler : MonoBehaviour
 {
+	public CutsceneCamera csCamera;
 	public Canvas cutsceneCanvas;
 	public Text endText;
 
@@ -94,9 +95,12 @@ public class CutsceneHandler : MonoBehaviour
 	{
 		Image panel;
 
+
 		if (onGoingPanel != -1) {
 			StopAllCoroutines ();
 			panel = panels [onGoingPanel];
+
+
 			panel.GetComponent<PanelHandler>().ForceFadeAll (true);
 		}	
 
@@ -104,6 +108,7 @@ public class CutsceneHandler : MonoBehaviour
 
 		if (onGoingPanel < panels.Length) {
 			panel = panels [onGoingPanel];
+			csCamera.MoveToPanel (panel);
 			PanelHandler panelHandler = panel.GetComponent<PanelHandler> ();
 			FadeInPanel = panelHandler.FadeInPanel (panel, onGoingPanel, onGoingPage);
 			PanelTimer = _PanelTimer ();
@@ -143,7 +148,7 @@ public class CutsceneHandler : MonoBehaviour
 		onGoingPanel = -1;
 		currentPage = Instantiate (cutscenePages [onGoingPage]);
 		currentPage.transform.SetParent (cutsceneCanvas.transform);
-		currentPage.transform.localScale = new Vector3 (1, 1, 1);
+		currentPage.transform.localScale = new Vector3 (.1f, .1f, 1);
 		currentPage.transform.position = new Vector3 (0, 0, 0);
 
 		panels = new Image[currentCutscene.pages [onGoingPage].panelCount];
