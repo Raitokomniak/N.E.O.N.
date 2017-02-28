@@ -9,15 +9,19 @@ public class CutsceneCamera : MonoBehaviour {
 	//CutsceneHandler cutsceneHandler;
 
 	Vector3 startPosition;
-	Vector3 originalPosition;
 	Vector3 targetPosition;
 
 	Camera cam;
+
+	bool moving;
+
+	bool forceMovement;
 
 	public float FoV;
 
 	// Use this for initialization
 	void Awake () {
+		moving = false;
 		startPosition = transform.position;
 		cam = GetComponent<Camera> ();
 		if (this.isActiveAndEnabled) {
@@ -27,13 +31,27 @@ public class CutsceneCamera : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+
+		if (moving) {
+			if (!forceMovement) {
+				if (!Mathf.Approximately (transform.position.magnitude, targetPosition.magnitude)) {
+					transform.position = Vector3.Lerp (transform.position, targetPosition, Time.deltaTime);
+				} else {
+					moving = false;
+					Debug.Log ("destination reached");
+				}
+			} else {
+				transform.position = targetPosition;
+			}
+		}
 	}
 
-	public void MoveToPanel(Image panel)
+	public void MoveToPanel(Image panel, bool firstPanelOfPage)
 	{
+		forceMovement = firstPanelOfPage;
 		Vector3 pPos = panel.transform.position;
-		transform.position = new Vector3 (pPos.x, pPos.y, transform.position.z);
-
+		targetPosition = new Vector3 (pPos.x, pPos.y, transform.position.z);
+		moving = true;
 	}
+
 }

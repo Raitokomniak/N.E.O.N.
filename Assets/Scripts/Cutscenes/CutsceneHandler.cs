@@ -95,20 +95,29 @@ public class CutsceneHandler : MonoBehaviour
 	{
 		Image panel;
 
+		bool previousPanelExists = false;
 
 		if (onGoingPanel != -1) {
+			previousPanelExists = true;
+		}	
+
+		if (previousPanelExists) {
 			StopAllCoroutines ();
 			panel = panels [onGoingPanel];
-
-
-			panel.GetComponent<PanelHandler>().ForceFadeAll (true);
-		}	
+			panel.GetComponent<PanelHandler> ().ForceFadeAll (true);
+		}
 
 		onGoingPanel++;
 
 		if (onGoingPanel < panels.Length) {
 			panel = panels [onGoingPanel];
-			if(csCamera.isActiveAndEnabled) csCamera.MoveToPanel (panel);
+			if (csCamera.isActiveAndEnabled) {
+				if (previousPanelExists) {
+					csCamera.MoveToPanel (panel, false);
+				} else {
+					csCamera.MoveToPanel (panel, true);	
+				}
+			}
 			PanelHandler panelHandler = panel.GetComponent<PanelHandler> ();
 			FadeInPanel = panelHandler.FadeInPanel (panel, onGoingPanel, onGoingPage);
 			PanelTimer = _PanelTimer ();
