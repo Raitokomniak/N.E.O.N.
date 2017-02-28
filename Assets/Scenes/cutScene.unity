@@ -195,6 +195,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63ca87d0830923741bbb904835638ed1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  csCamera: {fileID: 619847167}
   cutsceneCanvas: {fileID: 456670787}
   endText: {fileID: 159128113}
   cutscenePages:
@@ -366,7 +367,7 @@ Canvas:
   m_GameObject: {fileID: 456670784}
   m_Enabled: 1
   serializedVersion: 2
-  m_RenderMode: 1
+  m_RenderMode: 2
   m_Camera: {fileID: 619847165}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
@@ -384,8 +385,8 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 456670784}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 90}
+  m_LocalScale: {x: 0.0069444445, y: 0.0069444445, z: 0.0069444445}
   m_Children:
   - {fileID: 756778649}
   - {fileID: 1957651752}
@@ -398,8 +399,8 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0, y: 0}
+  m_SizeDelta: {x: 2560, y: 1440}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &588212248
 GameObject:
   m_ObjectHideFlags: 0
@@ -474,6 +475,7 @@ GameObject:
   - component: {fileID: 619847164}
   - component: {fileID: 619847163}
   - component: {fileID: 619847162}
+  - component: {fileID: 619847167}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -520,8 +522,8 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
-  orthographic: 1
+  field of view: 6
+  orthographic: 0
   orthographic size: 5
   m_Depth: -1
   m_CullingMask:
@@ -549,6 +551,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &619847167
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 619847161}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f819869f672d674d905895aa143164f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FoV: 2.9
 --- !u!1 &756778648
 GameObject:
   m_ObjectHideFlags: 0
@@ -581,8 +595,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -0.000030518, y: 0}
+  m_SizeDelta: {x: 1541, y: 857}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &756778650
 MonoBehaviour:

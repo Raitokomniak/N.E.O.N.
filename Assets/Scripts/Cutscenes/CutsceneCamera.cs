@@ -11,10 +11,18 @@ public class CutsceneCamera : MonoBehaviour {
 	Vector3 startPosition;
 	Vector3 originalPosition;
 	Vector3 targetPosition;
+
+	Camera cam;
+
+	public float FoV;
+
 	// Use this for initialization
 	void Awake () {
 		startPosition = transform.position;
-
+		cam = GetComponent<Camera> ();
+		if (this.isActiveAndEnabled) {
+			cam.fieldOfView = FoV;
+		}
 	}
 	
 	// Update is called once per frame

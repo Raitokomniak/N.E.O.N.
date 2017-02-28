@@ -108,7 +108,7 @@ public class CutsceneHandler : MonoBehaviour
 
 		if (onGoingPanel < panels.Length) {
 			panel = panels [onGoingPanel];
-			csCamera.MoveToPanel (panel);
+			if(csCamera.isActiveAndEnabled) csCamera.MoveToPanel (panel);
 			PanelHandler panelHandler = panel.GetComponent<PanelHandler> ();
 			FadeInPanel = panelHandler.FadeInPanel (panel, onGoingPanel, onGoingPage);
 			PanelTimer = _PanelTimer ();
