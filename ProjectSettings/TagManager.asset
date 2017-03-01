@@ -7,6 +7,7 @@ TagManager:
   - Cutscene_Overlay
   - Cutscene_SpeechBubble
   - Cutscene_SFX
+  - Cutscene_BG
   layers:
   - Default
   - TransparentFX
