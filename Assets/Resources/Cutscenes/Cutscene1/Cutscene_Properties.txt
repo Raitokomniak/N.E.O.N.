@@ -1,2 +1,2 @@
 PAGES	MUSIC	AMBIENT	
-2	neon_slow	1
+1	neon_slow	1

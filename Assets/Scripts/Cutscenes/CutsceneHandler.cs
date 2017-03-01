@@ -12,6 +12,7 @@ class Page {
 }
 class CutScene {
 	public Page[] pages;
+	public string musicPath;
 	public CutScene (int _pages){
 		pages = new Page[_pages];
 	}
@@ -22,6 +23,7 @@ public class CutsceneHandler : MonoBehaviour
 	public CutsceneCamera csCamera;
 	public Canvas cutsceneCanvas;
 	public Text endText;
+	public Image progressionBar;
 
 	int onGoingCutscene;
 	int onGoingPage;
@@ -38,6 +40,7 @@ public class CutsceneHandler : MonoBehaviour
 
 	IEnumerator FadeInPanel;
 	IEnumerator PanelTimer;
+	IEnumerator ScalePanel;
 
 
 	void Awake ()
@@ -46,6 +49,7 @@ public class CutsceneHandler : MonoBehaviour
 		onGoingCutscene = 1;  //this comes from progression
 		endText.gameObject.SetActive (false);
 		StartCutscene ();
+		progressionBar.transform.SetAsLastSibling ();
 	}
 		
 	void Update ()
@@ -63,6 +67,7 @@ public class CutsceneHandler : MonoBehaviour
 	void StartCutscene ()
 	{
 		currentCutscene = CreateCutscene ();
+		PlayBGM (currentCutscene.musicPath);
 		cutSceneRunning = true;
 		onGoingPage = -1;
 		onGoingPanel = -1;
@@ -105,6 +110,7 @@ public class CutsceneHandler : MonoBehaviour
 			StopAllCoroutines ();
 			panel = panels [onGoingPanel];
 			panel.GetComponent<PanelHandler> ().ForceFadeAll (true);
+			panel.GetComponent<PanelHandler> ().ForceScaleDown (panel);
 		}
 
 		onGoingPanel++;
@@ -120,17 +126,24 @@ public class CutsceneHandler : MonoBehaviour
 			}
 			PanelHandler panelHandler = panel.GetComponent<PanelHandler> ();
 			FadeInPanel = panelHandler.FadeInPanel (panel, onGoingPanel, onGoingPage);
-			PanelTimer = _PanelTimer ();
+			ScalePanel = panelHandler.ScalePanel (panel);
+			PanelTimer = _PanelTimer (panelHandler);
 			StartCoroutine (FadeInPanel);
+			StartCoroutine (ScalePanel);
 			StartCoroutine (PanelTimer);
+
 		} else {
 			NextPage ();
 		}
 	}
 
 
-	IEnumerator _PanelTimer (){
-		yield return new WaitForSeconds (5f);
+	IEnumerator _PanelTimer (PanelHandler panelHandler){
+		if (panelHandler.scaled) {
+			yield return new WaitUntil (() => panelHandler.scalingDone == true);
+		} else {
+			yield return new WaitForSeconds (10f);
+		}
 		if (onGoingPanel < panels.Length - 1) {
 			NextPanel ();
 		}
@@ -159,7 +172,7 @@ public class CutsceneHandler : MonoBehaviour
 		currentPage.transform.SetParent (cutsceneCanvas.transform);
 		currentPage.GetComponent<RectTransform> ().offsetMax = new Vector2 (0, 0);
 		currentPage.GetComponent<RectTransform> ().offsetMin = new Vector2 (0, 0);
-		//currentPage.transform.localScale = new Vector3 (.1f, .1f, 1);
+		currentPage.transform.localScale = new Vector3 (1f, 1f, 1);
 		//currentPage.transform.position = new Vector3 (0, 0, 0);
 
 		panels = new Image[currentCutscene.pages [onGoingPage].panelCount];
@@ -187,7 +200,7 @@ public class CutsceneHandler : MonoBehaviour
 		string musicPath = textProperties [1];
 		string ambientPath = textProperties [2];
 
-		PlayBGM (musicPath);
+
 
 		return textProperties;
 	}
@@ -216,6 +229,7 @@ public class CutsceneHandler : MonoBehaviour
 			cutscene.pages [i] = new Page (pageProperties[i]);
 		}
 
+		cutscene.musicPath = properties [1];
 		cutscenePages = new GameObject[cutscene.pages.Length];
 
 		for (int i = 0; i < cutscene.pages.Length; i++) {

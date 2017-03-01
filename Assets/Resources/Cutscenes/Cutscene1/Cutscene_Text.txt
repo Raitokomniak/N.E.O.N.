@@ -1,6 +1,6 @@
 PAGE	PANEL	TEXT
-0	2	Guards to chamber 10!
-0	2	Get in there!
+0	1	Guards to chamber 10!
+0	1	Get in there!
 1	2	Guards to chamber 10!
 1	2	Get in there!
 2	2	Guards to chamber 10!

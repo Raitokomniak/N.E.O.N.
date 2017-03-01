@@ -31,8 +31,8 @@ Material:
         name: _Texture
       second:
         m_Texture: {fileID: 2800000, guid: 9b5c35293e835e84eab33a6887bc527b, type: 3}
-        m_Scale: {x: 5, y: 5}
-        m_Offset: {x: 2, y: 3}
+        m_Scale: {x: 100, y: 100}
+        m_Offset: {x: 50, y: 50}
     m_Floats:
     - first:
         name: _Bias
