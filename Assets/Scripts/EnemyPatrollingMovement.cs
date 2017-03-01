@@ -8,10 +8,6 @@ public class EnemyPatrollingMovement : MonoBehaviour {
     public float speed = 5;
     public int currentWayPoint;
     bool patrol = true;
-    /*
-    bool alert = false;
-    bool caution = false;
-    */
     public Vector2 target;
     public Vector2 moveDirection;
     public Vector2 velocity;
@@ -22,15 +18,17 @@ public class EnemyPatrollingMovement : MonoBehaviour {
     bool ledgeSpotted;
     bool obstacleSpotted;
     float timer;
-    float timerLimit = 5f;
+    public float cautionTimer = 5f;
 
     public Transform gunBarrell;
     public GameObject bullet;
+    public GameObject player;
     AudioSource gunAudio;
     public float bulletVelocity = 20f;
     public float timeBetweenBullets = 0.5f;
     float bulletTimer;
     float timeToShoot;
+    PlayerInsideAlertZone AlertZone;
     enum facingDir
     {
         right,
@@ -45,6 +43,7 @@ public class EnemyPatrollingMovement : MonoBehaviour {
         sensing = GetComponent<EnemyAISensing>();
         timer = 0f;
         gunAudio = GetComponent<AudioSource>();
+        AlertZone = GetComponentInChildren<PlayerInsideAlertZone>();
     }
 
     void Start()
@@ -69,7 +68,7 @@ public class EnemyPatrollingMovement : MonoBehaviour {
         else if (!sensing.playerInSight() && !patrol)
         {
             timer = timer + Time.deltaTime;
-            if(timer >= timerLimit)
+            if(timer >= cautionTimer)
             {
                 patrol = true;
             }
@@ -148,14 +147,12 @@ public class EnemyPatrollingMovement : MonoBehaviour {
     }
     void Caution()
     {
-        //moves outside of patrol routes
-        //return to patrol in x seconds
-        /*
-                ObstacleCheck();
+        //moves outside of patrol routes seeking player
+        //return to patrol if does not find player before cautionTimer runs out
+        //Debug.Log("Caution");
+        ObstacleCheck();
         if (!sensing.playerInSight())
         {
-            //if (wayPoints == null)
-            //   {
             int dir = 1;
             if (facing == facingDir.left)
             {
@@ -188,57 +185,33 @@ public class EnemyPatrollingMovement : MonoBehaviour {
                     }
                 }
             }
-            // }
         }
-        */
+        
 
     }
     void Alert()
     {
-        //if player in sight break out from the patrol movement
-        //return to caution in X seconds
-        
-        /*NEED TO CHANGE: this funcktion works at the moment like Caution()
-        need change it to follow player more closely*/
-        //Debug.Log("Alerted");
-        ObstacleCheck();
-        if (!sensing.playerInSight())
+        if (AlertZone.getPlayerInAlerZone())
         {
-            //if (wayPoints == null)
-            //   {
-            int dir = 1;
-            if (facing == facingDir.left)
-            {
-                dir *= -1;
-            }
+            //Debug.Log("Alerted");
+            target = new Vector2(player.transform.position.x, player.transform.position.y);
+            moveDirection = new Vector2(target.x - enemyRig.transform.position.x, 0f);
+            velocity = moveDirection.normalized * speed;
+            enemyRig.velocity = velocity;
 
-            if (ledgeSpotted || obstacleSpotted)
+            enemyRig.velocity = velocity;
+            if (enemyRig.velocity.x > 0)
             {
-                enemyRig.velocity = new Vector2(0, enemyRig.velocity.y);
-                if (facing == facingDir.right)
-                {
-                    facing = facingDir.left;
-                }
-                else
-                {
-                    facing = facingDir.right;
-                }
+                facing = facingDir.right;
             }
-            else
+            else if (enemyRig.velocity.x < 0)
             {
-                if (grounded)
-                {
-                    if (facing == facingDir.right)
-                    {
-                        enemyRig.velocity = new Vector2(speed, enemyRig.velocity.y);
-                    }
-                    else
-                    {
-                        enemyRig.velocity = new Vector2(speed * -1, enemyRig.velocity.y);
-                    }
-                }
+                facing = facingDir.left;
             }
-            // }
+        }
+        else if (!AlertZone.getPlayerInAlerZone())
+        {
+            Caution();
         }
     }
 
