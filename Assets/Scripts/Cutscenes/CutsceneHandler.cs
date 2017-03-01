@@ -157,8 +157,10 @@ public class CutsceneHandler : MonoBehaviour
 		onGoingPanel = -1;
 		currentPage = Instantiate (cutscenePages [onGoingPage]);
 		currentPage.transform.SetParent (cutsceneCanvas.transform);
-		currentPage.transform.localScale = new Vector3 (.1f, .1f, 1);
-		currentPage.transform.position = new Vector3 (0, 0, 0);
+		currentPage.GetComponent<RectTransform> ().offsetMax = new Vector2 (0, 0);
+		currentPage.GetComponent<RectTransform> ().offsetMin = new Vector2 (0, 0);
+		//currentPage.transform.localScale = new Vector3 (.1f, .1f, 1);
+		//currentPage.transform.position = new Vector3 (0, 0, 0);
 
 		panels = new Image[currentCutscene.pages [onGoingPage].panelCount];
 
