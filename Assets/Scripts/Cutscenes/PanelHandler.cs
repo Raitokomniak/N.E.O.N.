@@ -28,8 +28,11 @@ public class PanelHandler : MonoBehaviour
 	//////////////////////////////////
 	public bool switchingOverlay;
 	public bool scaled;
+	public bool monochromeIn;
+	public bool monochromeOut;
 	public string[] speechLines;
 	public string[] SFXPaths;
+
 
 	void Awake (){
 		cutsceneHandler = GameObject.Find ("CutsceneHandler").GetComponent<CutsceneHandler> ();
@@ -109,8 +112,10 @@ public class PanelHandler : MonoBehaviour
 		}
 	}
 
+
 	public IEnumerator FadeInPanel (Image panel, int panelIndex, int pageIndex)
 	{
+		
 		panelOutline.enabled = true;
 		foreach (Image component in components) {
 			if (component.tag == "Cutscene_SpeechBubble") {
@@ -124,10 +129,13 @@ public class PanelHandler : MonoBehaviour
 					StartCoroutine(FadeOut (previousComponent));
 			}
 
-			for (float a = 0.0f; a <= 1.0f; a += 0.02f) {
-				component.color = new Color (1, 1, 1, a);
-				yield return new WaitForSeconds (0.01f);
+		
+				for (float a = 0.0f; a <= 1.0f; a += 0.02f) {
+				if (monochromeIn) component.color = new Color (1, 1, 1, a);
+				else component.color = new Color (1, 1, 1, a);
+					yield return new WaitForSeconds (0.01f);
 			}
+		
 
 			previousComponent = component;
 		}
