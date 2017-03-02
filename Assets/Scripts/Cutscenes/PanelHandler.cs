@@ -22,12 +22,14 @@ public class PanelHandler : MonoBehaviour
 
 	bool textProcessed;
 	public bool scalingDone;
+	int sfxIndex = 0;
 	//////////////////////////////////
 	//PUBLIC ADJUSTABLE VARIABLES
 	//////////////////////////////////
 	public bool switchingOverlay;
 	public bool scaled;
 	public string[] speechLines;
+	public string[] SFXPaths;
 
 	void Awake (){
 		cutsceneHandler = GameObject.Find ("CutsceneHandler").GetComponent<CutsceneHandler> ();
@@ -172,8 +174,10 @@ public class PanelHandler : MonoBehaviour
 	}
 		
 	void PlaySFX (int panel, int page){
-		SFXClip = Resources.Load ("Cutscenes/SFX/" + GetSFX (panel, page)) as AudioClip;
+		
+		SFXClip = Resources.Load ("Cutscenes/SFX/" + SFXPaths[sfxIndex]) as AudioClip;
 		audioSource.PlayOneShot (SFXClip);
+		sfxIndex++;
 	}
 
 
@@ -183,33 +187,8 @@ public class PanelHandler : MonoBehaviour
 	///////////////////////////////////////////////////
 
 	float GetProperties(int panel, int page){
-
-		//fetch panel properties from file
-		// return fade time to panel fade
 		float fadeTime = 1f;
 		return fadeTime;
-	}
-
-	string GetSFX (int panel, int page)
-	{
-		string path = "Cutscenes/Cutscene1/Panel_Properties";
-		TextAsset propertyFile = Resources.Load (path) as TextAsset;
-		string toProcess = propertyFile.text;
-		string[] toSplit = toProcess.Split ('\n');
-
-		string clipName = "";
-
-		for (int i = 1; i < toSplit.Length; i++) {
-			string[] prop = toSplit [i].Split ('\t');
-			int checkedPage = int.Parse (prop [1]);
-			if (checkedPage == page) {
-				int checkedPanel = int.Parse (prop [2]);
-				if (checkedPanel == panel) {
-					clipName = prop [5];
-				}
-			}
-		}
-		return clipName;
 	}
 
 	IEnumerator _ProcessText (Image speechBubble)
@@ -225,10 +204,10 @@ public class PanelHandler : MonoBehaviour
 
 		for (int i = 0; i < characters.Length; i++) {
 			textBox.text = textBox.text + characters [i];
-			float dynamicWrite = Random.Range (0.03f, 0.06f);
+			float dynamicWrite = Random.Range (0.01f, 0.04f);
 			yield return new WaitForSeconds (dynamicWrite);
 		}
-		if (textIndex == speechLines.Length) {
+		if (textIndex >= speechLines.Length) {
 			textProcessed = true;
 		}
 	}

@@ -142,7 +142,7 @@ public class CutsceneHandler : MonoBehaviour
 		if (panelHandler.scaled) {
 			yield return new WaitUntil (() => panelHandler.scalingDone == true);
 		} else {
-			yield return new WaitForSeconds (10f);
+			yield return new WaitForSeconds (12f);
 		}
 		if (onGoingPanel < panels.Length - 1) {
 			NextPanel ();
