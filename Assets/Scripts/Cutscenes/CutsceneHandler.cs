@@ -20,7 +20,6 @@ public class CutScene {
 
 public class CutsceneHandler : MonoBehaviour
 {
-	public CutsceneCamera csCamera;
 	public Canvas cutsceneCanvas;
 	public Text endText;
 	public Image progressionBar;
@@ -117,13 +116,6 @@ public class CutsceneHandler : MonoBehaviour
 
 		if (onGoingPanel < panels.Length) {
 			panel = panels [onGoingPanel];
-			if (csCamera.isActiveAndEnabled) {
-				if (previousPanelExists) {
-					csCamera.MoveToPanel (panel, false);
-				} else {
-					csCamera.MoveToPanel (panel, true);	
-				}
-			}
 			PanelHandler panelHandler = panel.GetComponent<PanelHandler> ();
 			FadeInPanel = panelHandler.FadeInPanel (panel, onGoingPanel, onGoingPage);
 			ScalePanel = panelHandler.ScalePanel (panel);
