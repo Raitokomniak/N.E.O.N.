@@ -7,7 +7,7 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: Blur Preview
-  m_Shader: {fileID: 4800000, guid: 29199ff14937c794a92f1c5c8d71482e, type: 3}
+  m_Shader: {fileID: 4800000, guid: 0d0c284b0c39b1a43b5375c5750b8624, type: 3}
   m_ShaderKeywords: _FADETOCOLOR_ON
   m_LightmapFlags: 5
   m_CustomRenderQueue: -1

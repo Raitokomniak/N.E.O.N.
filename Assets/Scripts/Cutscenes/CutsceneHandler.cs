@@ -44,10 +44,11 @@ public class CutsceneHandler : MonoBehaviour
 
 	void Awake ()
 	{
-		progressionBar.transform.SetAsLastSibling ();
+		
 		endText.gameObject.SetActive (false);
 		onGoingCutscene = CheckProgression();
 		StartCutscene ();
+		progressionBar.transform.SetAsLastSibling ();
 	}
 
 	int CheckProgression(){
