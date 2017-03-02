@@ -31,14 +31,14 @@ public class GameControllerScript : MonoBehaviour {
         }
         if (Input.GetKey(KeyCode.Escape))
         {
-            int scene = SceneManager.GetActiveScene().buildIndex;
-            SceneManager.LoadScene(scene, LoadSceneMode.Single);
+            reload();
         }
     }
     public void setPlayerDead()
     {
         playerDead = true;
-        Destroy(player);
+        player.SetActive(false);
+        StartCoroutine(reloadScene());
     }
 
     public void setPlayerAlive()
@@ -49,5 +49,17 @@ public class GameControllerScript : MonoBehaviour {
     public bool isDead()
     {
         return playerDead;
+    }
+
+    IEnumerator reloadScene()
+    {
+        yield return new WaitForSeconds(2);
+        reload();
+    }
+
+    void reload()
+    {
+        int scene = SceneManager.GetActiveScene().buildIndex;
+        SceneManager.LoadScene(scene, LoadSceneMode.Single);
     }
 }

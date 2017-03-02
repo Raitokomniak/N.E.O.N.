@@ -1,11 +1,14 @@
-﻿using System.Collections;
+﻿
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour {
+public class PlayerMovement : MonoBehaviour
+{
     public AudioClip[] steps;
     public float speed = 20;
     public float jumpForce = 4;
+    public float maxJumpPower = 10;
     public float maxVelocity_run = 20;
     public float maxVelocity_walk = 10;
     public float maxVelocity_sneak = 5;
@@ -15,8 +18,10 @@ public class PlayerMovement : MonoBehaviour {
     Rigidbody2D playerRig;
     SpriteRenderer sr;
     Animator anim;
+    GroundCheck_feet feet;
     float maxVelocity = 5;
     float stepTimer;
+    float nroOfCollisions;
     int facing; // 1= RIGHT -1 = LEFT
     bool grounded;
     bool moving;
@@ -44,6 +49,7 @@ public class PlayerMovement : MonoBehaviour {
         sr = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
         stepAudio = GetComponent<AudioSource>();
+        feet = GetComponentInChildren<GroundCheck_feet>();
     }
 
     void Start()
@@ -54,7 +60,9 @@ public class PlayerMovement : MonoBehaviour {
         moving = false;
         wallJumpAble = false;
         wallJumped = false;
+        nroOfCollisions = 0;
     }
+
 
     void Update()
     {
@@ -79,8 +87,8 @@ public class PlayerMovement : MonoBehaviour {
     {
         if (grounded)
         {
-           playerRig.AddForce(new Vector2((x * speed), 0));
-           charSpeedDefiner(x);
+            playerRig.AddForce(new Vector2((x * speed), 0));
+            charSpeedDefiner(x);
         }
         else
         {
@@ -94,7 +102,7 @@ public class PlayerMovement : MonoBehaviour {
         {
             facing = 1;
         }
-        if(x != 0)
+        if (x != 0)
         {
             moving = true;
         }
@@ -109,8 +117,15 @@ public class PlayerMovement : MonoBehaviour {
     {
         switch (state)
         {
+            //To be changed when animations arrive
             case charStates.idle:
                 anim.Play("Idle");
+                break;
+            case charStates.sneak:
+                anim.Play("Run");
+                break;
+            case charStates.walk:
+                anim.Play("Run");
                 break;
             case charStates.run:
                 anim.Play("Run");
@@ -157,6 +172,10 @@ public class PlayerMovement : MonoBehaviour {
             }
             float _maxSpeed = Mathf.Lerp(playerRig.velocity.x, maxSpeed, 6 * Time.deltaTime);
             playerRig.velocity = new Vector2(_maxSpeed, playerRig.velocity.y);
+        }
+        if (playerRig.velocity.y > maxJumpPower)
+        {
+            playerRig.velocity = new Vector2(playerRig.velocity.x, maxJumpPower);
         }
     }
 
@@ -255,37 +274,34 @@ public class PlayerMovement : MonoBehaviour {
 
     void groundChecker()
     {
-       
-        BoxCollider2D box = GetComponent<BoxCollider2D>();
-        RaycastHit2D ground = Physics2D.CircleCast(this.transform.position, box.size.x / 2, -this.transform.up);
-        
-        if (ground)
-        {
-            Debug.Log(Vector2.Distance(this.transform.position, ground.point));
-            if (Vector2.Distance(this.transform.position, ground.point) > 1.2f)
-            {
-                grounded = false;
-                state = charStates.midAir;
-            }
-        }
-        else
+        if (nroOfCollisions == 0)
         {
             grounded = false;
+            wallJumpAble = false;
+            state = charStates.midAir;
         }
     }
+
+    void OnCollisionEnter2D(Collision2D col)
+    {
+        nroOfCollisions++;
+    }
+
+
     void OnCollisionStay2D(Collision2D col)
     {
         BoxCollider2D box = GetComponent<BoxCollider2D>();
         RaycastHit2D ground = Physics2D.CircleCast(this.transform.position, box.size.x / 2, -this.transform.up);
 
-        if (ground)
+        if (ground && feet.isFeetOnGround())
         {
             if (ground.collider == col.collider)
             {
                 grounded = true;
+                wallJumpAble = false;
             }
         }
-        if (!grounded)
+        else if (!grounded && !feet.isFeetOnGround())
         {
             wallCheck(col.collider);
         }
@@ -296,7 +312,7 @@ public class PlayerMovement : MonoBehaviour {
         RaycastHit2D ground = Physics2D.CircleCast(this.transform.position, box.size.x / 2, -this.transform.up);
         RaycastHit2D right = Physics2D.Raycast(this.transform.position, this.transform.right);
         RaycastHit2D left = Physics2D.Raycast(this.transform.position, -this.transform.right);
-        
+
         if (!grounded)
         {
             if (left || right)
@@ -313,6 +329,7 @@ public class PlayerMovement : MonoBehaviour {
                 }
             }
         }
+        nroOfCollisions--;
     }
     public bool isFacingRight()
     {

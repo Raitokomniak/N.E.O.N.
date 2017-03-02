@@ -7,7 +7,7 @@ public class EnemyAISensing : MonoBehaviour {
     // Use this for initialization
     public float enemyFieldOfView = 110f;
     bool playerSeen;
-    EnemyAIMovement moving;
+    EnemyPatrollingMovement moving;
     CircleCollider2D circle;
     Vector2 playerIsAt;
     public Transform eyes;
@@ -16,7 +16,7 @@ public class EnemyAISensing : MonoBehaviour {
     void Awake()
     {
         player = GameObject.FindGameObjectWithTag("Player");
-        moving = GetComponent<EnemyAIMovement>();
+        moving = GetComponent<EnemyPatrollingMovement>();
         circle = GetComponent<CircleCollider2D>();
         gScript = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameControllerScript>();
     }
