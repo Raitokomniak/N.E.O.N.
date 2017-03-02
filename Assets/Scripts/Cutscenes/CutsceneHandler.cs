@@ -4,13 +4,13 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-class Page {
+public class Page {
 	public int panelCount;
 	public Page (int _panelCount){
 		panelCount = _panelCount;
 	}
 }
-class CutScene {
+public class CutScene {
 	public Page[] pages;
 	public string musicPath;
 	public CutScene (int _pages){
@@ -54,7 +54,7 @@ public class CutsceneHandler : MonoBehaviour
 		
 	void Update ()
 	{
-		if (Input.GetKeyDown (KeyCode.Mouse0)) {
+		if (Input.GetButtonDown("Jump")) {
 			if (cutSceneRunning)
 				NextPanel ();
 			else {
