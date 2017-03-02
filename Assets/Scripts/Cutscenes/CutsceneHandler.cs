@@ -44,13 +44,19 @@ public class CutsceneHandler : MonoBehaviour
 
 	void Awake ()
 	{
-		//Check progression (which cutscene to load)
-		onGoingCutscene = 1;  //this comes from progression
-		endText.gameObject.SetActive (false);
-		StartCutscene ();
 		progressionBar.transform.SetAsLastSibling ();
+		endText.gameObject.SetActive (false);
+		onGoingCutscene = CheckProgression();
+		StartCutscene ();
 	}
-		
+
+	int CheckProgression(){
+		int chapter;
+		chapter = 1;
+		//Reference progression controller here, return chapter number
+		return chapter;
+	}
+
 	void Update ()
 	{
 		if (Input.GetButtonDown("Jump")) {
