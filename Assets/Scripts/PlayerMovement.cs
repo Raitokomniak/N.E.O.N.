@@ -8,6 +8,7 @@ public class PlayerMovement : MonoBehaviour
     public AudioClip[] steps;
     public float speed = 20;
     public float jumpForce = 4;
+    public float maxJumpPower = 10;
     public float maxVelocity_run = 20;
     public float maxVelocity_walk = 10;
     public float maxVelocity_sneak = 5;
@@ -62,10 +63,10 @@ public class PlayerMovement : MonoBehaviour
         nroOfCollisions = 0;
     }
 
+
     void Update()
     {
         flipHandler();
-        // Debug.Log(nroOfCollisions);
     }
     void FixedUpdate()
     {
@@ -81,8 +82,6 @@ public class PlayerMovement : MonoBehaviour
         wallJump();
         animationHandler(x);
         groundChecker();
-
-
     }
     void move(float x)
     {
@@ -173,6 +172,10 @@ public class PlayerMovement : MonoBehaviour
             }
             float _maxSpeed = Mathf.Lerp(playerRig.velocity.x, maxSpeed, 6 * Time.deltaTime);
             playerRig.velocity = new Vector2(_maxSpeed, playerRig.velocity.y);
+        }
+        if (playerRig.velocity.y > maxJumpPower)
+        {
+            playerRig.velocity = new Vector2(playerRig.velocity.x, maxJumpPower);
         }
     }
 
