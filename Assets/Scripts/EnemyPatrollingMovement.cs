@@ -44,6 +44,7 @@ public class EnemyPatrollingMovement : MonoBehaviour {
         timer = 0f;
         gunAudio = GetComponent<AudioSource>();
         AlertZone = GetComponentInChildren<PlayerInsideAlertZone>();
+        player = GameObject.FindGameObjectWithTag("Player");
     }
 
     void Start()
@@ -193,13 +194,28 @@ public class EnemyPatrollingMovement : MonoBehaviour {
     {
         if (AlertZone.getPlayerInAlerZone())
         {
-            //Debug.Log("Alerted");
+
             target = new Vector2(player.transform.position.x, player.transform.position.y);
             moveDirection = new Vector2(target.x - enemyRig.transform.position.x, 0f);
-            velocity = moveDirection.normalized * speed;
-            enemyRig.velocity = velocity;
+            ObstacleCheck();
+            //Debug.Log(moveDirection.magnitude);
+            if (ledgeSpotted || obstacleSpotted)
+            {
+                velocity = Vector2.zero;
+            }
+            
+            else if (moveDirection.magnitude > 3)
+            {
+                velocity = moveDirection.normalized * speed;
+            }
+
+            else
+            {
+                velocity = Vector2.zero;
+            }
 
             enemyRig.velocity = velocity;
+
             if (enemyRig.velocity.x > 0)
             {
                 facing = facingDir.right;
@@ -280,6 +296,7 @@ public class EnemyPatrollingMovement : MonoBehaviour {
             obstacleSpotted = false;
         }
     }
+
     void OnCollisionStay2D(Collision2D col)
     {
         RaycastHit2D ground = Physics2D.Raycast(this.transform.position, -this.transform.up);
