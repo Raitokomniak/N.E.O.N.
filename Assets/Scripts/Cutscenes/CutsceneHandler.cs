@@ -155,7 +155,7 @@ public class CutsceneHandler : MonoBehaviour
 	}
 
 	void NextScene(){
-		SceneManager.LoadScene("testLevel1");
+		SceneManager.LoadScene("testLevel2");
 	}
 
 
