@@ -9,3 +9,5 @@ EditorBuildSettings:
     path: Assets/Scenes/cutScene.unity
   - enabled: 1
     path: Assets/Scenes/testLevel1.unity
+  - enabled: 1
+    path: Assets/Scenes/testLevel2.unity
