@@ -3,7 +3,11 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Cutscene_Overlay
+  - Cutscene_SpeechBubble
+  - Cutscene_SFX
+  - Cutscene_BG
   layers:
   - Default
   - TransparentFX
