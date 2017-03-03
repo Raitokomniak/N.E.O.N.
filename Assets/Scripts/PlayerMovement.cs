@@ -205,6 +205,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (grounded && Input.GetButton("Jump"))
         {
+
             playerRig.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
             grounded = false;
             state = charStates.jump;
@@ -270,6 +271,7 @@ public class PlayerMovement : MonoBehaviour
                 wallJumpAble = true;
             }
         }
+        
     }
 
     void groundChecker()
@@ -298,10 +300,9 @@ public class PlayerMovement : MonoBehaviour
             if (ground.collider == col.collider)
             {
                 grounded = true;
-                wallJumpAble = false;
             }
         }
-        else if (!grounded && !feet.isFeetOnGround())
+        if (!grounded)
         {
             wallCheck(col.collider);
         }
@@ -310,11 +311,12 @@ public class PlayerMovement : MonoBehaviour
     {
         BoxCollider2D box = GetComponent<BoxCollider2D>();
         RaycastHit2D ground = Physics2D.CircleCast(this.transform.position, box.size.x / 2, -this.transform.up);
-        RaycastHit2D right = Physics2D.Raycast(this.transform.position, this.transform.right);
-        RaycastHit2D left = Physics2D.Raycast(this.transform.position, -this.transform.right);
 
         if (!grounded)
         {
+            
+            RaycastHit2D right = Physics2D.Raycast(this.transform.position, this.transform.right);
+            RaycastHit2D left = Physics2D.Raycast(this.transform.position, -this.transform.right);
             if (left || right)
             {
                 if (left.collider == col.collider)
