@@ -16,17 +16,23 @@ public class PlayerMovement : MonoBehaviour
     public float timeBetweensteps = 0.5f;
     AudioSource stepAudio;
     Rigidbody2D playerRig;
+    BoxCollider2D box;
     SpriteRenderer sr;
     Animator anim;
     GroundCheck_feet feet;
     float maxVelocity = 5;
     float stepTimer;
     float nroOfCollisions;
+    float standingSize;
+    float crouchingSize;
+    float standingOffset;
+    float crouchingOffset;
     int facing; // 1= RIGHT -1 = LEFT
     bool grounded;
     bool moving;
     bool wallJumpAble;
     bool wallJumped;
+    bool crouched;
     enum charStates
     {
         idle,
@@ -50,6 +56,7 @@ public class PlayerMovement : MonoBehaviour
         anim = GetComponent<Animator>();
         stepAudio = GetComponent<AudioSource>();
         feet = GetComponentInChildren<GroundCheck_feet>();
+        box = GetComponent<BoxCollider2D>();
     }
 
     void Start()
@@ -60,7 +67,12 @@ public class PlayerMovement : MonoBehaviour
         moving = false;
         wallJumpAble = false;
         wallJumped = false;
+        crouched = false;
         nroOfCollisions = 0;
+        standingSize = box.size.y;
+        crouchingSize = standingSize * 0.58f;
+        standingOffset = box.offset.y;
+        crouchingOffset = standingOffset *3.65f;
     }
 
 
@@ -80,8 +92,9 @@ public class PlayerMovement : MonoBehaviour
         frictionHandler();
         jump();
         wallJump();
+        crouch();
+        collisionChecker();
         animationHandler(x);
-        groundChecker();
     }
     void move(float x)
     {
@@ -113,6 +126,32 @@ public class PlayerMovement : MonoBehaviour
         speedLimiter();
     }
 
+    void crouch()
+    {
+        if (Input.GetButton("Crouch") && grounded)
+        {
+            crouched = true;
+        }
+        else
+        {
+            crouched = false;
+        }
+        //this shit is for now
+        if (crouched)
+        {
+            state = charStates.crouch;
+            box.size = new Vector2(box.size.x, crouchingSize);
+            box.offset = new Vector2(box.offset.x, crouchingOffset);
+           
+        }
+        else
+        {
+            box.size = new Vector2(box.size.x, standingSize);
+            box.offset = new Vector2(box.offset.x, standingOffset);
+        }
+
+    }
+
     void animationHandler(float x)
     {
         switch (state)
@@ -136,6 +175,9 @@ public class PlayerMovement : MonoBehaviour
             case charStates.wallSlide:
                 anim.Play("WallJump");
                 break;
+            case charStates.crouch:
+                anim.Play("Crouch");
+                break;
             default:
                 anim.Play("MidAir");
                 break;
@@ -158,6 +200,10 @@ public class PlayerMovement : MonoBehaviour
             default:
                 maxVelocity = maxVelocity_walk;
                 break;
+        }
+        if (crouched)
+        {
+            maxVelocity = maxVelocity_sneak;
         }
     }
 
@@ -205,7 +251,6 @@ public class PlayerMovement : MonoBehaviour
     {
         if (grounded && Input.GetButton("Jump"))
         {
-
             playerRig.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
             grounded = false;
             state = charStates.jump;
@@ -227,6 +272,8 @@ public class PlayerMovement : MonoBehaviour
             }
         }
     }
+
+
     void frictionHandler()
     {
         if (Input.GetAxisRaw("Horizontal") == 0 && grounded)
@@ -274,7 +321,7 @@ public class PlayerMovement : MonoBehaviour
         
     }
 
-    void groundChecker()
+    void collisionChecker()
     {
         if (nroOfCollisions == 0)
         {
@@ -311,7 +358,13 @@ public class PlayerMovement : MonoBehaviour
     {
         BoxCollider2D box = GetComponent<BoxCollider2D>();
         RaycastHit2D ground = Physics2D.CircleCast(this.transform.position, box.size.x / 2, -this.transform.up);
-
+        if (ground)
+        {
+            if (ground.collider == col.collider)
+            {
+                grounded = false;
+            }
+        }
         if (!grounded)
         {
             
