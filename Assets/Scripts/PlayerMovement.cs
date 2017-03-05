@@ -70,9 +70,9 @@ public class PlayerMovement : MonoBehaviour
         crouched = false;
         nroOfCollisions = 0;
         standingSize = box.size.y;
-        crouchingSize = standingSize * 0.58f;
+        crouchingSize = 1.887391f;
         standingOffset = box.offset.y;
-        crouchingOffset = standingOffset *3.65f;
+        crouchingOffset = -1.010162f;
     }
 
 
