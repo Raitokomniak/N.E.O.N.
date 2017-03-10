@@ -31,7 +31,6 @@ public class PlayerMovement : MonoBehaviour
     bool grounded;
     bool moving;
     bool wallJumpAble;
-    bool wallJumped;
     bool crouched;
     enum charStates
     {
@@ -66,7 +65,6 @@ public class PlayerMovement : MonoBehaviour
         grounded = false;
         moving = false;
         wallJumpAble = false;
-        wallJumped = false;
         crouched = false;
         nroOfCollisions = 0;
         standingSize = box.size.y;
@@ -74,7 +72,6 @@ public class PlayerMovement : MonoBehaviour
         standingOffset = box.offset.y;
         crouchingOffset = -1.010162f;
     }
-
 
     void Update()
     {
@@ -107,15 +104,19 @@ public class PlayerMovement : MonoBehaviour
         {
             playerRig.AddForce(new Vector2((x * (speed / 3)), 0));
         }
-        if (x < 0)
+        if (!wallJumpAble)
         {
-            facing = -1;
+            if (x < 0)
+            {
+                facing = -1;
+            }
+            else if (x > 0)
+            {
+                facing = 1;
+            }
         }
-        else if (x > 0)
-        {
-            facing = 1;
-        }
-        if (x != 0)
+        float y = Input.GetAxisRaw("Vertical");
+        if (x != 0|| y != 0)
         {
             moving = true;
         }
@@ -142,7 +143,6 @@ public class PlayerMovement : MonoBehaviour
             state = charStates.crouch;
             box.size = new Vector2(box.size.x, crouchingSize);
             box.offset = new Vector2(box.offset.x, crouchingOffset);
-           
         }
         else
         {
@@ -266,13 +266,11 @@ public class PlayerMovement : MonoBehaviour
                 int dir = facing * -1;
                 playerRig.AddForce(new Vector2(dir * jumpForce / 1.5f, jumpForce), ForceMode2D.Impulse);
                 state = charStates.wallJump;
-                wallJumped = true;
                 wallJumpAble = false;
                 facing *= -1;
             }
         }
     }
-
 
     void frictionHandler()
     {
@@ -341,7 +339,6 @@ public class PlayerMovement : MonoBehaviour
     {
         BoxCollider2D box = GetComponent<BoxCollider2D>();
         RaycastHit2D ground = Physics2D.CircleCast(this.transform.position, box.size.x / 2, -this.transform.up);
-
         if (ground && feet.isFeetOnGround())
         {
             if (ground.collider == col.collider)
@@ -367,7 +364,6 @@ public class PlayerMovement : MonoBehaviour
         }
         if (!grounded)
         {
-            
             RaycastHit2D right = Physics2D.Raycast(this.transform.position, this.transform.right);
             RaycastHit2D left = Physics2D.Raycast(this.transform.position, -this.transform.right);
             if (left || right)
@@ -385,7 +381,9 @@ public class PlayerMovement : MonoBehaviour
             }
         }
         nroOfCollisions--;
+        collisionChecker();
     }
+
     public bool isFacingRight()
     {
         if (facing == 1)
@@ -397,6 +395,7 @@ public class PlayerMovement : MonoBehaviour
             return false;
         }
     }
+
     public bool playerMoving()
     {
         return moving;
