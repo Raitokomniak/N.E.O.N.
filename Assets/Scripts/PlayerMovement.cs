@@ -32,6 +32,7 @@ public class PlayerMovement : MonoBehaviour
     bool moving;
     bool wallJumpAble;
     bool crouched;
+    bool ledgeHold;
     enum charStates
     {
         idle,
@@ -66,6 +67,7 @@ public class PlayerMovement : MonoBehaviour
         moving = false;
         wallJumpAble = false;
         crouched = false;
+        ledgeHold = false;
         nroOfCollisions = 0;
         standingSize = box.size.y;
         crouchingSize = 1.887391f;
@@ -76,17 +78,27 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         flipHandler();
+        ledgeCheck();
+      //  Debug.Log(feet.isFeetOnGround());
     }
     void FixedUpdate()
     {
-        movementHandler();
+        movementHandler();    
     }
 
     void movementHandler()
     {
         float x = Input.GetAxisRaw("Horizontal");
         move(x);
-        frictionHandler();
+        if (ledgeHold && !Input.GetButton("Crouch"))
+        {
+            playerRig.velocity = new Vector2(0, 0);
+            playerRig.gravityScale = 0;
+        }
+        else {
+            playerRig.gravityScale = 1;
+            frictionHandler();
+        }
         jump();
         wallJump();
         crouch();
@@ -296,6 +308,28 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    void ledgeCheck()
+    {
+        if (wallJumpAble)
+        {
+            RaycastHit2D spotter = Physics2D.Raycast(this.transform.position + this.transform.up, this.transform.right * facing);
+            RaycastHit2D body = Physics2D.Raycast(this.transform.position, this.transform.right * facing);
+            Debug.DrawRay(this.transform.position + this.transform.up, this.transform.right * facing, Color.red);
+            if (!spotter||spotter.distance > body.distance)
+            {
+                ledgeHold = true;
+            }
+            else
+            {
+                ledgeHold = false;
+            }
+        }
+        else
+        {
+            ledgeHold = false;
+        }
+    }
+
     void wallCheck(Collider2D col)
     {
         RaycastHit2D right = Physics2D.Raycast(this.transform.position, this.transform.right);
@@ -345,6 +379,10 @@ public class PlayerMovement : MonoBehaviour
             {
                 grounded = true;
             }
+        }
+        else
+        {
+            grounded = false;
         }
         if (!grounded)
         {
