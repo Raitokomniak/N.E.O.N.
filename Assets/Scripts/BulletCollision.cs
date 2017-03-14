@@ -28,12 +28,15 @@ public class BulletCollision : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.gameObject == player)
+        if (!col.isTrigger)
         {
-            //Damage to player
-            health.takeDamage(50);
+            if (col.gameObject == player)
+            {
+                //Damage to player
+                health.takeDamage(50);
+            }
+            Destroy(gameObject);
         }
-        Destroy(gameObject);
     }
 
 }
