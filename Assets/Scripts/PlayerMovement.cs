@@ -333,10 +333,17 @@ public class PlayerMovement : MonoBehaviour
         {
             RaycastHit2D spotter = Physics2D.Raycast(this.transform.position + this.transform.up, this.transform.right * facing);
             RaycastHit2D body = Physics2D.Raycast(this.transform.position, this.transform.right * facing);
+            Debug.DrawRay(this.transform.position + this.transform.up/2, this.transform.right * facing, Color.red);
             Debug.DrawRay(this.transform.position + this.transform.up, this.transform.right * facing, Color.red);
             if (!spotter||spotter.distance > body.distance)
             {
+                // bool rightPosFound = false;
                 ledgeHold = true;
+                RaycastHit2D aSpot = Physics2D.Raycast(this.transform.position + this.transform.up/2, this.transform.right * facing);
+                if (!Mathf.Approximately(aSpot.distance, body.distance))
+                {
+                    this.transform.position = new Vector2(this.transform.position.x, this.transform.position.y - 0.5f); 
+                }
             }
             else
             {
