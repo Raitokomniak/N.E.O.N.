@@ -86,19 +86,37 @@ public class PlayerMovement : MonoBehaviour
         movementHandler();    
     }
 
+    void climbLedge(float y)
+    {
+
+        if (ledgeHold&& y > 0.5f)
+        {
+            ledgeHold = false;
+            BoxCollider2D box = GetComponent<BoxCollider2D>();
+           // this.transform.position = new Vector2(this.transform.position.x + (box.size.x*facing), this.transform.position.y + box.size.y);
+            RaycastHit2D ground = Physics2D.Raycast(new Vector2(this.transform.position.x + (box.size.x * facing), this.transform.position.y + box.size.y), -this.transform.up);
+            Debug.DrawRay(new Vector2(this.transform.position.x + (box.size.x * facing), this.transform.position.y + box.size.y), -this.transform.up, Color.red);
+            this.transform.position = new Vector2(ground.point.x, ground.point.y + this.transform.up.y);
+        }
+    }
+
     void movementHandler()
     {
         float x = Input.GetAxisRaw("Horizontal");
-        move(x);
         if (ledgeHold && !Input.GetButton("Crouch"))
         {
-            playerRig.velocity = new Vector2(0, 0);
-            playerRig.gravityScale = 0;
+             playerRig.velocity = new Vector2(0, 0);
+             playerRig.gravityScale = 0;
+            //playerRig.isKinematic = true;
+           // playerRig.constraints = RigidbodyConstraints2D.FreezePosition;
         }
         else {
+           // playerRig.constraints = RigidbodyConstraints2D.FreezeRotation;
+            playerRig.isKinematic = false;
             playerRig.gravityScale = 1;
             frictionHandler();
         }
+        move(x);
         jump();
         wallJump();
         crouch();
@@ -128,6 +146,7 @@ public class PlayerMovement : MonoBehaviour
             }
         }
         float y = Input.GetAxisRaw("Vertical");
+        climbLedge(y);
         if (x != 0|| y != 0)
         {
             moving = true;
