@@ -13,6 +13,7 @@ public class EnemyPatrollingMovement : MonoBehaviour {
     public Vector2 velocity;
     Rigidbody2D enemyRig;
     SpriteRenderer spriteRend;
+	public SpriteRenderer headSpriteRend;
     EnemyAISensing sensing;
     bool grounded;
     bool ledgeSpotted;
@@ -129,10 +130,12 @@ public class EnemyPatrollingMovement : MonoBehaviour {
         if (facing == facingDir.right)
         {
             spriteRend.flipX = false;
+			headSpriteRend.flipX = false;
         }
         else if (facing == facingDir.left)
         {
             spriteRend.flipX = true;
+			headSpriteRend.flipX = true;
         }
     }
     public bool facingRight()

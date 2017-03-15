@@ -11,6 +11,7 @@ public class EnemyAIAiming : MonoBehaviour {
     EnemyPatrollingMovement movement;
     Quaternion normalPos;
     public Light light;
+	public Light spotLight;
     SpriteRenderer sr;
     GameObject player;
     GameControllerScript gScript;
