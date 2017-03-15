@@ -10,6 +10,7 @@ public class GrapplingHook : MonoBehaviour {
     LineRenderer line;
     List<GameObject> targets;
     PlayerMovement playMov;
+    float distance;
     bool ableToShoot;
     bool connected;
     void Start()
@@ -17,6 +18,7 @@ public class GrapplingHook : MonoBehaviour {
         ableToShoot = false;
         connected = false;
         shootSpot = null;
+        distance = 0;
     }
     void Awake () {
         joint = GetComponent<DistanceJoint2D>();
@@ -37,61 +39,7 @@ public class GrapplingHook : MonoBehaviour {
        
         if (ableToShoot && Input.GetButton("FireGHook")&&!connected)
         {
-            float closestDistance = 0;
-            shootSpot = null;
-            for (int i = 0; i < targets.Count; i++)
-            {
-                //Very much in the works
-                int dir = 1;
-                if (!playMov.isFacingRight())
-                {
-                    dir *= -1;
-                }
-                Vector2 directionToTarget = transform.position - targets[i].transform.position;
-                float angle = Vector2.Angle(transform.right * dir, directionToTarget);
-                float distance = directionToTarget.magnitude;
-                if (closestDistance == 0)
-                {
-                    closestDistance = distance;
-                }
-                if (distance < closestDistance&&angle > 90)
-                {
-                    closestDistance = distance;
-                }
-                if (angle > 90)
-                {
-                    if (closestDistance == distance&&targets[i].transform.position.y > this.transform.position.y)
-                    {
-                        shootSpot = targets[i];
-                    }
-                }
-            }
-            if (!shootSpot)
-            {
-                for (int i=0; i < targets.Count; i++)
-                {
-                    int dir = 1;
-                    if (!playMov.isFacingRight())
-                    {
-                        dir *= -1;
-                    }
-                    Vector2 directionToTarget = transform.position - targets[i].transform.position;
-                    float angle = Vector2.Angle(transform.right * dir, directionToTarget);
-                    float distance = directionToTarget.magnitude;
-                    if (distance < closestDistance && angle > 90)
-                    {
-                        closestDistance = distance;
-                    }
-                    if (angle > 90)
-                    {
-
-                        if (closestDistance == distance)
-                        {
-                            shootSpot = targets[i];
-                        }
-                    }
-                }
-            }
+            setShootSpot();
             if (shootSpot)
             {
                 fireGHook();
@@ -107,6 +55,7 @@ public class GrapplingHook : MonoBehaviour {
         {
             line.SetPosition(0, transform.position);
             line.SetPosition(1, shootSpot.transform.position);
+            joint.distance = distance;
         }
 	}
 
@@ -115,10 +64,68 @@ public class GrapplingHook : MonoBehaviour {
         line.enabled = true;
         joint.enabled = true;
         joint.connectedBody = shootSpot.GetComponent<Rigidbody2D>();
-       // joint.distance = Vector2.Distance(this.transform.position, shootSpot.transform.position);
+        distance = Vector2.Distance(this.transform.position, shootSpot.transform.position);
         connected = true;
     }
 
+    void setShootSpot()
+    {
+        float closestDistance = 0;
+        shootSpot = null;
+        for (int i = 0; i < targets.Count; i++)
+        {
+            //Very much in the works
+            int dir = 1;
+            if (!playMov.isFacingRight())
+            {
+                dir *= -1;
+            }
+            Vector2 directionToTarget = transform.position - targets[i].transform.position;
+            float angle = Vector2.Angle(transform.right * dir, directionToTarget);
+            float distance = directionToTarget.magnitude;
+            if (closestDistance == 0)
+            {
+                closestDistance = distance;
+            }
+            if (distance < closestDistance && angle > 90)
+            {
+                closestDistance = distance;
+            }
+            if (angle > 90)
+            {
+                if (closestDistance == distance && targets[i].transform.position.y > this.transform.position.y)
+                {
+                    shootSpot = targets[i];
+                }
+            }
+        }
+        if (!shootSpot)
+        {
+            for (int i = 0; i < targets.Count; i++)
+            {
+                int dir = 1;
+                if (!playMov.isFacingRight())
+                {
+                    dir *= -1;
+                }
+                Vector2 directionToTarget = transform.position - targets[i].transform.position;
+                float angle = Vector2.Angle(transform.right * dir, directionToTarget);
+                float distance = directionToTarget.magnitude;
+                if (distance < closestDistance && angle > 90)
+                {
+                    closestDistance = distance;
+                }
+                if (angle > 90)
+                {
+
+                    if (closestDistance == distance)
+                    {
+                        shootSpot = targets[i];
+                    }
+                }
+            }
+        }
+    }
     public void setGHookable(GameObject vantagePos)
     {
        if (!targets.Contains(vantagePos))
