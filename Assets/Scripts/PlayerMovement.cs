@@ -79,7 +79,9 @@ public class PlayerMovement : MonoBehaviour
     {
         flipHandler();
         ledgeCheck();
-      //  Debug.Log(feet.isFeetOnGround());
+        grounded = feet.isFeetOnGround();
+        Debug.Log(grounded);
+       // Debug.Log("Grounded: "+grounded + " Ledge Hold: " + ledgeHold + " wallJumpAble: " + wallJumpAble);
     }
     void FixedUpdate()
     {
@@ -91,12 +93,12 @@ public class PlayerMovement : MonoBehaviour
 
         if (ledgeHold&& y > 0.5f)
         {
-            ledgeHold = false;
             BoxCollider2D box = GetComponent<BoxCollider2D>();
            // this.transform.position = new Vector2(this.transform.position.x + (box.size.x*facing), this.transform.position.y + box.size.y);
             RaycastHit2D ground = Physics2D.Raycast(new Vector2(this.transform.position.x + (box.size.x * facing), this.transform.position.y + box.size.y), -this.transform.up);
             Debug.DrawRay(new Vector2(this.transform.position.x + (box.size.x * facing), this.transform.position.y + box.size.y), -this.transform.up, Color.red);
             this.transform.position = new Vector2(ground.point.x, ground.point.y + this.transform.up.y);
+            ledgeHold = false;
         }
     }
 
@@ -329,7 +331,8 @@ public class PlayerMovement : MonoBehaviour
 
     void ledgeCheck()
     {
-        if (wallJumpAble)
+   
+        if ((wallJumpAble||ledgeHold)&&!grounded)
         {
             RaycastHit2D spotter = Physics2D.Raycast(this.transform.position + this.transform.up, this.transform.right * facing);
             RaycastHit2D body = Physics2D.Raycast(this.transform.position, this.transform.right * facing);
@@ -339,6 +342,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 // bool rightPosFound = false;
                 ledgeHold = true;
+                wallJumpAble = false;
                 RaycastHit2D aSpot = Physics2D.Raycast(this.transform.position + this.transform.up/2, this.transform.right * facing);
                 if (!Mathf.Approximately(aSpot.distance, body.distance))
                 {
@@ -358,25 +362,29 @@ public class PlayerMovement : MonoBehaviour
 
     void wallCheck(Collider2D col)
     {
-        RaycastHit2D right = Physics2D.Raycast(this.transform.position, this.transform.right);
-        RaycastHit2D left = Physics2D.Raycast(this.transform.position, -this.transform.right);
-        if (left)
+       
+        if (col.gameObject.tag != "Enemy")
         {
-            if (left.collider == col)
+            RaycastHit2D right = Physics2D.Raycast(this.transform.position, this.transform.right);
+            RaycastHit2D left = Physics2D.Raycast(this.transform.position, -this.transform.right);
+            if (left)
             {
-                facing = -1;
-                wallJumpAble = true;
+                if (left.collider == col)
+                {
+                    facing = -1;
+                    wallJumpAble = true;
+                }
+            }
+            if (right)
+            {
+                if (right.collider == col)
+                {
+                    facing = 1;
+                    wallJumpAble = true;
+                }
             }
         }
-        if (right)
-        {
-            if (right.collider == col)
-            {
-                facing = 1;
-                wallJumpAble = true;
-            }
-        }
-        
+              
     }
 
     void collisionChecker()
@@ -385,6 +393,7 @@ public class PlayerMovement : MonoBehaviour
         {
             grounded = false;
             wallJumpAble = false;
+            ledgeHold = false;
             state = charStates.midAir;
         }
     }
@@ -393,39 +402,15 @@ public class PlayerMovement : MonoBehaviour
     {
         nroOfCollisions++;
     }
-
-
     void OnCollisionStay2D(Collision2D col)
-    {
-        BoxCollider2D box = GetComponent<BoxCollider2D>();
-        RaycastHit2D ground = Physics2D.CircleCast(this.transform.position, box.size.x / 2, -this.transform.up);
-        if (ground && feet.isFeetOnGround())
-        {
-            if (ground.collider == col.collider)
-            {
-                grounded = true;
-            }
-        }
-        else
-        {
-            grounded = false;
-        }
-        if (!grounded)
+    { 
+        if (!grounded&&!ledgeHold&&!col.collider.isTrigger)
         {
             wallCheck(col.collider);
         }
     }
     void OnCollisionExit2D(Collision2D col)
     {
-        BoxCollider2D box = GetComponent<BoxCollider2D>();
-        RaycastHit2D ground = Physics2D.CircleCast(this.transform.position, box.size.x / 2, -this.transform.up);
-        if (ground)
-        {
-            if (ground.collider == col.collider)
-            {
-                grounded = false;
-            }
-        }
         if (!grounded)
         {
             RaycastHit2D right = Physics2D.Raycast(this.transform.position, this.transform.right);

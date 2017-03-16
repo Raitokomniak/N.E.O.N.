@@ -6,27 +6,52 @@ public class GroundCheck_feet : MonoBehaviour {
 
     // Use this for initialization
 
-    bool grounded = false;
+    PlayerMovement playMov;
     GameObject player;
-
+    Collider2D groundCollider;
+    BoxCollider2D box;
+    bool grounded = false;
     void Awake()
     {
         player = this.transform.parent.gameObject;
+        playMov = player.GetComponent<PlayerMovement>();
+        box = player.GetComponent<BoxCollider2D>();
+    }
+
+    void Update()
+    {
+        if (!groundCollider)
+        {
+            grounded = false;
+        }
     }
     void OnTriggerStay2D(Collider2D col)
     {
         if(col.gameObject != player&&!col.isTrigger)
         {
-            grounded = true;
+            int dir = (playMov.isFacingRight()) ? -1 : 1;
+            Debug.DrawRay(box.transform.position + new Vector3(box.size.x/2 *dir, 0, 0), -box.transform.up, Color.red);
+            RaycastHit2D ground = Physics2D.Raycast(box.transform.position + new Vector3(box.size.x / 2 * dir, 0, 0), -box.transform.up);
+            if (ground)
+            {
+                if (ground.collider == col)
+                {
+                    grounded = true;
+                    groundCollider = col;
+                }
+            }
         }
-       // Debug.Log(col.gameObject);
     }
 
     void OnTriggerExit2D(Collider2D col)
     {
-        if (col.gameObject != player && !col.isTrigger)
+        if (groundCollider)
         {
-            grounded = false;
+            if (col.gameObject != player && !col.isTrigger && col == groundCollider)
+            {
+                grounded = false;
+                groundCollider = null;
+            }
         }
     }
 
