@@ -5,6 +5,7 @@ using UnityEngine;
 public class EnemyAISensing : MonoBehaviour {
 
     // Use this for initialization
+    public SpriteRenderer exclamationMarkSprite;
     public float enemyFieldOfView = 110f;
     bool playerSeen;
     EnemyPatrollingMovement moving;
@@ -23,7 +24,7 @@ public class EnemyAISensing : MonoBehaviour {
 
     void Start () {
         playerSeen = false;
-        
+        exclamationMarkSprite.enabled = false;
     }
 	
     void OnTriggerStay2D(Collider2D col)
@@ -60,11 +61,15 @@ public class EnemyAISensing : MonoBehaviour {
                     }
 
                 }
-                playerSeen = pInSight;
-                if (playerSeen)
+                if (pInSight)
                 {
                     gScript.setAlertState(true);
+                    if (!playerSeen)
+                    {
+                        StartCoroutine(alert());
+                    }
                 }
+                playerSeen = pInSight;
             }
 
         }
@@ -74,6 +79,12 @@ public class EnemyAISensing : MonoBehaviour {
         }
     }
 
+    IEnumerator alert()
+    {
+        exclamationMarkSprite.enabled = true;
+        yield return new WaitForSeconds(2f);
+        exclamationMarkSprite.enabled = false;
+    }
 
     void OnTriggerExit2D(Collider2D col)
     {
