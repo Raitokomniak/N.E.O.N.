@@ -52,14 +52,14 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
-  m_Volume: 1
+  m_PlayOnAwake: 0
+  m_Volume: 0.221
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 128
+  Priority: 200
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500
@@ -133,7 +133,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc82eb67ef8ea4b4a965efab3908dad1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  music: {fileID: 0}
+  alertTime: 20
+  musics:
+  - {fileID: 8300000, guid: 1012168da10947c46b01c9247c4587ae, type: 3}
+  - {fileID: 0}
+  - {fileID: 8300000, guid: 3a50d15e93b89bd4fa9fd329689560ea, type: 3}
 --- !u!114 &114647871351134680
 MonoBehaviour:
   m_ObjectHideFlags: 1
