@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class EnemyPatrollingMovement : MonoBehaviour {
 
+    
     public Transform[] waypoints;
     public float speed = 5;
     public int currentWayPoint;
@@ -20,7 +21,7 @@ public class EnemyPatrollingMovement : MonoBehaviour {
     bool obstacleSpotted;
     float timer;
     public float cautionTimer = 5f;
-
+    GameControllerScript gScript;
     public Transform gunBarrell;
     public GameObject bullet;
     public GameObject player;
@@ -46,6 +47,7 @@ public class EnemyPatrollingMovement : MonoBehaviour {
         gunAudio = GetComponent<AudioSource>();
         AlertZone = GetComponentInChildren<PlayerInsideAlertZone>();
         player = GameObject.FindGameObjectWithTag("Player");
+        gScript = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameControllerScript>();
     }
 
     void Start()
@@ -56,27 +58,34 @@ public class EnemyPatrollingMovement : MonoBehaviour {
     void Update ()
     {
         //Debug.Log(timer);
-        if (!sensing.playerInSight() && patrol)
+        if (gScript.allGuardsAlerted()&&!sensing.playerInSight())
         {
-            timer = 0f;
-            WaypointPatrol();
+            Caution();
         }
-        else if (sensing.playerInSight())
+        else
         {
-            Shoot();
-            patrol = false;
-            Alert();
-        }
-        else if (!sensing.playerInSight() && !patrol)
-        {
-            timer = timer + Time.deltaTime;
-            if(timer >= cautionTimer)
+            if (!sensing.playerInSight() && patrol)
             {
-                patrol = true;
+                timer = 0f;
+                WaypointPatrol();
             }
-            else
+            else if (sensing.playerInSight())
             {
+                Shoot();
+                patrol = false;
                 Alert();
+            }
+            else if (!sensing.playerInSight() && !patrol)
+            {
+                timer = timer + Time.deltaTime;
+                if (timer >= cautionTimer)
+                {
+                    patrol = true;
+                }
+                else
+                {
+                    Alert();
+                }
             }
         }
         flipHandler();		

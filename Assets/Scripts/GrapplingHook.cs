@@ -57,7 +57,16 @@ public class GrapplingHook : MonoBehaviour {
             line.SetPosition(1, shootSpot.transform.position);
             joint.distance = distance;
         }
+       
 	}
+
+    void FixedUpdate()
+    {
+        if (connected && Input.GetButton("FireGHook"))
+        {
+            distance -= 10 * Time.smoothDeltaTime;
+        }
+    }
 
     void fireGHook()
     {

@@ -25,6 +25,12 @@ public class GroundCheck_feet : MonoBehaviour {
             grounded = false;
         }
     }
+
+    void OnTriggerEnter2D(Collider2D col)
+    {
+
+    }
+
     void OnTriggerStay2D(Collider2D col)
     {
         if(col.gameObject != player&&!col.isTrigger)
@@ -32,9 +38,10 @@ public class GroundCheck_feet : MonoBehaviour {
             int dir = (playMov.isFacingRight()) ? -1 : 1;
             Debug.DrawRay(box.transform.position + new Vector3(box.size.x/2 *dir, 0, 0), -box.transform.up, Color.red);
             RaycastHit2D ground = Physics2D.Raycast(box.transform.position + new Vector3(box.size.x / 2 * dir, 0, 0), -box.transform.up);
-            if (ground)
+            RaycastHit2D ground2 = Physics2D.Raycast(box.transform.position, -box.transform.up);
+            if (ground||ground2)
             {
-                if (ground.collider == col)
+                if (ground.collider == col||ground2.collider == col)
                 {
                     grounded = true;
                     groundCollider = col;
@@ -45,13 +52,10 @@ public class GroundCheck_feet : MonoBehaviour {
 
     void OnTriggerExit2D(Collider2D col)
     {
-        if (groundCollider)
+        if (col == groundCollider)
         {
-            if (col.gameObject != player && !col.isTrigger && col == groundCollider)
-            {
-                grounded = false;
-                groundCollider = null;
-            }
+            grounded = false;
+            groundCollider = null;
         }
     }
 

@@ -33,6 +33,7 @@ public class PlayerMovement : MonoBehaviour
     bool wallJumpAble;
     bool crouched;
     bool ledgeHold;
+    bool jumped;
     enum charStates
     {
         idle,
@@ -68,6 +69,7 @@ public class PlayerMovement : MonoBehaviour
         wallJumpAble = false;
         crouched = false;
         ledgeHold = false;
+        jumped = false;
         nroOfCollisions = 0;
         standingSize = box.size.y;
         crouchingSize = 1.887391f;
@@ -80,7 +82,7 @@ public class PlayerMovement : MonoBehaviour
         flipHandler();
         ledgeCheck();
         grounded = feet.isFeetOnGround();
-        Debug.Log(grounded);
+       // Debug.Log(grounded);
        // Debug.Log("Grounded: "+grounded + " Ledge Hold: " + ledgeHold + " wallJumpAble: " + wallJumpAble);
     }
     void FixedUpdate()
@@ -285,7 +287,7 @@ public class PlayerMovement : MonoBehaviour
         if (grounded && Input.GetButton("Jump"))
         {
             playerRig.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
-            grounded = false;
+            jumped = true;
             state = charStates.jump;
         }
     }

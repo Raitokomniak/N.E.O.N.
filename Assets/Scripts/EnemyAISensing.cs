@@ -61,6 +61,10 @@ public class EnemyAISensing : MonoBehaviour {
 
                 }
                 playerSeen = pInSight;
+                if (playerSeen)
+                {
+                    gScript.setAlertState(true);
+                }
             }
 
         }

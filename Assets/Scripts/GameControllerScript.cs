@@ -6,11 +6,13 @@ using UnityEngine.SceneManagement;
 public class GameControllerScript : MonoBehaviour {
 
     // Use this for initialization
+    public float alertTime = 20;
     bool playerDead;
     GameObject player;
-    public AudioClip music;
+    public AudioClip[] musics;
     AudioSource gameAudio;
-
+    bool guardsAlerted;
+    float countdownTimer;
     void Awake()
     {
         player = GameObject.FindGameObjectWithTag("Player");
@@ -18,21 +20,37 @@ public class GameControllerScript : MonoBehaviour {
     }
 	void Start () {
         playerDead = false;
+        guardsAlerted = false;
+        countdownTimer = 0;
+        gameAudio.clip = musics[0];
+        gameAudio.Play();
 	}
 	
 	// Update is called once per frame
     void Update()
     {
-        if (!gameAudio.isPlaying)
-        {
-            gameAudio.clip = music;
-            gameAudio.volume = Mathf.Lerp(0f, 0.85f, 0.5f);
-            gameAudio.Play();
-        }
         if (Input.GetKey(KeyCode.Escape))
         {
             reload();
         }
+        if (guardsAlerted)
+        {
+            countdownTimer += Time.deltaTime;
+            if (countdownTimer >= alertTime)
+            {
+                guardsAlerted = false;
+               
+            }
+        }
+        else
+        {
+            setMusic("Normal");
+        }
+        if (!gameAudio.isPlaying)
+        {
+            gameAudio.Play();
+        }
+        Debug.Log(gameAudio.clip);
     }
     public void setPlayerDead()
     {
@@ -61,5 +79,39 @@ public class GameControllerScript : MonoBehaviour {
     {
         int scene = SceneManager.GetActiveScene().buildIndex;
         SceneManager.LoadScene(scene, LoadSceneMode.Single);
+    }
+
+    public void setAlertState(bool alert)
+    {
+        guardsAlerted = alert;
+        if (alert)
+        {
+            countdownTimer = 0;
+            setMusic("Alert");
+        }
+    }
+    public bool allGuardsAlerted()
+    {
+        return guardsAlerted;
+    }
+    void setMusic(string music)
+    {
+        switch (music)
+        {
+            case "Normal":
+                gameAudio.volume = 0.2f;
+                gameAudio.clip = musics[0];
+                break;
+            case "Caution":
+                gameAudio.clip = musics[1];
+                break;
+            case "Alert":
+                gameAudio.volume = 0.6f;
+                gameAudio.clip = musics[2];
+                break;
+            default:
+                gameAudio.clip = musics[0];
+                break;
+        }
     }
 }
