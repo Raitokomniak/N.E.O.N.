@@ -247,16 +247,20 @@ public class EnemyPatrollingMovement : MonoBehaviour {
     {
         if (sensing.playerInSight())
         {
+            RaycastHit2D shoot = Physics2D.Raycast(gunBarrell.position, player.transform.position);
             bulletTimer += Time.deltaTime;
-            if (bulletTimer >= timeBetweenBullets)
+            if (shoot.collider.gameObject == player)
             {
+                if (bulletTimer >= timeBetweenBullets)
+                {
 
-                GameObject projectile = (GameObject)Instantiate(bullet, gunBarrell.position, gunBarrell.rotation);
-                Rigidbody2D rigidbody = projectile.GetComponent<Rigidbody2D>();
-                gunAudio.Play();
+                    GameObject projectile = (GameObject)Instantiate(bullet, gunBarrell.position, gunBarrell.rotation);
+                    Rigidbody2D rigidbody = projectile.GetComponent<Rigidbody2D>();
+                    gunAudio.Play();
 
-                rigidbody.velocity = projectile.transform.right * bulletVelocity;
-                bulletTimer = 0;
+                    rigidbody.velocity = projectile.transform.right * bulletVelocity;
+                    bulletTimer = 0;
+                }
             }
         }
         else

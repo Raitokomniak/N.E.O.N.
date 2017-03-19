@@ -102,17 +102,17 @@ public class PlayerMovement : MonoBehaviour
         {
             //BoxCollider2D box = GetComponent<BoxCollider2D>();
            // this.transform.position = new Vector2(this.transform.position.x + (box.size.x*facing), this.transform.position.y + box.size.y);
-            RaycastHit2D ground = Physics2D.Raycast(new Vector2(this.transform.position.x + ((box.size.x /2)* facing), this.transform.position.y + box.size.y/4), -this.transform.up);
+            RaycastHit2D ground = Physics2D.Raycast(new Vector2(this.transform.position.x + ((box.size.x /2)* facing), box.transform.position.y + box.size.y/4), -box.transform.up);
+            if (ground.point.y >= box.transform.position.y+box.size.y )
+            {
+                return;
+            }
             if (!(ground.point.y < this.transform.position.y)){
                 crouched = true;
                 this.transform.position = new Vector2(ground.point.x, ground.point.y + this.transform.up.y);
                 ledgeHold = false;
             }
-            else
-            {
-                this.transform.position = new Vector2(ground.point.x, ground.point.y + this.transform.position.y);
-                ledgeHold = false;
-            }
+            
         }
     }
 
@@ -180,7 +180,7 @@ public class PlayerMovement : MonoBehaviour
         RaycastHit2D roof = Physics2D.Raycast(box.transform.position + new Vector3(box.offset.x, box.offset.y, 0), box.transform.up);
         if (roof)
         {
-            Debug.Log(roof.distance);
+           // Debug.Log(roof.distance);
             if (roof.collider.IsTouching(box) && grounded)
             {
                 return true;
