@@ -50,7 +50,7 @@ public class GameControllerScript : MonoBehaviour {
         {
             gameAudio.Play();
         }
-        Debug.Log(gameAudio.clip);
+
     }
     public void setPlayerDead()
     {

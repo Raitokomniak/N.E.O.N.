@@ -7,6 +7,7 @@ public class EnemyAISensing : MonoBehaviour {
     // Use this for initialization
     public SpriteRenderer exclamationMarkSprite;
     public float enemyFieldOfView = 110f;
+    public float detectionTime = 0.5f;
     bool playerSeen;
     EnemyPatrollingMovement moving;
     CircleCollider2D circle;
@@ -14,6 +15,7 @@ public class EnemyAISensing : MonoBehaviour {
     public Transform eyes;
     GameObject player;
     GameControllerScript gScript;
+    float timer;
     void Awake()
     {
         player = GameObject.FindGameObjectWithTag("Player");
@@ -25,6 +27,23 @@ public class EnemyAISensing : MonoBehaviour {
     void Start () {
         playerSeen = false;
         exclamationMarkSprite.enabled = false;
+        timer = 0;
+    }
+
+    void Update()
+    {
+        
+        Debug.Log(timer);
+    }
+
+    bool detectionHandler(bool seen)
+    {
+        timer += Time.deltaTime;
+        if (timer >= detectionTime)
+        {
+            seen = true;
+        }
+        return seen;
     }
 	
     void OnTriggerStay2D(Collider2D col)
@@ -36,7 +55,6 @@ public class EnemyAISensing : MonoBehaviour {
             {
                 dir *= -1;
             }
-
 
             if (col.gameObject == player)
             {
@@ -50,13 +68,21 @@ public class EnemyAISensing : MonoBehaviour {
                     {
                         if (see.collider.gameObject == player)
                         {
-                            pInSight = true;
+                            if (!playerSeen)
+                            {
+                                pInSight = detectionHandler(pInSight);
+                            }
+                            else
+                            {
+                                pInSight = true;
+                            }
                             Debug.DrawRay(eyes.position, direction, Color.red);
                             playerIsAt = direction;
                         }
                         else
                         {
                             pInSight = false;
+                            timer = 0;
                         }
                     }
 
@@ -69,6 +95,10 @@ public class EnemyAISensing : MonoBehaviour {
                         StartCoroutine(alert());
                     }
                 }
+                if (playerSeen)
+                {
+                    pInSight = checkIfPlayerIsFront();
+                }
                 playerSeen = pInSight;
             }
 
@@ -77,6 +107,23 @@ public class EnemyAISensing : MonoBehaviour {
         {
             playerSeen = false;
         }
+    }
+
+    bool checkIfPlayerIsFront()
+    {
+        int dir = moving.facingRight() ? 1 : -1;
+        
+        Vector2 directionToTarget = transform.position - player.transform.position;
+        float angle = Vector2.Angle(transform.right * dir, directionToTarget);
+        float distance = directionToTarget.magnitude;
+
+        return (angle >= 90) ? true : false;
+    }
+
+    IEnumerator detect()
+    {
+        yield return new WaitForSeconds(0.5f);
+        playerSeen = true;
     }
 
     IEnumerator alert()
