@@ -31,6 +31,7 @@ public class EnemyPatrollingMovement : MonoBehaviour {
     float bulletTimer;
     float timeToShoot;
     PlayerInsideAlertZone AlertZone;
+    float startingSpeed;
     enum facingDir
     {
         right,
@@ -53,14 +54,24 @@ public class EnemyPatrollingMovement : MonoBehaviour {
     void Start()
     {
         grounded = false;
+        startingSpeed = speed;
     }
 
-    void Update ()
+    void Update()
     {
         //Debug.Log(timer);
-        if (gScript.allGuardsAlerted()&&!sensing.playerInSight() &&timer < cautionTimer)
+        if (!patrol)
+        {
+            speed = 5f;
+        }
+        else
+        {
+            speed = startingSpeed;
+        }
+        if (gScript.allGuardsAlerted() && !sensing.playerInSight() && !AlertZone.getPlayerInAlerZone() && timer < cautionTimer)
         {
             Caution();
+            patrol = false;
         }
         else
         {
@@ -88,8 +99,8 @@ public class EnemyPatrollingMovement : MonoBehaviour {
                 }
             }
         }
-        flipHandler();		
-	}
+        flipHandler();
+    }
 
     void WaypointPatrol()
     {
