@@ -75,6 +75,11 @@ public class PlayerMovement : MonoBehaviour
         crouchingSize = 1.887391f;
         standingOffset = box.offset.y;
         crouchingOffset = -1.010162f;
+        RaycastHit2D ground = Physics2D.Raycast(this.transform.position, -this.transform.up);
+        if (ground)
+        {
+            this.transform.position = new Vector3(ground.point.x, ground.point.y, 0) + this.transform.up;
+        }
     }
 
     void Update()
@@ -92,15 +97,22 @@ public class PlayerMovement : MonoBehaviour
 
     void climbLedge(float y)
     {
-
+        Debug.DrawRay(new Vector2(this.transform.position.x + (box.size.x * facing), this.transform.position.y + box.size.y / 4), -this.transform.up, Color.red);
         if (ledgeHold&& y > 0.5f)
         {
-            BoxCollider2D box = GetComponent<BoxCollider2D>();
+            //BoxCollider2D box = GetComponent<BoxCollider2D>();
            // this.transform.position = new Vector2(this.transform.position.x + (box.size.x*facing), this.transform.position.y + box.size.y);
-            RaycastHit2D ground = Physics2D.Raycast(new Vector2(this.transform.position.x + (box.size.x * facing), this.transform.position.y + box.size.y), -this.transform.up);
-            Debug.DrawRay(new Vector2(this.transform.position.x + (box.size.x * facing), this.transform.position.y + box.size.y), -this.transform.up, Color.red);
-            this.transform.position = new Vector2(ground.point.x, ground.point.y + this.transform.up.y);
-            ledgeHold = false;
+            RaycastHit2D ground = Physics2D.Raycast(new Vector2(this.transform.position.x + ((box.size.x /2)* facing), this.transform.position.y + box.size.y/4), -this.transform.up);
+            if (!(ground.point.y < this.transform.position.y)){
+                crouched = true;
+                this.transform.position = new Vector2(ground.point.x, ground.point.y + this.transform.up.y);
+                ledgeHold = false;
+            }
+            else
+            {
+                this.transform.position = new Vector2(ground.point.x, ground.point.y + this.transform.position.y);
+                ledgeHold = false;
+            }
         }
     }
 
@@ -162,11 +174,41 @@ public class PlayerMovement : MonoBehaviour
         speedLimiter();
     }
 
+    bool crouchChecker()
+    {
+        
+        RaycastHit2D roof = Physics2D.Raycast(box.transform.position + new Vector3(box.offset.x, box.offset.y, 0), box.transform.up);
+        if (roof)
+        {
+            Debug.Log(roof.distance);
+            if (roof.collider.IsTouching(box) && grounded)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+        }
+        else
+        {
+            return false;
+        }
+        
+    }
+
     void crouch()
     {
+        crouchChecker();
         if (Input.GetButton("Crouch") && grounded)
         {
             crouched = true;
+        }
+        
+        else if (grounded)
+        {
+            crouched = crouchChecker();
         }
         else
         {

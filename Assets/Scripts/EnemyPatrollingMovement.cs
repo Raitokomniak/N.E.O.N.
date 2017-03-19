@@ -58,7 +58,7 @@ public class EnemyPatrollingMovement : MonoBehaviour {
     void Update ()
     {
         //Debug.Log(timer);
-        if (gScript.allGuardsAlerted()&&!sensing.playerInSight())
+        if (gScript.allGuardsAlerted()&&!sensing.playerInSight() &&timer < cautionTimer)
         {
             Caution();
         }
