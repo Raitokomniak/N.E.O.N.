@@ -20,6 +20,7 @@ public class PlayerMovement : MonoBehaviour
     SpriteRenderer sr;
     Animator anim;
     GroundCheck_feet feet;
+    Collider2D wall;
     float maxVelocity = 5;
     float stepTimer;
     float nroOfCollisions;
@@ -76,6 +77,7 @@ public class PlayerMovement : MonoBehaviour
         standingOffset = box.offset.y;
         crouchingOffset = -1.010162f;
         RaycastHit2D ground = Physics2D.Raycast(this.transform.position, -this.transform.up);
+        wall = null;
         if (ground)
         {
             this.transform.position = new Vector3(ground.point.x, ground.point.y, 0) + this.transform.up;
@@ -97,22 +99,26 @@ public class PlayerMovement : MonoBehaviour
 
     void climbLedge(float y)
     {
-        Debug.DrawRay(new Vector2(this.transform.position.x + (box.size.x * facing), this.transform.position.y + box.size.y / 4), -this.transform.up, Color.red);
+        Debug.DrawRay(this.transform.position-this.transform.up, this.transform.right*facing, Color.red);
         if (ledgeHold&& y > 0.5f)
         {
             //BoxCollider2D box = GetComponent<BoxCollider2D>();
-           // this.transform.position = new Vector2(this.transform.position.x + (box.size.x*facing), this.transform.position.y + box.size.y);
-            RaycastHit2D ground = Physics2D.Raycast(new Vector2(this.transform.position.x + ((box.size.x /2)* facing), box.transform.position.y + box.size.y/4), -box.transform.up);
-            if (ground.point.y >= box.transform.position.y+box.size.y )
+            // this.transform.position = new Vector2(this.transform.position.x + (box.size.x*facing), this.transform.position.y + box.size.y);
+
+            // RaycastHit2D wall = Physics2D.Raycast(this.transform.position - this.transform.up, this.transform.right * facing);
+            Collider2D col = wall;
+            Vector2 upper = col.bounds.center + (col.bounds.size / 2);
+            this.transform.position = new Vector2(this.transform.position.x+((box.size.x)*facing), upper.y+this.transform.up.y);
+            crouched = true;
+            ledgeHold = false;
+            /*RaycastHit2D ground = Physics2D.Raycast(new Vector2(this.transform.position.x + ((box.size.x /2)* facing), box.transform.position.y + box.size.y/2), -box.transform.up);
+            if (!(ground.point.y < this.transform.position.y))
             {
-                return;
-            }
-            if (!(ground.point.y < this.transform.position.y)){
                 crouched = true;
                 this.transform.position = new Vector2(ground.point.x, ground.point.y + this.transform.up.y);
                 ledgeHold = false;
-            }
-            
+            }*/
+
         }
     }
 
@@ -176,19 +182,12 @@ public class PlayerMovement : MonoBehaviour
 
     bool crouchChecker()
     {
-        
-        RaycastHit2D roof = Physics2D.Raycast(box.transform.position + new Vector3(box.offset.x, box.offset.y, 0), box.transform.up);
+
+        RaycastHit2D roof = Physics2D.Raycast(box.transform.position, box.transform.up);
         if (roof)
         {
-           // Debug.Log(roof.distance);
-            if (roof.collider.IsTouching(box) && grounded)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            Debug.Log(roof.distance);
+            return (roof && roof.distance < 1) ? true : false;
 
         }
         else
@@ -200,13 +199,12 @@ public class PlayerMovement : MonoBehaviour
 
     void crouch()
     {
-        crouchChecker();
         if (Input.GetButton("Crouch") && grounded)
         {
             crouched = true;
         }
         
-        else if (grounded)
+        else if (crouched)
         {
             crouched = crouchChecker();
         }
@@ -380,18 +378,22 @@ public class PlayerMovement : MonoBehaviour
         {
             RaycastHit2D spotter = Physics2D.Raycast(this.transform.position + this.transform.up, this.transform.right * facing);
             RaycastHit2D body = Physics2D.Raycast(this.transform.position, this.transform.right * facing);
-            Debug.DrawRay(this.transform.position + this.transform.up/2, this.transform.right * facing, Color.red);
-            Debug.DrawRay(this.transform.position + this.transform.up, this.transform.right * facing, Color.red);
             if (!spotter||spotter.distance > body.distance)
             {
                 // bool rightPosFound = false;
-                ledgeHold = true;
-                wallJumpAble = false;
-                RaycastHit2D aSpot = Physics2D.Raycast(this.transform.position + this.transform.up/2, this.transform.right * facing);
-                if (!Mathf.Approximately(aSpot.distance, body.distance))
+                if (wall)
                 {
-                    this.transform.position = new Vector2(this.transform.position.x, this.transform.position.y - 0.5f); 
+                    ledgeHold = true;
+                    wallJumpAble = false;
+                    Collider2D col = wall;
+                    Vector2 upper = col.bounds.center + (col.bounds.size / 2);
+                    this.transform.position = new Vector2(this.transform.position.x, upper.y);
                 }
+                //RaycastHit2D aSpot = Physics2D.Raycast(this.transform.position + this.transform.up/2, this.transform.right * facing);
+                //if (!Mathf.Approximately(aSpot.distance, body.distance))
+                ///{
+                   // this.transform.position = new Vector2(this.transform.position.x, this.transform.position.y - 0.5f); 
+               // }
             }
             else
             {
@@ -417,6 +419,7 @@ public class PlayerMovement : MonoBehaviour
                 {
                     facing = -1;
                     wallJumpAble = true;
+                    wall = col;
                 }
             }
             if (right)
@@ -425,6 +428,7 @@ public class PlayerMovement : MonoBehaviour
                 {
                     facing = 1;
                     wallJumpAble = true;
+                    wall = col;
                 }
             }
         }
@@ -438,6 +442,7 @@ public class PlayerMovement : MonoBehaviour
             grounded = false;
             wallJumpAble = false;
             ledgeHold = false;
+            wall = null;
             state = charStates.midAir;
         }
     }
@@ -464,11 +469,13 @@ public class PlayerMovement : MonoBehaviour
                 if (left.collider == col.collider)
                 {
                     wallJumpAble = false;
+                    wall = null;
                     state = charStates.midAir;
                 }
                 if (right.collider == col.collider)
                 {
                     wallJumpAble = false;
+                    wall = null;
                     state = charStates.midAir;
                 }
             }
