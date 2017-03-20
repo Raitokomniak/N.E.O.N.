@@ -11,29 +11,35 @@ public class EnemyAISensing : MonoBehaviour {
     bool playerSeen;
     EnemyPatrollingMovement moving;
     CircleCollider2D circle;
+    BoxCollider2D box;
     Vector2 playerIsAt;
     public Transform eyes;
     GameObject player;
     GameControllerScript gScript;
     float timer;
+    float anotherTimer;
     void Awake()
     {
         player = GameObject.FindGameObjectWithTag("Player");
         moving = GetComponent<EnemyPatrollingMovement>();
         circle = GetComponent<CircleCollider2D>();
         gScript = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameControllerScript>();
+        box = player.GetComponent<BoxCollider2D>();
     }
 
     void Start () {
         playerSeen = false;
         exclamationMarkSprite.enabled = false;
         timer = 0;
+        anotherTimer = 0;
     }
-
     void Update()
     {
-        
         Debug.Log(timer);
+        if (playerSeen)
+        {
+            gScript.setAlertState(true);
+        }
     }
 
     bool detectionHandler(bool seen)
@@ -42,6 +48,7 @@ public class EnemyAISensing : MonoBehaviour {
         if (timer >= detectionTime)
         {
             seen = true;
+            StartCoroutine(alert());
         }
         return seen;
     }
@@ -58,7 +65,6 @@ public class EnemyAISensing : MonoBehaviour {
 
             if (col.gameObject == player)
             {
-                bool pInSight = false;
                 Vector2 direction = col.transform.position - eyes.position;
                 float angle = Vector2.Angle(direction, eyes.right * dir);
                 if (angle < enemyFieldOfView * 0.5f)
@@ -70,54 +76,53 @@ public class EnemyAISensing : MonoBehaviour {
                         {
                             if (!playerSeen)
                             {
-                                pInSight = detectionHandler(pInSight);
+                                playerSeen = detectionHandler(playerSeen);
                             }
                             else
                             {
-                                pInSight = true;
+                                playerSeen = true;
                             }
                             Debug.DrawRay(eyes.position, direction, Color.red);
-                            playerIsAt = direction;
+                            playerIsAt = new Vector2(box.transform.position.x, box.transform.position.y) + box.offset;
                         }
                         else
                         {
-                            pInSight = false;
-                            timer = 0;
+                            if (playerSeen)
+                            {
+                                playerSeen = checkIfPlayerIsFront();
+                            }
+                            // timer = 0;
+                            else
+                            {
+                                playerSeen = false;
+                                anotherTimer = 0;
+                            }
+                            timer = (playerSeen) ? 0 : timer;
                         }
                     }
 
                 }
-                if (pInSight)
-                {
-                    gScript.setAlertState(true);
-                    if (!playerSeen)
-                    {
-                        StartCoroutine(alert());
-                    }
-                }
-                if (playerSeen)
-                {
-                    pInSight = checkIfPlayerIsFront();
-                }
-                playerSeen = pInSight;
+               
             }
 
         }
         else
         {
             playerSeen = false;
+            timer = 0;
+            anotherTimer = 0;
         }
     }
 
     bool checkIfPlayerIsFront()
     {
+        anotherTimer += Time.deltaTime;
         int dir = moving.facingRight() ? 1 : -1;
-        
         Vector2 directionToTarget = transform.position - player.transform.position;
         float angle = Vector2.Angle(transform.right * dir, directionToTarget);
         float distance = directionToTarget.magnitude;
 
-        return (angle >= 90) ? true : false;
+        return (angle >= 90&& anotherTimer <= 5) ? true : false;
     }
 
     IEnumerator detect()
@@ -148,7 +153,7 @@ public class EnemyAISensing : MonoBehaviour {
         return playerSeen;
     }
 
-    public Vector2 playerDirection()
+    public Vector2 playerLastSeenPosition()
     {
         return playerIsAt;
     }

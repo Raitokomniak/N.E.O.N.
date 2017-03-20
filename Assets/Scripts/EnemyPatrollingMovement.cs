@@ -218,7 +218,8 @@ public class EnemyPatrollingMovement : MonoBehaviour {
         if (AlertZone.getPlayerInAlerZone())
         {
 
-            target = new Vector2(player.transform.position.x, player.transform.position.y);
+            //target = new Vector2(player.transform.position.x, player.transform.position.y);
+            target = sensing.playerLastSeenPosition();
             moveDirection = new Vector2(target.x - enemyRig.transform.position.x, 0f);
             ObstacleCheck();
             //Debug.Log(moveDirection.magnitude);
