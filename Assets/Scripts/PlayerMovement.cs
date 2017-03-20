@@ -183,7 +183,8 @@ public class PlayerMovement : MonoBehaviour
     bool crouchChecker()
     {
 
-        RaycastHit2D roof = Physics2D.Raycast(box.transform.position, box.transform.up);
+        RaycastHit2D roof = Physics2D.Raycast(box.bounds.center, box.transform.up);
+        Debug.DrawRay(box.bounds.center + new Vector3(0, box.size.y / 2), box.transform.up, Color.red);
         if (roof)
         {
             Debug.Log(roof.distance);
