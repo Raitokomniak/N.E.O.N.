@@ -37,7 +37,20 @@ public class GrapplingHook : MonoBehaviour {
             shootSpot = null;
         }
        
-        if (ableToShoot && Input.GetButton("FireGHook")&&!connected)
+        
+        if (connected && Input.GetButton("Jump"))
+        {
+            joint.enabled = false;
+            line.enabled = false;
+            connected = false;
+        }
+
+       
+    }
+
+    void FixedUpdate()
+    {
+        if (ableToShoot && Input.GetButton("FireGHook") && !connected)
         {
             setShootSpot();
             if (shootSpot)
@@ -45,23 +58,13 @@ public class GrapplingHook : MonoBehaviour {
                 fireGHook();
             }
         }
-        if (connected && Input.GetButton("Jump"))
-        {
-            joint.enabled = false;
-            line.enabled = false;
-            connected = false;
-        }
         if (connected)
         {
             line.SetPosition(0, transform.position);
             line.SetPosition(1, shootSpot.transform.position);
             joint.distance = distance;
         }
-       
-	}
 
-    void FixedUpdate()
-    {
         if (connected && Input.GetButton("FireGHook"))
         {
             distance -= 10 * Time.smoothDeltaTime;

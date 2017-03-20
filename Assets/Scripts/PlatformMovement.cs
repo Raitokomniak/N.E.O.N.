@@ -59,13 +59,13 @@ public class PlatformMovement : MonoBehaviour {
 
     private void moveRight()
     {
-        x = transform.position.x + (xDelta / StepsOnSecond * (Time.deltaTime * 5));
+        x = transform.position.x + (xDelta / StepsOnSecond * (Time.deltaTime));
         transform.position = new Vector2(x, y);
     }
 
     private void moveLeft()
     {
-        x = transform.position.x - (xDelta / StepsOnSecond * (Time.deltaTime * 5));
+        x = transform.position.x - (xDelta / StepsOnSecond * (Time.deltaTime));
         transform.position = new Vector2(x, y);
     }
 }
