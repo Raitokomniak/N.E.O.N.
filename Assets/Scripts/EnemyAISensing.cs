@@ -89,7 +89,8 @@ public class EnemyAISensing : MonoBehaviour {
                         {
                             if (playerSeen)
                             {
-                                playerSeen = checkIfPlayerIsFront();
+                                //playerSeen = checkIfPlayerIsFront();
+                                playerSeen = false;
                             }
                             // timer = 0;
                             else

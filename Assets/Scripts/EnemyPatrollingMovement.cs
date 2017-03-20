@@ -222,6 +222,11 @@ public class EnemyPatrollingMovement : MonoBehaviour {
             target = sensing.playerLastSeenPosition();
             moveDirection = new Vector2(target.x - enemyRig.transform.position.x, 0f);
             ObstacleCheck();
+            RaycastHit2D checker = Physics2D.Raycast(this.transform.position, target);
+            if (checker&& checker.collider.gameObject != player)
+            {
+               Caution();
+            }
             //Debug.Log(moveDirection.magnitude);
             if (ledgeSpotted || obstacleSpotted)
             {
@@ -257,12 +262,12 @@ public class EnemyPatrollingMovement : MonoBehaviour {
 
     void Shoot()
     {
+        //RaycastHit2D shoot = Physics2D.Raycast(gunBarrell.position, player.transform.position);
         if (sensing.playerInSight())
         {
-            RaycastHit2D shoot = Physics2D.Raycast(gunBarrell.position, player.transform.position);
+            
             bulletTimer += Time.deltaTime;
-            if (shoot.collider.gameObject == player)
-            {
+            
                 if (bulletTimer >= timeBetweenBullets)
                 {
 
@@ -273,7 +278,7 @@ public class EnemyPatrollingMovement : MonoBehaviour {
                     rigidbody.velocity = projectile.transform.right * bulletVelocity;
                     bulletTimer = 0;
                 }
-            }
+            
         }
         else
         {
