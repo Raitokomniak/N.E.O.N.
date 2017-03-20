@@ -9,12 +9,14 @@ public class PlayerHealth : MonoBehaviour {
     public int maxHealth = 100;
     int health;
     GameControllerScript gScript;
+	UIController ui;
     bool adding;
     bool takingDamage;
     float damageTimer;
     void Awake()
     {
        gScript = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameControllerScript>();
+		ui = gScript.GetComponent<UIController> ();
     }
     void Start () {
         health = 100;
@@ -41,6 +43,7 @@ public class PlayerHealth : MonoBehaviour {
     public void takeDamage(int amount)
     {
         health -= amount;
+		ui.UpdateHealth (health);
         takingDamage = true;
         damageTimer = 0;
         if (health <= 0)
@@ -63,6 +66,8 @@ public class PlayerHealth : MonoBehaviour {
         yield return new WaitForSeconds(0.2f);
         adding = false;
         health++;
+		ui.UpdateHealth (health);
+
     }
 
     void die()

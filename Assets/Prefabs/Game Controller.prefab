@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 114647871351134680}
   - component: {fileID: 114390035348187042}
   - component: {fileID: 82036226188494560}
+  - component: {fileID: 114659247875708494}
   m_Layer: 0
   m_Name: Game Controller
   m_TagString: GameController
@@ -149,3 +150,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83f02aadfe2915a42af08f2fdd684e50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114659247875708494
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1442131731025402}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc2e1e21cb58b404a9314bb987b01113, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthFill: {fileID: 0}
+  characterHealthFill: {fileID: 0}
+  healthText: {fileID: 0}
+  adrenalineRushFill: {fileID: 0}
+  characterNeonOverlay: {fileID: 0}
