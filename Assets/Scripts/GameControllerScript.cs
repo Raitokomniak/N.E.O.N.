@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class GameControllerScript : MonoBehaviour {
 
     // Use this for initialization
+    public Transform currentCheckPoint;
     public float alertTime = 20;
     bool playerDead;
     GameObject player;
@@ -13,10 +14,12 @@ public class GameControllerScript : MonoBehaviour {
     AudioSource gameAudio;
     bool guardsAlerted;
     float countdownTimer;
+    GameObject camera;
     void Awake()
     {
         player = GameObject.FindGameObjectWithTag("Player");
         gameAudio = GetComponent<AudioSource>();
+        camera = GameObject.FindGameObjectWithTag("MainCamera");
     }
 	void Start () {
         playerDead = false;
@@ -77,8 +80,13 @@ public class GameControllerScript : MonoBehaviour {
 
     void reload()
     {
-        int scene = SceneManager.GetActiveScene().buildIndex;
-        SceneManager.LoadScene(scene, LoadSceneMode.Single);
+        /*int scene = SceneManager.GetActiveScene().buildIndex;
+        SceneManager.LoadScene(scene, LoadSceneMode.Single);*/
+        player.transform.position = currentCheckPoint.transform.position;
+        camera.transform.position = currentCheckPoint.transform.position;
+        setPlayerAlive();
+        player.SetActive(true);
+        guardsAlerted = false;
     }
 
     public void setAlertState(bool alert)
