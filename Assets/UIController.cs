@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class UIController : MonoBehaviour {
 
+
 	public Image healthFill;
 	public Image characterHealthFill;
 	public Text healthText;
