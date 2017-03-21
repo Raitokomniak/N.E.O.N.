@@ -13,10 +13,11 @@ public class BulletCollision : MonoBehaviour {
     void Awake() {
         player = GameObject.FindGameObjectWithTag("Player");
         health = player.GetComponent<PlayerHealth>();
-	}
+        startPlace = this.transform.position;
+    }
 	void Start()
     {
-        startPlace = this.transform.position;
+        
     }
 	// Update is called once per frame
 	void Update () {
