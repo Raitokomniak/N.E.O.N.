@@ -25,9 +25,12 @@ public class UIController : MonoBehaviour {
 	void Awake () {
 		BlinkHealth = BlinkHealthStatus ();
 		UpdateHealth (100);
-		health = GameObject.Find("Player").GetComponent<PlayerHealth>();
+
 		ChangeHelmetColor (helmetMagenta);
-		StartCoroutine (ForceStatusAfterDelay ());
+
+		//For debugging
+		health = GameObject.Find("Player").GetComponent<PlayerHealth>();
+		//StartCoroutine (ForceStatusAfterDelay ());
 	}
 
 	IEnumerator ForceStatusAfterDelay() {
@@ -35,11 +38,7 @@ public class UIController : MonoBehaviour {
 		//health.takeDamage (50);
 		StartCoroutine(BurnDownAbility ());
 	}
-
-	void Update(){
-
-	}
-
+		
 	public void UpdateHealth(int amount){
 		if (amount <= 0) amount = 0;
 
@@ -54,8 +53,6 @@ public class UIController : MonoBehaviour {
 		} else if(amount == 100) {
 			blinkHealth = false;
 		}
-
-
 	}
 
 	public void UpdateCharacterHealthFill(int amount){
