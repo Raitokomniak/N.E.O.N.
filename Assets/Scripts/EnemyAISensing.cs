@@ -35,7 +35,6 @@ public class EnemyAISensing : MonoBehaviour {
     }
     void Update()
     {
-        Debug.Log(timer);
         if (playerSeen)
         {
             gScript.setAlertState(true);
@@ -89,10 +88,8 @@ public class EnemyAISensing : MonoBehaviour {
                         {
                             if (playerSeen)
                             {
-                                //playerSeen = checkIfPlayerIsFront();
                                 playerSeen = false;
                             }
-                            // timer = 0;
                             else
                             {
                                 playerSeen = false;
