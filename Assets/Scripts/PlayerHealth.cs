@@ -17,15 +17,13 @@ public class PlayerHealth : MonoBehaviour {
     {
        gScript = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameControllerScript>();
 		ui = gScript.GetComponent<UIController> ();
-    }
-    void Start () {
         health = 100;
         Mathf.Clamp(health, 0, maxHealth);
         damageTimer = 0;
         takingDamage = false;
         adding = false;
-	}
-	
+    }
+   
 	// Update is called once per frame
 
     void Update()

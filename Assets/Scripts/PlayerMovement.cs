@@ -59,9 +59,20 @@ public class PlayerMovement : MonoBehaviour
         stepAudio = GetComponent<AudioSource>();
         feet = GetComponentInChildren<GroundCheck_feet>();
         box = GetComponent<BoxCollider2D>();
+        initialize();
+        
     }
 
     void Start()
+    {
+        RaycastHit2D ground = Physics2D.Raycast(this.transform.position, -this.transform.up);
+        if (ground)
+        {
+            this.transform.position = new Vector3(ground.point.x, ground.point.y, 0) + this.transform.up;
+        }
+    }
+
+    void initialize()
     {
         anim.Play("Idle");
         facing = 1;
@@ -76,12 +87,7 @@ public class PlayerMovement : MonoBehaviour
         crouchingSize = 1.887391f;
         standingOffset = box.offset.y;
         crouchingOffset = -1.010162f;
-        RaycastHit2D ground = Physics2D.Raycast(this.transform.position, -this.transform.up);
         wall = null;
-        if (ground)
-        {
-            this.transform.position = new Vector3(ground.point.x, ground.point.y, 0) + this.transform.up;
-        }
     }
 
     void Update()
@@ -102,23 +108,11 @@ public class PlayerMovement : MonoBehaviour
         Debug.DrawRay(this.transform.position-this.transform.up, this.transform.right*facing, Color.red);
         if (ledgeHold&& y > 0.5f)
         {
-            //BoxCollider2D box = GetComponent<BoxCollider2D>();
-            // this.transform.position = new Vector2(this.transform.position.x + (box.size.x*facing), this.transform.position.y + box.size.y);
-
-            // RaycastHit2D wall = Physics2D.Raycast(this.transform.position - this.transform.up, this.transform.right * facing);
             Collider2D col = wall;
             Vector2 upper = col.bounds.center + (col.bounds.size / 2);
             this.transform.position = new Vector2(this.transform.position.x+((box.size.x)*facing), upper.y+this.transform.up.y);
             crouched = true;
             ledgeHold = false;
-            /*RaycastHit2D ground = Physics2D.Raycast(new Vector2(this.transform.position.x + ((box.size.x /2)* facing), box.transform.position.y + box.size.y/2), -box.transform.up);
-            if (!(ground.point.y < this.transform.position.y))
-            {
-                crouched = true;
-                this.transform.position = new Vector2(ground.point.x, ground.point.y + this.transform.up.y);
-                ledgeHold = false;
-            }*/
-
         }
     }
 
@@ -129,11 +123,8 @@ public class PlayerMovement : MonoBehaviour
         {
              playerRig.velocity = new Vector2(0, 0);
              playerRig.gravityScale = 0;
-            //playerRig.isKinematic = true;
-           // playerRig.constraints = RigidbodyConstraints2D.FreezePosition;
         }
         else {
-           // playerRig.constraints = RigidbodyConstraints2D.FreezeRotation;
             playerRig.isKinematic = false;
             playerRig.gravityScale = 1;
             frictionHandler();
@@ -381,7 +372,6 @@ public class PlayerMovement : MonoBehaviour
             RaycastHit2D body = Physics2D.Raycast(this.transform.position, this.transform.right * facing);
             if (!spotter||spotter.distance > body.distance)
             {
-                // bool rightPosFound = false;
                 if (wall)
                 {
                     ledgeHold = true;
@@ -390,11 +380,6 @@ public class PlayerMovement : MonoBehaviour
                     Vector2 upper = col.bounds.center + (col.bounds.size / 2);
                     this.transform.position = new Vector2(this.transform.position.x, upper.y);
                 }
-                //RaycastHit2D aSpot = Physics2D.Raycast(this.transform.position + this.transform.up/2, this.transform.right * facing);
-                //if (!Mathf.Approximately(aSpot.distance, body.distance))
-                ///{
-                   // this.transform.position = new Vector2(this.transform.position.x, this.transform.position.y - 0.5f); 
-               // }
             }
             else
             {
@@ -483,6 +468,10 @@ public class PlayerMovement : MonoBehaviour
         }
         nroOfCollisions--;
         collisionChecker();
+    }
+    public void reset()
+    {
+        initialize();
     }
 
     public bool isFacingRight()
