@@ -75,7 +75,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1220252884528832
 GameObject:
   m_ObjectHideFlags: 1
@@ -331,7 +331,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4228301399528810
 Transform:
   m_ObjectHideFlags: 1
@@ -864,11 +864,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc2e1e21cb58b404a9314bb987b01113, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthFill: {fileID: 0}
-  characterHealthFill: {fileID: 0}
-  healthText: {fileID: 0}
-  adrenalineRushFill: {fileID: 0}
-  characterNeonOverlay: {fileID: 0}
+  healthFill: {fileID: 114590841228613278}
+  characterHealthFill: {fileID: 114050846830899576}
+  healthText: {fileID: 114237799084432506}
+  adrenalineRushFill: {fileID: 114829659025356582}
+  characterNeonOverlay: {fileID: 114451575666038182}
 --- !u!114 &114675843104667626
 MonoBehaviour:
   m_ObjectHideFlags: 1
