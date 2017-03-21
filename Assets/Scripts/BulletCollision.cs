@@ -29,6 +29,7 @@ public class BulletCollision : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D col)
     {
+        Debug.Log("Moi");
         if (!col.isTrigger)
         {
             if (col.gameObject == player)

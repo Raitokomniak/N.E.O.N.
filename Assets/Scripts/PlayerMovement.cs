@@ -5,7 +5,8 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public AudioClip[] steps;
+    [FMODUnity.EventRef]
+    public string inputSound = "event:/Input_1";
     public float speed = 20;
     public float jumpForce = 4;
     public float maxJumpPower = 10;
@@ -59,10 +60,21 @@ public class PlayerMovement : MonoBehaviour
         stepAudio = GetComponent<AudioSource>();
         feet = GetComponentInChildren<GroundCheck_feet>();
         box = GetComponent<BoxCollider2D>();
+        stepTimer = 0;
         initialize();
         
     }
 
+    void steps()
+    {
+        stepTimer += Time.deltaTime;
+        if (stepTimer >= timeBetweensteps)
+        {
+            FMODUnity.RuntimeManager.PlayOneShot(inputSound);
+            stepTimer = 0;
+        }
+    }
+  
     void Start()
     {
         RaycastHit2D ground = Physics2D.Raycast(this.transform.position, -this.transform.up);
@@ -95,6 +107,7 @@ public class PlayerMovement : MonoBehaviour
         flipHandler();
         ledgeCheck();
         grounded = feet.isFeetOnGround();
+       // steps();
        // Debug.Log(grounded);
        // Debug.Log("Grounded: "+grounded + " Ledge Hold: " + ledgeHold + " wallJumpAble: " + wallJumpAble);
     }

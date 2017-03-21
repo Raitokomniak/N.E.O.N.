@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class EnemyPatrollingMovement : MonoBehaviour {
 
-    
+    [FMODUnity.EventRef]
+    public string inputSound = "event:/Input_1";
     public Transform[] waypoints;
     public float speed = 5;
     public int currentWayPoint;
@@ -273,9 +274,10 @@ public class EnemyPatrollingMovement : MonoBehaviour {
 
                     GameObject projectile = (GameObject)Instantiate(bullet, gunBarrell.position, gunBarrell.rotation);
                     Rigidbody2D rigidbody = projectile.GetComponent<Rigidbody2D>();
-                    gunAudio.Play();
+                // gunAudio.Play();
+                FMODUnity.RuntimeManager.PlayOneShot(inputSound);
 
-                    rigidbody.velocity = projectile.transform.right * bulletVelocity;
+                 rigidbody.velocity = projectile.transform.right * bulletVelocity;
                     bulletTimer = 0;
                 }
             
