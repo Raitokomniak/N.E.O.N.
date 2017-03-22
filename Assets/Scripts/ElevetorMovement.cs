@@ -13,7 +13,7 @@ public class ElevetorMovement : MonoBehaviour {
     private float yDelta;
     private float y;
 
-    void Start()
+    void Awake()
     {
         yDelta = y2 - y1;
         x = transform.position.x;

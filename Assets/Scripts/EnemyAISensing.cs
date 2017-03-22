@@ -20,11 +20,11 @@ public class EnemyAISensing : MonoBehaviour {
     float anotherTimer;
     void Awake()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
+       
         moving = GetComponent<EnemyPatrollingMovement>();
         circle = GetComponent<CircleCollider2D>();
         gScript = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameControllerScript>();
-        box = player.GetComponent<BoxCollider2D>();
+        
     }
 
     void Start () {
@@ -32,6 +32,8 @@ public class EnemyAISensing : MonoBehaviour {
         exclamationMarkSprite.enabled = false;
         timer = 0;
         anotherTimer = 0;
+        player = GameObject.FindGameObjectWithTag("Player");
+        box = player.GetComponent<BoxCollider2D>();
     }
     void Update()
     {

@@ -5,7 +5,7 @@ using UnityEngine;
 public class CheckPoint : MonoBehaviour
 {
     GameControllerScript gScript;
-
+    //not in use
     void Awake()
     {
         gScript = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameControllerScript>();
@@ -15,7 +15,7 @@ public class CheckPoint : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            gScript.currentCheckPoint = this.transform;
+            //gScript.setCheckpoint(transform);
         }
     }
 }

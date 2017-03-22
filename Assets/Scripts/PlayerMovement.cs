@@ -8,7 +8,7 @@ public class PlayerMovement : MonoBehaviour
     [FMODUnity.EventRef]
     public string inputSound = "event:/Input_1";
     public float speed = 20;
-    public float jumpForce = 4;
+    public float jumpForce = 8;
     public float maxJumpPower = 10;
     public float maxVelocity_run = 20;
     public float maxVelocity_walk = 10;

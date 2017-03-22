@@ -9,9 +9,13 @@ public class VantagePointScript : MonoBehaviour {
     GrapplingHook gHook;
     void Awake ()
     {
+
+	}
+    void Start()
+    {
         player = GameObject.FindGameObjectWithTag("Player");
         gHook = player.GetComponent<GrapplingHook>();
-	}
+    }
 	
 	// Update is called once per frame
 	void OnTriggerStay2D(Collider2D col) {

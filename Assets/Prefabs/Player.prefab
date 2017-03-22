@@ -295,7 +295,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inputSound: event:/Character sounds/Footsteps/Running
   speed: 20
-  jumpForce: 4
+  jumpForce: 8
   maxJumpPower: 10
   maxVelocity_run: 7
   maxVelocity_walk: 5
