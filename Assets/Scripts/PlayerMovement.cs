@@ -107,6 +107,8 @@ public class PlayerMovement : MonoBehaviour
         flipHandler();
         ledgeCheck();
         grounded = feet.isFeetOnGround();
+        jump();
+        wallJump();
        // steps();
        // Debug.Log(grounded);
        // Debug.Log("Grounded: "+grounded + " Ledge Hold: " + ledgeHold + " wallJumpAble: " + wallJumpAble);
@@ -143,8 +145,8 @@ public class PlayerMovement : MonoBehaviour
             frictionHandler();
         }
         move(x);
-        jump();
-        wallJump();
+     //   jump();
+       // wallJump();
         crouch();
         collisionChecker();
         animationHandler(x);
@@ -329,11 +331,11 @@ public class PlayerMovement : MonoBehaviour
 
     void jump()
     {
-        if (grounded && Input.GetButton("Jump"))
+        if (grounded && Input.GetButtonDown("Jump"))
         {
             playerRig.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
-            jumped = true;
             state = charStates.jump;
+            jumped = false;
         }
     }
     void wallJump()
@@ -341,12 +343,13 @@ public class PlayerMovement : MonoBehaviour
         if (wallJumpAble)
         {
             state = charStates.wallSlide;
-            if (Input.GetButton("Jump"))
+            if (Input.GetButtonDown("Jump"))
             {
                 int dir = facing * -1;
                 playerRig.AddForce(new Vector2(dir * jumpForce / 1.5f, jumpForce), ForceMode2D.Impulse);
                 state = charStates.wallJump;
                 wallJumpAble = false;
+                jumped = false;
                 facing *= -1;
             }
         }
