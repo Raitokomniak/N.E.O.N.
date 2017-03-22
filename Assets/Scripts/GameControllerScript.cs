@@ -13,9 +13,12 @@ public class GameControllerScript : MonoBehaviour {
     AudioSource gameAudio;
     bool guardsAlerted;
     float countdownTimer;
+    Vector3 Checkpoint;
+    GameObject player;
     void Awake()
     {
         gameAudio = GetComponent<AudioSource>();
+        player = GameObject.FindGameObjectWithTag("Player");
     }
 	void Start () {
         playerDead = false;
@@ -54,6 +57,7 @@ public class GameControllerScript : MonoBehaviour {
     public void setPlayerDead()
     {
         playerDead = true;
+        player.SetActive(false);
         StartCoroutine(reloadScene());
     }
 
@@ -116,5 +120,10 @@ public class GameControllerScript : MonoBehaviour {
                 gameAudio.clip = musics[0];
                 break;
         }
+    }
+
+    public void setCheckpoint(Vector3 checkpoint)
+    {
+        Checkpoint = checkpoint;
     }
 }
