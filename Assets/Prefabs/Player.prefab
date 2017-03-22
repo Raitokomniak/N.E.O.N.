@@ -104,7 +104,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1296714925945314}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -36.4, y: 65.7, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children:
   - {fileID: 4139461289762702}
@@ -293,9 +293,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdfdcb0caa56d5b4a99824e4af1ffffc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  steps: []
+  inputSound: event:/Character sounds/Footsteps/Running
   speed: 20
   jumpForce: 4
+  maxJumpPower: 10
   maxVelocity_run: 7
   maxVelocity_walk: 5
   maxVelocity_sneak: 2
@@ -334,6 +335,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b01e9081cb736b4f860a2627e998ea6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  recoveryTime: 10
+  maxHealth: 100
 --- !u!120 &120655438309874742
 LineRenderer:
   m_ObjectHideFlags: 1
