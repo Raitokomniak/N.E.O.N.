@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Name: FMODStudioCache
   m_EditorClassIdentifier: 
   EditorBanks:
-  - {fileID: 114089564747656492}
-  - {fileID: 114317427093565872}
+  - {fileID: 114967804056920096}
+  - {fileID: 114494659303499756}
   EditorEvents:
-  - {fileID: 114546757482803366}
-  - {fileID: 114902503112996412}
-  - {fileID: 114993465042322936}
-  MasterBankRef: {fileID: 114317427093565872}
-  StringsBankRef: {fileID: 114089564747656492}
+  - {fileID: 114772799852117226}
+  - {fileID: 114248869480215424}
+  - {fileID: 114861876977282562}
+  MasterBankRef: {fileID: 114494659303499756}
+  StringsBankRef: {fileID: 114967804056920096}
   stringsBankWriteTime: 636256133380000000
   cacheVersion: 2
 --- !u!114 &114089564747656492
@@ -40,6 +40,27 @@ MonoBehaviour:
   - Name: Desktop
     Value: 866
   Exists: 1
+--- !u!114 &114248869480215424
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/Enemy sounds/Guard (cyborg grunt)/Gunshots/Single
+  guid: ddce5c2be454be4e9b1650e6b154a3fa
+  Banks:
+  - {fileID: 114494659303499756}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
 --- !u!114 &114317427093565872
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -52,6 +73,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Path: C:\Users\karkk\Google Drive\Assets\Audio\NEON FMOD\Build\Desktop\Master Bank.bank
+  lastModified: 636256133380000000
+  LoadResult: 0
+  FileSizes:
+  - Name: Desktop
+    Value: 36256
+  Exists: 1
+--- !u!114 &114494659303499756
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: C:\Users\Rasfar\Google Drive\Assets\Audio\NEON FMOD\Build\Desktop\Master Bank.bank
   lastModified: 636256133380000000
   LoadResult: 0
   FileSizes:
@@ -79,6 +118,48 @@ MonoBehaviour:
   Parameters: []
   MinDistance: 0
   MaxDistance: 0
+--- !u!114 &114772799852117226
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/Character sounds/Footsteps/Running
+  guid: 3bcfa72a5de2ad479d27a06838ca1ee0
+  Banks:
+  - {fileID: 114494659303499756}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+--- !u!114 &114861876977282562
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/Character sounds/Grappling hook/Attach
+  guid: e7dd5d8d928334448e746902c9dbd9f7
+  Banks:
+  - {fileID: 114494659303499756}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
 --- !u!114 &114902503112996412
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -100,6 +181,24 @@ MonoBehaviour:
   Parameters: []
   MinDistance: 0
   MaxDistance: 0
+--- !u!114 &114967804056920096
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: C:\Users\Rasfar\Google Drive\Assets\Audio\NEON FMOD\Build\Desktop\Master Bank.strings.bank
+  lastModified: 636256133380000000
+  LoadResult: 0
+  FileSizes:
+  - Name: Desktop
+    Value: 866
+  Exists: 1
 --- !u!114 &114993465042322936
 MonoBehaviour:
   m_ObjectHideFlags: 0
