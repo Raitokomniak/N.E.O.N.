@@ -7,7 +7,9 @@
 /[Ll]ibrary/
 sysinfo.txt
 *.stackdump
- 
+fmod.txt
+fmod_editor.txt
+Assets/Plugins/x86_64/fmodstudiol.dll
 # ============================================= #
 # Visual Studio / MonoDevelop / Rider generated #
 # ============================================= #
