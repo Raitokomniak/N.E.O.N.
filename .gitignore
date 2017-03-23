@@ -17,7 +17,10 @@ Assets/Resources/FMODStudioSettings.asset
 Assets/Resources/FMODStudioSettings.asset.meta
 fmod.log
 fmod_editor.log
-
+Assets/StreamingAssets/Master Bank.bank
+Assets/StreamingAssets/Master Bank.bank.meta
+Assets/StreamingAssets/Master Bank.strings.bank
+Assets/StreamingAssets/Master Bank.strings.bank.meta
 # ============================================= #
 # Visual Studio / MonoDevelop / Rider generated #
 # ============================================= #
