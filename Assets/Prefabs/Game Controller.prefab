@@ -75,7 +75,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1220252884528832
 GameObject:
   m_ObjectHideFlags: 1
@@ -331,7 +331,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4228301399528810
 Transform:
   m_ObjectHideFlags: 1
@@ -674,7 +674,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc82eb67ef8ea4b4a965efab3908dad1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentCheckPoint: {fileID: 0}
+  currentLevelPart: {fileID: 0}
   alertTime: 20
   musics:
   - {fileID: 8300000, guid: 1012168da10947c46b01c9247c4587ae, type: 3}
