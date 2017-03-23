@@ -17,7 +17,7 @@ public class CameraScript : MonoBehaviour {
 
     void Start()
     {
-        this.transform.position = new Vector2(player.transform.position.x, player.transform.position.y);
+        this.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, this.transform.position.z);
     }
 
     // Update is called once per frame
@@ -25,8 +25,8 @@ public class CameraScript : MonoBehaviour {
     {
         if (!gScript.isDead())
         {
-            Vector2 targetPos = new Vector2(player.transform.position.x, player.transform.position.y);
-            this.transform.position = Vector2.Lerp(this.transform.position, targetPos, smoothing * Time.deltaTime);
+            Vector3 targetPos = new Vector3(player.transform.position.x, player.transform.position.y, this.transform.position.z);
+            this.transform.position = Vector3.Lerp(this.transform.position, targetPos, smoothing * Time.deltaTime);
         }
     }
 

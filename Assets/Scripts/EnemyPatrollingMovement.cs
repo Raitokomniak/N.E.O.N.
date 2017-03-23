@@ -214,7 +214,7 @@ public class EnemyPatrollingMovement : MonoBehaviour {
         {
             enemyRig.MovePosition(transform.position + direction * speed * Time.deltaTime);
         }
-       // Shoot();
+        Shoot();
     }
 
     void Shoot()
