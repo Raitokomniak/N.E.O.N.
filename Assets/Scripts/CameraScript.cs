@@ -29,11 +29,15 @@ public class CameraScript : MonoBehaviour {
     {
         if (!gScript.isDead())
         {
-
+            Vector3 targetPos = new Vector3(player.transform.position.x, player.transform.position.y, z);
             if (follow)
             {
-            Vector3 targetPos = new Vector3(player.transform.position.x, player.transform.position.y, z);
+            
             this.transform.position = Vector3.Lerp(this.transform.position, targetPos, smoothing * Time.deltaTime);
+            }
+            if (!playMov.playerMoving())
+            {
+                this.transform.position = Vector3.Lerp(this.transform.position, targetPos, smoothing * Time.deltaTime);
             }
         }
     }
