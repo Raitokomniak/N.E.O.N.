@@ -1466,6 +1466,7 @@ MonoBehaviour:
   player: {fileID: 0}
   bulletVelocity: 20
   timeBetweenBullets: 0.5
+  startFacingDirection: -1
 --- !u!114 &354812486
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1859,6 +1860,7 @@ MonoBehaviour:
   player: {fileID: 0}
   bulletVelocity: 20
   timeBetweenBullets: 1
+  startFacingDirection: -1
 --- !u!114 &423634075
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2194,6 +2196,7 @@ MonoBehaviour:
   player: {fileID: 0}
   bulletVelocity: 20
   timeBetweenBullets: 1
+  startFacingDirection: -1
 --- !u!114 &455298230
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4680,6 +4683,7 @@ MonoBehaviour:
   player: {fileID: 0}
   bulletVelocity: 20
   timeBetweenBullets: 1
+  startFacingDirection: -1
 --- !u!114 &1413355709
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5196,6 +5200,7 @@ MonoBehaviour:
   player: {fileID: 0}
   bulletVelocity: 20
   timeBetweenBullets: 1
+  startFacingDirection: -1
 --- !u!114 &1545697205
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6183,7 +6188,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4913519899775816, guid: f88fd1a851cde0045a5f7fb33c6b6591, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -12
       objectReference: {fileID: 0}
     - target: {fileID: 4913519899775816, guid: f88fd1a851cde0045a5f7fb33c6b6591, type: 2}
       propertyPath: m_LocalRotation.x
