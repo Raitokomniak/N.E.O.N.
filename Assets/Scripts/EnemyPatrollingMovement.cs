@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class EnemyPatrollingMovement : MonoBehaviour {
 
-    [FMODUnity.EventRef]
-    public string inputSound = "event:/Input_1";
+   // [FMODUnity.EventRef]
+   // public string inputSound = "event:/Input_1";
     public Transform[] waypoints;
     Transform waypoint;
     public float speed = 5;
@@ -34,9 +34,10 @@ public class EnemyPatrollingMovement : MonoBehaviour {
     float timeToShoot;
     PlayerInsideAlertZone AlertZone;
     float startingSpeed;
-    public int startFacingDirection = -1;
     float searchTimer;
     int facing;
+    bool personalAlert;
+    float oldpoint;
     enum states
     {
         normal,
@@ -54,33 +55,49 @@ public class EnemyPatrollingMovement : MonoBehaviour {
         AlertZone = GetComponentInChildren<PlayerInsideAlertZone>();
         player = GameObject.FindGameObjectWithTag("Player");
         gScript = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameControllerScript>();
-        waypoint = (facing == 1) ? waypoints[1] : waypoints[0];
-        facing = startFacingDirection;
+        facing = 1;
+        waypoint = (facing == 1) ? waypoints[0] : waypoints[1];
         searchTimer = 0;
-    }
-
-    void Start()
-    {
         grounded = false;
         startingSpeed = speed;
+        oldpoint = 0;
+
     }
 
     void Update()
     {
+        
         behaviorHandler();
         flipHandler();
+        if (sensing.playerInSight()&&!personalAlert)
+        {
+            personalAlert = sensing.playerInSight();
+        }
+        Debug.Log(state);
     }
+
+    int enemyDirection(int dir)
+    {
+        float velocity = (this.transform.position.x - oldpoint) / Time.deltaTime;
+        oldpoint = this.transform.position.x;
+        if (velocity > 0)
+        {
+            dir = 1;
+        }
+        else if (velocity < 0)
+        {
+            dir = -1;
+        }
+        return dir;
+    }
+
     void stateHandler()
     {
         if (sensing.playerInSight())
         {
             state = states.alert;
         }
-        else if (state == states.alert&& searchTimer < 2)
-        {
-            state = states.alert;
-        }
-        else if (gScript.allGuardsAlerted()&&!sensing.playerInSight() && timer < cautionTimer)
+        if (gScript.allGuardsAlerted()&&!sensing.playerInSight() && timer < cautionTimer)
         {
             state = states.caution;
         }
@@ -113,11 +130,11 @@ public class EnemyPatrollingMovement : MonoBehaviour {
         }
         else
         {
-            if (!sensing.playerInSight())
+            if (state == states.caution || state == states.alert)
             {
                 turnAround();
             }
-            if (state == states.normal)
+            else
             {
                 reachedWaypoint();
             }
@@ -125,15 +142,30 @@ public class EnemyPatrollingMovement : MonoBehaviour {
     }
 
 
+    void moveToDirection(Vector3 point)
+    {
+        if (grounded)
+        {
+            Vector3 direction = (point - transform.position).normalized;
+            enemyRig.MovePosition(transform.position + direction * speed * Time.deltaTime);
+        }
+    }
+
     void WaypointPatrol()
     {
         timer = 0;
-        facing = (waypoint.position.x > this.transform.position.x) ? 1 : -1;
-        Vector3 direction = (waypoint.position - transform.position).normalized;
-        if (grounded)
+        moveToDirection(waypoint.position);
+        if (waypoint.position.x < this.transform.position.x)
         {
-            enemyRig.MovePosition(transform.position + direction * speed * Time.deltaTime);
+            facing = -1;
         }
+        else if (waypoint.position.x > this.transform.position.x)
+        {
+            facing = 1;
+        }
+        Debug.Log(waypoint.position.x + " " + this.transform.position.x);
+        //enemyRig.velocity = direction * speed*facing;
+        
         if (Vector2.Distance (this.transform.position, waypoint.position) < 1)
         {
             reachedWaypoint();
@@ -173,10 +205,7 @@ public class EnemyPatrollingMovement : MonoBehaviour {
     void Caution()
     {
         timer = timer + Time.deltaTime;
-        if (grounded)
-        {
-            enemyRig.MovePosition(transform.position + this.transform.right*facing * speed * Time.deltaTime);
-        }
+        moveToDirection(transform.position + this.transform.right * facing);
     }
 
     void turnAround()
@@ -190,32 +219,32 @@ public class EnemyPatrollingMovement : MonoBehaviour {
         enemyRig.velocity = new Vector2(0, enemyRig.velocity.y);
     }
 
+
     void Alert()
     {
         Vector3 playerIsAt = sensing.playerLastSeenPosition();
-        Vector3 direction = (new Vector3(playerIsAt.x, this.transform.position.y) - transform.position).normalized;
-        
-        if (!sensing.playerInSight())
+        Vector3 direction = playerIsAt;
+        bool playerInShootingRange = false;
+        if (sensing.playerInSight())
         {
-            searchTimer += Time.deltaTime;
-
-            enemyRig.MovePosition(transform.position + this.transform.right * facing * speed * Time.deltaTime);
-        }
-        else if (sensing.playerInSight())
-        {
-            Debug.Log(Vector2.Distance(this.transform.position, player.transform.position));
             searchTimer = 0;
-            if (Vector2.Distance(this.transform.position, player.transform.position)<= 5)
+            if (Vector2.Distance(this.transform.position, playerIsAt)<= 5)
             {
-                direction = Vector2.zero;
+                playerInShootingRange = true;
             }
+ 
         }
-        if (grounded)
+        facing = enemyDirection(facing);
+        if (!playerInShootingRange)
         {
-            enemyRig.MovePosition(transform.position + direction * speed * Time.deltaTime);
+            moveToDirection(direction);
         }
-        Shoot();
+         Shoot();
     }
+
+
+
+
 
     void Shoot()
     {
@@ -226,8 +255,8 @@ public class EnemyPatrollingMovement : MonoBehaviour {
             {
                 GameObject projectile = (GameObject)Instantiate(bullet, gunBarrell.position, gunBarrell.rotation);
                 Rigidbody2D rigidbody = projectile.GetComponent<Rigidbody2D>();
-            // gunAudio.Play();
-                FMODUnity.RuntimeManager.PlayOneShot(inputSound);
+                 gunAudio.Play();
+               // FMODUnity.RuntimeManager.PlayOneShot(inputSound);
                 rigidbody.velocity = projectile.transform.right * bulletVelocity;
                 bulletTimer = 0;
             }  
@@ -284,4 +313,10 @@ public class EnemyPatrollingMovement : MonoBehaviour {
             }
         }
     }
+
+    public bool checks()
+    {
+        return personalAlert;
+    }
+
 }

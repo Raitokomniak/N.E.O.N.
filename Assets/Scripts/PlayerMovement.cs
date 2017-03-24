@@ -193,7 +193,6 @@ public class PlayerMovement : MonoBehaviour
         Debug.DrawRay(box.bounds.center + new Vector3(0, box.size.y / 2), box.transform.up, Color.red);
         if (roof)
         {
-            Debug.Log(roof.distance);
             return (roof && roof.distance < 1) ? true : false;
 
         }
