@@ -73,7 +73,7 @@ public class EnemyPatrollingMovement : MonoBehaviour {
         {
             personalAlert = sensing.playerInSight();
         }
-        Debug.Log(state);
+       // Debug.Log(state);
     }
 
     int enemyDirection(int dir)
@@ -223,7 +223,7 @@ public class EnemyPatrollingMovement : MonoBehaviour {
     void Alert()
     {
         Vector3 playerIsAt = sensing.playerLastSeenPosition();
-        Vector3 direction = playerIsAt;
+        Vector3 direction = new Vector3(playerIsAt.x, this.transform.position.y);
         bool playerInShootingRange = false;
         if (sensing.playerInSight())
         {
