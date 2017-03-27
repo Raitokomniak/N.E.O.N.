@@ -8,10 +8,11 @@ public class EnemyPatrollingMovement : MonoBehaviour {
    // public string inputSound = "event:/Input_1";
     public Transform[] waypoints;
     Transform waypoint;
-    public float patrollingSpeed = 3;
+    public float patrollingSpeed = 4;
     public float cautionSpeed = 6;
     public float alertSpeed = 9;
-    float speed = 5;
+    float speed = 8;
+    float maxSpeed = 4;
     public int currentWayPoint;
     bool patrol = true;
     public Vector2 target;
@@ -100,25 +101,25 @@ public class EnemyPatrollingMovement : MonoBehaviour {
             if (sensing.playerInSight())
             {
                 Alert();
-                speed = alertSpeed;
+                maxSpeed = alertSpeed;
                 state = states.alert;
                 personalAlert = true;
             }
             else if (personalAlert)
             {
                 checkLastPosition();
-                speed = cautionSpeed;
+                maxSpeed = cautionSpeed;
             }
             else if (gScript.allGuardsAlerted() && !sensing.playerInSight()&&!personalAlert)
             {
                 Caution();
-                speed = cautionSpeed;
+                maxSpeed = cautionSpeed;
                 state = states.caution;
             }
             else
             {
                 WaypointPatrol();
-                speed = patrollingSpeed;
+                maxSpeed = patrollingSpeed;
                 state = states.normal;
             }
         }
@@ -139,6 +140,8 @@ public class EnemyPatrollingMovement : MonoBehaviour {
                     if (personalAlert)
                     {
                         StartCoroutine(checkPos());
+                        //stop();
+                        //personalAlert = false;
                     }
                     turnAround();
                 }
@@ -156,12 +159,13 @@ public class EnemyPatrollingMovement : MonoBehaviour {
     {
         if (grounded)
         {
+            targetOnRightOrLeft(point);
             Vector3 direction = (point - transform.position).normalized;
             //  enemyRig.MovePosition(transform.position + direction * speed * Time.deltaTime);
             enemyRig.AddForce(direction * speed);
-            if (Mathf.Abs(enemyRig.velocity.x) > speed)
+            if (Mathf.Abs(enemyRig.velocity.x) > maxSpeed)
             {
-                enemyRig.velocity = new Vector2(speed*facing, enemyRig.velocity.y);
+                enemyRig.velocity = new Vector2(maxSpeed*facing, enemyRig.velocity.y);
             }
         }
     }
@@ -170,14 +174,6 @@ public class EnemyPatrollingMovement : MonoBehaviour {
     {
         timer = 0;
         moveToDirection(waypoint.position);
-        if (waypoint.position.x < this.transform.position.x)
-        {
-            facing = -1;
-        }
-        else if (waypoint.position.x > this.transform.position.x)
-        {
-            facing = 1;
-        }
         if (Vector2.Distance (this.transform.position, waypoint.position) < 1)
         {
             reachedWaypoint();
@@ -244,7 +240,6 @@ public class EnemyPatrollingMovement : MonoBehaviour {
         if (lastDetectedPosition != null)
         {
             moveToDirection(lastDetectedPosition);
-            facing = enemyDirection(facing);
             if (Vector2.Distance(this.transform.position, lastDetectedPosition) <= 2)
             {
                 StartCoroutine(checkPos());
@@ -275,7 +270,19 @@ public class EnemyPatrollingMovement : MonoBehaviour {
         {
             stop();
         }
-        Shoot();
+        //Shoot();
+    }
+
+    void targetOnRightOrLeft(Vector2 target)
+    {
+        if (target.x < this.transform.position.x)
+        {
+            facing = -1;
+        }
+        else if (target.x > this.transform.position.x)
+        {
+            facing = 1;
+        }
     }
 
     void Shoot()

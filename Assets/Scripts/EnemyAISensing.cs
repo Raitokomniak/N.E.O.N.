@@ -100,7 +100,6 @@ public class EnemyAISensing : MonoBehaviour {
                 {
                     if (see.collider.gameObject == player)
                     {
-                        Debug.Log("player seen");
                         if (!playerSeen)
                         {
                             playerSeen = detectionHandler(playerSeen);
@@ -138,7 +137,7 @@ public class EnemyAISensing : MonoBehaviour {
         float angle = Vector2.Angle(transform.right * dir, directionToTarget);
         float distance = directionToTarget.magnitude;
 
-        return (angle >= 90&& anotherTimer <= 5) ? true : false;
+        return (angle >= 90) ? true : false;
     }
 
     IEnumerator detect()
