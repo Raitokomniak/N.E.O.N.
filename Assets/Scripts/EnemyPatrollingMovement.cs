@@ -288,7 +288,7 @@ public class EnemyPatrollingMovement : MonoBehaviour {
         {
             stop();
         }
-       // Shoot();
+        Shoot();
     }
 
     void Shoot()
