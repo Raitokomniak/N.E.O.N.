@@ -270,7 +270,7 @@ public class EnemyPatrollingMovement : MonoBehaviour {
         {
             stop();
         }
-        //Shoot();
+        Shoot();
     }
 
     void targetOnRightOrLeft(Vector2 target)
