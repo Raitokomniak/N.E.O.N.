@@ -64,6 +64,12 @@ public class EnemyAISensing : MonoBehaviour {
                 hearing(col);
             }
         }
+        else
+        {
+            playerSeen = false;
+            timer = 0;
+            anotherTimer = 0;
+        }
     }
 
     void hearing(Collider2D col)
@@ -94,6 +100,7 @@ public class EnemyAISensing : MonoBehaviour {
                 {
                     if (see.collider.gameObject == player)
                     {
+                        Debug.Log("player seen");
                         if (!playerSeen)
                         {
                             playerSeen = detectionHandler(playerSeen);
@@ -102,7 +109,6 @@ public class EnemyAISensing : MonoBehaviour {
                         {
                             playerSeen = true;
                         }
-                        Debug.DrawRay(eyes.position, direction, Color.red);
                         playerIsAt = new Vector2(box.transform.position.x, box.transform.position.y) + box.offset;
                     }
                     else
@@ -120,13 +126,8 @@ public class EnemyAISensing : MonoBehaviour {
                     }
                 }
             }
-    }
-        else
-        {
-            playerSeen = false;
-            timer = 0;
-            anotherTimer = 0;
         }
+        
     }
 
     bool checkIfPlayerIsFront()

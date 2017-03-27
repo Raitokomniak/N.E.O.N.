@@ -74,7 +74,6 @@ public class EnemyPatrollingMovement : MonoBehaviour {
     {
         behaviorHandler();
         flipHandler();
-        Debug.Log(enemyRig.velocity.x);
     }
 
     int enemyDirection(int dir)
@@ -122,18 +121,6 @@ public class EnemyPatrollingMovement : MonoBehaviour {
                 speed = patrollingSpeed;
                 state = states.normal;
             }
-           /* switch (state)
-            {
-                case states.normal:
-                    WaypointPatrol();
-                    break;
-                case states.caution:
-                    Caution();
-                    break;
-                default:
-                    WaypointPatrol();
-                    break;
-            }*/
         }
         else
         {
@@ -248,7 +235,7 @@ public class EnemyPatrollingMovement : MonoBehaviour {
     IEnumerator checkPos()
     {
         stop();
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1f);
         personalAlert = false;
     }
 
