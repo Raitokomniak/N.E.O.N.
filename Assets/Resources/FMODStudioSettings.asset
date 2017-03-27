@@ -13,8 +13,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HasSourceProject: 1
   HasPlatforms: 1
-  SourceProjectPath: C:\Users\karkk\Google Drive\Assets\Audio\NEON FMOD\NEON FMOD.fspro
-  SourceBankPath: C:\Users\karkk\Google Drive\Assets\Audio\NEON FMOD\Build
+  SourceProjectPath: D:\Drive\Assets\Audio\NEON FMOD\NEON FMOD.fspro
+  SourceBankPath: D:\Drive\Assets\Audio\NEON FMOD\Build
   AutomaticEventLoading: 1
   AutomaticSampleLoading: 0
   ImportType: 0

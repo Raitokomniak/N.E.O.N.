@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [FMODUnity.EventRef]
-    public string inputSound = "event:/Input_1";
+    //[FMODUnity.EventRef]
+   // public string inputSound = "event:/Input_1";
     public float speed = 20;
     public float jumpForce = 8;
     public float maxJumpPower = 10;
@@ -70,7 +70,7 @@ public class PlayerMovement : MonoBehaviour
         stepTimer += Time.deltaTime;
         if (stepTimer >= timeBetweensteps)
         {
-            FMODUnity.RuntimeManager.PlayOneShot(inputSound);
+          //  FMODUnity.RuntimeManager.PlayOneShot(inputSound);
             stepTimer = 0;
         }
     }
@@ -109,9 +109,6 @@ public class PlayerMovement : MonoBehaviour
         grounded = feet.isFeetOnGround();
         jump();
         wallJump();
-       // steps();
-       // Debug.Log(grounded);
-       // Debug.Log("Grounded: "+grounded + " Ledge Hold: " + ledgeHold + " wallJumpAble: " + wallJumpAble);
     }
     void FixedUpdate()
     {
@@ -120,7 +117,6 @@ public class PlayerMovement : MonoBehaviour
 
     void climbLedge(float y)
     {
-        Debug.DrawRay(this.transform.position-this.transform.up, this.transform.right*facing, Color.red);
         if (ledgeHold&& y > 0.5f)
         {
             Collider2D col = wall;
@@ -145,8 +141,6 @@ public class PlayerMovement : MonoBehaviour
             frictionHandler();
         }
         move(x);
-     //   jump();
-       // wallJump();
         crouch();
         collisionChecker();
         animationHandler(x);
@@ -188,9 +182,7 @@ public class PlayerMovement : MonoBehaviour
 
     bool crouchChecker()
     {
-
         RaycastHit2D roof = Physics2D.Raycast(box.bounds.center, box.transform.up);
-        Debug.DrawRay(box.bounds.center + new Vector3(0, box.size.y / 2), box.transform.up, Color.red);
         if (roof)
         {
             return (roof && roof.distance < 1) ? true : false;
@@ -368,14 +360,7 @@ public class PlayerMovement : MonoBehaviour
 
     void flipHandler()
     {
-        if (facing == 1)
-        {
-            sr.flipX = false;
-        }
-        else
-        {
-            sr.flipX = true;
-        }
+        sr.flipX = (facing == 1) ? false : true;
     }
 
     void ledgeCheck()
@@ -409,7 +394,6 @@ public class PlayerMovement : MonoBehaviour
 
     void wallCheck(Collider2D col)
     {
-       
         if (col.gameObject.tag != "Enemy")
         {
             RaycastHit2D right = Physics2D.Raycast(this.transform.position, this.transform.right);
@@ -491,14 +475,7 @@ public class PlayerMovement : MonoBehaviour
 
     public bool isFacingRight()
     {
-        if (facing == 1)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return (facing == 1) ? true : false;
     }
 
     public bool playerMoving()
