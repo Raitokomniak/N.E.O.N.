@@ -487,4 +487,8 @@ public class PlayerMovement : MonoBehaviour
     {
         return grounded;
     }
+    public string getState()
+    {
+        return state.ToString();
+    }
 }

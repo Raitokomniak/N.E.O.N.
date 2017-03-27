@@ -58,54 +58,69 @@ public class EnemyAISensing : MonoBehaviour {
     {
         if (!gScript.isDead())
         {
-            int dir = 1;
-            if (!moving.facingRight())
+            seeing(col);
+            if (!playerSeen && col.gameObject == player)
             {
-                dir *= -1;
+                hearing(col);
             }
+        }
+    }
 
-            if (col.gameObject == player)
+    void hearing(Collider2D col)
+    {
+        if (player.GetComponent<PlayerMovement>().getState()== "run")
+        {
+            playerIsAt = col.transform.position;
+            moving.playerIsHeard(playerIsAt);            
+        }
+    }
+
+    void seeing(Collider2D col)
+    {
+        int dir = 1;
+        if (!moving.facingRight())
+        {
+            dir *= -1;
+        }
+
+        if (col.gameObject == player)
+        {
+            Vector2 direction = col.transform.position - eyes.position;
+            float angle = Vector2.Angle(direction, eyes.right * dir);
+            if (angle < enemyFieldOfView * 0.5f)
             {
-                Vector2 direction = col.transform.position - eyes.position;
-                float angle = Vector2.Angle(direction, eyes.right * dir);
-                if (angle < enemyFieldOfView * 0.5f)
+                RaycastHit2D see = Physics2D.Raycast(eyes.position, direction);
+                if (see)
                 {
-                    RaycastHit2D see = Physics2D.Raycast(eyes.position, direction);
-                    if (see)
+                    if (see.collider.gameObject == player)
                     {
-                        if (see.collider.gameObject == player)
+                        if (!playerSeen)
                         {
-                            if (!playerSeen)
-                            {
-                                playerSeen = detectionHandler(playerSeen);
-                            }
-                            else
-                            {
-                                playerSeen = true;
-                            }
-                            Debug.DrawRay(eyes.position, direction, Color.red);
-                            playerIsAt = new Vector2(box.transform.position.x, box.transform.position.y) + box.offset;
+                            playerSeen = detectionHandler(playerSeen);
                         }
                         else
                         {
-                            if (playerSeen)
-                            {
-                                playerSeen = false;
-                            }
-                            else
-                            {
-                                playerSeen = false;
-                                anotherTimer = 0;
-                            }
-                            timer = (playerSeen) ? 0 : timer;
+                            playerSeen = true;
                         }
+                        Debug.DrawRay(eyes.position, direction, Color.red);
+                        playerIsAt = new Vector2(box.transform.position.x, box.transform.position.y) + box.offset;
                     }
-
+                    else
+                    {
+                        if (playerSeen)
+                        {
+                            playerSeen = false;
+                        }
+                        else
+                        {
+                            playerSeen = false;
+                            anotherTimer = 0;
+                        }
+                        timer = (playerSeen) ? 0 : timer;
+                    }
                 }
-               
             }
-
-        }
+    }
         else
         {
             playerSeen = false;

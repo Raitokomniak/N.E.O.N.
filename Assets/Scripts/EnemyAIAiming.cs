@@ -43,9 +43,8 @@ public class EnemyAIAiming : MonoBehaviour {
         }
         
             
-        if (!gScript.isDead()&&sensing.playerInSight())
+        if ((!gScript.isDead()&&sensing.playerInSight())||movement.checks())
         {
-
 
             //BoxCollider2D box = player.GetComponent<BoxCollider2D>();
             // box.transform

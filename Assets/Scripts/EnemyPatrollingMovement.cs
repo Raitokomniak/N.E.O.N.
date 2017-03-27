@@ -8,7 +8,10 @@ public class EnemyPatrollingMovement : MonoBehaviour {
    // public string inputSound = "event:/Input_1";
     public Transform[] waypoints;
     Transform waypoint;
-    public float speed = 5;
+    public float patrollingSpeed = 3;
+    public float cautionSpeed = 6;
+    public float alertSpeed = 9;
+    float speed = 5;
     public int currentWayPoint;
     bool patrol = true;
     public Vector2 target;
@@ -38,6 +41,8 @@ public class EnemyPatrollingMovement : MonoBehaviour {
     int facing;
     bool personalAlert;
     float oldpoint;
+    Vector3 lastDetectedPosition;
+    bool playerHeard;
     enum states
     {
         normal,
@@ -61,58 +66,63 @@ public class EnemyPatrollingMovement : MonoBehaviour {
         grounded = false;
         startingSpeed = speed;
         oldpoint = 0;
+        
 
     }
 
     void Update()
     {
-        
         behaviorHandler();
         flipHandler();
-        if (sensing.playerInSight()&&!personalAlert)
-        {
-            personalAlert = sensing.playerInSight();
-        }
-       // Debug.Log(state);
+        Debug.Log(enemyRig.velocity.x);
     }
 
     int enemyDirection(int dir)
     {
-        float velocity = (this.transform.position.x - oldpoint) / Time.deltaTime;
-        oldpoint = this.transform.position.x;
-        if (velocity > 0)
+        //float velocity = (this.transform.position.x - oldpoint) / Time.deltaTime;
+       // oldpoint = this.transform.position.x;
+        if (enemyRig.velocity.x > 0)
         {
             dir = 1;
         }
-        else if (velocity < 0)
+        else if (enemyRig.velocity.x < 0)
         {
             dir = -1;
         }
         return dir;
     }
 
-    void stateHandler()
-    {
-        if (sensing.playerInSight())
-        {
-            state = states.alert;
-        }
-        if (gScript.allGuardsAlerted()&&!sensing.playerInSight() && timer < cautionTimer)
-        {
-            state = states.caution;
-        }
-        else if (!sensing.playerInSight() && !gScript.allGuardsAlerted())
-        {
-            state = states.normal;
-        }
-    }
     void behaviorHandler()
     {
-        stateHandler();
+        
         ObstacleCheck();
         if (!obstacleSpotted && !ledgeSpotted)
         {
-            switch (state)
+            if (sensing.playerInSight())
+            {
+                Alert();
+                speed = alertSpeed;
+                state = states.alert;
+                personalAlert = true;
+            }
+            else if (personalAlert)
+            {
+                checkLastPosition();
+                speed = cautionSpeed;
+            }
+            else if (gScript.allGuardsAlerted() && !sensing.playerInSight()&&!personalAlert)
+            {
+                Caution();
+                speed = cautionSpeed;
+                state = states.caution;
+            }
+            else
+            {
+                WaypointPatrol();
+                speed = patrollingSpeed;
+                state = states.normal;
+            }
+           /* switch (state)
             {
                 case states.normal:
                     WaypointPatrol();
@@ -120,23 +130,36 @@ public class EnemyPatrollingMovement : MonoBehaviour {
                 case states.caution:
                     Caution();
                     break;
-                case states.alert:
-                    Alert();
-                    break;
                 default:
                     WaypointPatrol();
                     break;
-            }
+            }*/
         }
         else
         {
-            if (state == states.caution || state == states.alert)
+            if (sensing.playerInSight())
             {
-                turnAround();
+                stop();
             }
             else
             {
-                reachedWaypoint();
+                if (state == states.caution)
+                {
+                    turnAround();
+                }
+                else if (personalAlert || state == states.alert)
+                {
+                    if (personalAlert)
+                    {
+                        StartCoroutine(checkPos());
+                    }
+                    turnAround();
+                }
+
+                else
+                {
+                    reachedWaypoint();
+                }
             }
         }
     }
@@ -147,7 +170,12 @@ public class EnemyPatrollingMovement : MonoBehaviour {
         if (grounded)
         {
             Vector3 direction = (point - transform.position).normalized;
-            enemyRig.MovePosition(transform.position + direction * speed * Time.deltaTime);
+            //  enemyRig.MovePosition(transform.position + direction * speed * Time.deltaTime);
+            enemyRig.AddForce(direction * speed);
+            if (Mathf.Abs(enemyRig.velocity.x) > speed)
+            {
+                enemyRig.velocity = new Vector2(speed*facing, enemyRig.velocity.y);
+            }
         }
     }
 
@@ -163,9 +191,6 @@ public class EnemyPatrollingMovement : MonoBehaviour {
         {
             facing = 1;
         }
-        Debug.Log(waypoint.position.x + " " + this.transform.position.x);
-        //enemyRig.velocity = direction * speed*facing;
-        
         if (Vector2.Distance (this.transform.position, waypoint.position) < 1)
         {
             reachedWaypoint();
@@ -174,11 +199,12 @@ public class EnemyPatrollingMovement : MonoBehaviour {
 
     void reachedWaypoint()
     {
-       if (waypoint.Equals(waypoints[0]))
+        stop();
+        if (waypoint.Equals(waypoints[0]))
         {
             waypoint = waypoints[1];
         }
-       else
+        else
         {
             waypoint = waypoints[0];
         }
@@ -219,11 +245,30 @@ public class EnemyPatrollingMovement : MonoBehaviour {
         enemyRig.velocity = new Vector2(0, enemyRig.velocity.y);
     }
 
+    IEnumerator checkPos()
+    {
+        stop();
+        yield return new WaitForSeconds(2f);
+        personalAlert = false;
+    }
 
+    void checkLastPosition()
+    {
+        if (lastDetectedPosition != null)
+        {
+            moveToDirection(lastDetectedPosition);
+            facing = enemyDirection(facing);
+            if (Vector2.Distance(this.transform.position, lastDetectedPosition) <= 2)
+            {
+                StartCoroutine(checkPos());
+            }
+        }
+    }
     void Alert()
     {
         Vector3 playerIsAt = sensing.playerLastSeenPosition();
         Vector3 direction = new Vector3(playerIsAt.x, this.transform.position.y);
+        lastDetectedPosition = direction;
         bool playerInShootingRange = false;
         if (sensing.playerInSight())
         {
@@ -234,17 +279,17 @@ public class EnemyPatrollingMovement : MonoBehaviour {
             }
  
         }
-        facing = enemyDirection(facing);
+       // facing = enemyDirection(facing);
         if (!playerInShootingRange)
         {
             moveToDirection(direction);
         }
-         Shoot();
+        else
+        {
+            stop();
+        }
+       // Shoot();
     }
-
-
-
-
 
     void Shoot()
     {
@@ -275,12 +320,17 @@ public class EnemyPatrollingMovement : MonoBehaviour {
         BoxCollider2D box = this.GetComponent<BoxCollider2D>();
         Vector2 ledgeStartPoint = box.transform.position + (box.transform.right * dir);
         ledgeSpotter = Physics2D.Raycast(new Vector2(ledgeStartPoint.x + (box.size.x * dir), this.transform.position.y), -Vector2.up);
-        Debug.DrawRay(new Vector2(ledgeStartPoint.x + (box.size.x * dir), this.transform.position.y), -Vector2.up, Color.red);
         obstacleSpotter = Physics2D.BoxCast(this.transform.position, box.size, Vector2.Angle(this.transform.position, this.transform.right * dir), this.transform.right * dir);
         if (obstacleSpotter)
         {
-            obstacleSpotted = (obstacleSpotter.distance < box.bounds.size.x) ? true : false;
-           
+            if (obstacleSpotter.collider.gameObject.CompareTag("Player"))
+            {
+                obstacleSpotted = false;
+            }
+            else
+            {
+                obstacleSpotted = (obstacleSpotter.distance < box.bounds.size.x) ? true : false;
+            }
         }
         else
         {
@@ -297,7 +347,7 @@ public class EnemyPatrollingMovement : MonoBehaviour {
         }
     
     }
-
+    
     void OnCollisionStay2D(Collision2D col)
     {
         RaycastHit2D ground = Physics2D.Raycast(this.transform.position, -this.transform.up);
@@ -317,6 +367,12 @@ public class EnemyPatrollingMovement : MonoBehaviour {
     public bool checks()
     {
         return personalAlert;
+    }
+
+    public void playerIsHeard(Vector2 pPos)
+    {
+        lastDetectedPosition = new Vector2(pPos.x, this.transform.position.y);
+        personalAlert = true;
     }
 
 }
