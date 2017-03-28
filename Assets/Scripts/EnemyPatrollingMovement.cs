@@ -226,7 +226,6 @@ public class EnemyPatrollingMovement : MonoBehaviour {
         stop();
         yield return new WaitForSeconds(1f);
         personalAlert = false;
-        turnAround();
         state = states.caution;
     }
 
