@@ -67,8 +67,6 @@ public class EnemyPatrollingMovement : MonoBehaviour {
         grounded = false;
         startingSpeed = speed;
         oldpoint = 0;
-        
-
     }
 
     void Update()
@@ -108,7 +106,7 @@ public class EnemyPatrollingMovement : MonoBehaviour {
             else if (personalAlert)
             {
                 checkLastPosition();
-                maxSpeed = cautionSpeed;
+                maxSpeed = patrollingSpeed;
             }
             else if (gScript.allGuardsAlerted() && !sensing.playerInSight()&&!personalAlert)
             {
@@ -135,17 +133,12 @@ public class EnemyPatrollingMovement : MonoBehaviour {
                 {
                     turnAround();
                 }
-                else if (personalAlert || state == states.alert)
+                else if (personalAlert)
                 {
-                    if (personalAlert)
-                    {
-                        StartCoroutine(checkPos());
-                        //stop();
-                        //personalAlert = false;
-                    }
-                    turnAround();
+                    StartCoroutine(checkPos());
+                    //stop();
+                    //personalAlert = false;
                 }
-
                 else
                 {
                     reachedWaypoint();
@@ -233,6 +226,8 @@ public class EnemyPatrollingMovement : MonoBehaviour {
         stop();
         yield return new WaitForSeconds(1f);
         personalAlert = false;
+        turnAround();
+        state = states.caution;
     }
 
     void checkLastPosition()
