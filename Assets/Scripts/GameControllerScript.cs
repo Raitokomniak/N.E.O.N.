@@ -15,8 +15,8 @@ public class GameControllerScript : MonoBehaviour {
     AudioSource gameAudio;
     bool guardsAlerted;
     float countdownTimer;
-    Vector3 Checkpoint;
     GameObject player;
+    GameObject camera;
     //savefile stuff
     string saveFile = "saveFile.txt";
     int currentScene;
@@ -24,6 +24,9 @@ public class GameControllerScript : MonoBehaviour {
     public bool useSaveFile = true;
     void Awake()
     {
+        gameAudio = GetComponent<AudioSource>();
+        player = GameObject.FindGameObjectWithTag("Player");
+        camera = GameObject.FindGameObjectWithTag("MainCamera");
         if (!File.Exists(saveFile))
         {
             using(StreamWriter sw = File.CreateText(saveFile))
@@ -43,11 +46,12 @@ public class GameControllerScript : MonoBehaviour {
             //reaload from the savefile
             //set scene
             //set player spawnpoint
+            readSaveFile();
+            loadSaveFile();
         }
-        gameAudio = GetComponent<AudioSource>();
-        player = GameObject.FindGameObjectWithTag("Player");
-        readSaveFile();
+        
     }
+
 	void Start () {
         playerDead = false;
         guardsAlerted = false;
@@ -82,6 +86,7 @@ public class GameControllerScript : MonoBehaviour {
         }
 
     }
+
     void readSaveFile()
     {
         //set atributes from the save file into gamecontroller variables
@@ -94,6 +99,17 @@ public class GameControllerScript : MonoBehaviour {
         Debug.Log(currentScene);
         Debug.Log(currentCheckpoint);
     }
+
+    void loadSaveFile()
+    {
+        if(currentScene != SceneManager.GetActiveScene().buildIndex)
+        {
+            reload();
+        }
+        player.transform.position = currentCheckpoint;
+        camera.transform.position = new Vector3(currentCheckpoint.x,currentCheckpoint.y, -12f);
+    }
+
     public void setPlayerDead()
     {
         playerDead = true;
@@ -119,13 +135,40 @@ public class GameControllerScript : MonoBehaviour {
 
     void reload()
     {
-        int scene = SceneManager.GetActiveScene().buildIndex;
-        SceneManager.LoadScene(scene, LoadSceneMode.Single);
+        if (useSaveFile)
+        {
+            SceneManager.LoadScene(currentScene, LoadSceneMode.Single);
+        }
+        else
+        {
+            int scene = SceneManager.GetActiveScene().buildIndex;
+            SceneManager.LoadScene(scene, LoadSceneMode.Single);
+        }
+
         
     }
     public void loadNextScene(int scene)
     {
-        SceneManager.LoadScene(scene);
+        //called from player entering door to next levelpart
+        if (useSaveFile)
+        {
+            currentScene = scene;
+            currentCheckpoint = new Vector3(0f, 0f, 0f);
+            using (StreamWriter sw = File.CreateText(saveFile))
+            {
+                sw.Flush();
+                sw.WriteLine(currentScene);
+                sw.WriteLine(currentCheckpoint.x);
+                sw.WriteLine(currentCheckpoint.y);
+                sw.WriteLine(currentCheckpoint.z);
+            }
+            SceneManager.LoadScene(scene);
+        }
+        else
+        {
+            SceneManager.LoadScene(scene);
+        }
+        
     }
 
     public void setAlertState(bool alert)
@@ -164,6 +207,21 @@ public class GameControllerScript : MonoBehaviour {
 
     public void setCheckpoint(Vector3 checkpoint)
     {
-        Checkpoint = checkpoint;
+        //caled from player triggering checkpoint
+        if (useSaveFile)
+        {
+            Debug.Log("Checkpoint reached");
+            currentCheckpoint = checkpoint;
+            currentScene = SceneManager.GetActiveScene().buildIndex;
+
+            using (StreamWriter sw = File.CreateText(saveFile))
+            {
+                sw.Flush();
+                sw.WriteLine(currentScene);
+                sw.WriteLine(currentCheckpoint.x);
+                sw.WriteLine(currentCheckpoint.y);
+                sw.WriteLine(currentCheckpoint.z);
+            }
+        }
     }
 }

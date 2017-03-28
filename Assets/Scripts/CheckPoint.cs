@@ -15,7 +15,7 @@ public class CheckPoint : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            //gScript.setCheckpoint(transform);
+            gScript.setCheckpoint(this.transform.position);
         }
     }
 }

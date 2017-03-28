@@ -368,6 +368,57 @@ SpriteRenderer:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
+--- !u!1001 &132490177
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1951090789}
+    m_Modifications:
+    - target: {fileID: 4081683442668188, guid: db2cba9164f3170448bb766747c9af29, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4081683442668188, guid: db2cba9164f3170448bb766747c9af29, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4081683442668188, guid: db2cba9164f3170448bb766747c9af29, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4081683442668188, guid: db2cba9164f3170448bb766747c9af29, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4081683442668188, guid: db2cba9164f3170448bb766747c9af29, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4081683442668188, guid: db2cba9164f3170448bb766747c9af29, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4081683442668188, guid: db2cba9164f3170448bb766747c9af29, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4081683442668188, guid: db2cba9164f3170448bb766747c9af29, type: 2}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1202351105167626, guid: db2cba9164f3170448bb766747c9af29, type: 2}
+      propertyPath: m_Name
+      value: CheckPoint (1)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: db2cba9164f3170448bb766747c9af29, type: 2}
+  m_IsPrefabParent: 0
+--- !u!4 &132490178 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 4081683442668188, guid: db2cba9164f3170448bb766747c9af29,
+    type: 2}
+  m_PrefabInternal: {fileID: 132490177}
 --- !u!1 &151495753
 GameObject:
   m_ObjectHideFlags: 0
@@ -939,11 +990,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fa83ce3a13be084b8632cc9e150757f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inputSound: event:/Enemy sounds/Guard (cyborg grunt)/Gunshots/Single
   waypoints:
   - {fileID: 1322752596}
   - {fileID: 971049480}
-  speed: 5
+  patrollingSpeed: 4
+  cautionSpeed: 6
+  alertSpeed: 9
   currentWayPoint: 0
   target: {x: 0, y: 0}
   moveDirection: {x: 0, y: 0}
@@ -955,7 +1007,6 @@ MonoBehaviour:
   player: {fileID: 0}
   bulletVelocity: 20
   timeBetweenBullets: 0.5
-  startFacingDirection: -1
 --- !u!114 &478961270
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1779,11 +1830,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fa83ce3a13be084b8632cc9e150757f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inputSound: event:/Enemy sounds/Guard (cyborg grunt)/Gunshots/Single
   waypoints:
   - {fileID: 1452159245}
   - {fileID: 2015907334}
-  speed: 1.5
+  patrollingSpeed: 4
+  cautionSpeed: 6
+  alertSpeed: 9
   currentWayPoint: 0
   target: {x: 0, y: 0}
   moveDirection: {x: 0, y: 0}
@@ -1795,7 +1847,6 @@ MonoBehaviour:
   player: {fileID: 0}
   bulletVelocity: 20
   timeBetweenBullets: 0.5
-  startFacingDirection: -1
 --- !u!114 &824436926
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4434,6 +4485,53 @@ SpriteRenderer:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
+--- !u!1001 &1752900510
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1951090789}
+    m_Modifications:
+    - target: {fileID: 4081683442668188, guid: db2cba9164f3170448bb766747c9af29, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 76.72
+      objectReference: {fileID: 0}
+    - target: {fileID: 4081683442668188, guid: db2cba9164f3170448bb766747c9af29, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 29.82541
+      objectReference: {fileID: 0}
+    - target: {fileID: 4081683442668188, guid: db2cba9164f3170448bb766747c9af29, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4081683442668188, guid: db2cba9164f3170448bb766747c9af29, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4081683442668188, guid: db2cba9164f3170448bb766747c9af29, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4081683442668188, guid: db2cba9164f3170448bb766747c9af29, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4081683442668188, guid: db2cba9164f3170448bb766747c9af29, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4081683442668188, guid: db2cba9164f3170448bb766747c9af29, type: 2}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: db2cba9164f3170448bb766747c9af29, type: 2}
+  m_IsPrefabParent: 0
+--- !u!4 &1752900511 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 4081683442668188, guid: db2cba9164f3170448bb766747c9af29,
+    type: 2}
+  m_PrefabInternal: {fileID: 1752900510}
 --- !u!1 &1758463427
 GameObject:
   m_ObjectHideFlags: 0
@@ -4815,11 +4913,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fa83ce3a13be084b8632cc9e150757f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inputSound: event:/Enemy sounds/Guard (cyborg grunt)/Gunshots/Single
   waypoints:
   - {fileID: 100293554}
   - {fileID: 724699229}
-  speed: 1.5
+  patrollingSpeed: 4
+  cautionSpeed: 6
+  alertSpeed: 9
   currentWayPoint: 0
   target: {x: 0, y: 0}
   moveDirection: {x: 0, y: 0}
@@ -4831,7 +4930,6 @@ MonoBehaviour:
   player: {fileID: 0}
   bulletVelocity: 20
   timeBetweenBullets: 0.5
-  startFacingDirection: -1
 --- !u!114 &1928373825
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5065,6 +5163,8 @@ Transform:
   - {fileID: 900816105}
   - {fileID: 905662121}
   - {fileID: 390598013}
+  - {fileID: 1752900511}
+  - {fileID: 132490178}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
