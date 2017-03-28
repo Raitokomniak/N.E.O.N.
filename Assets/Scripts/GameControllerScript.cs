@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.IO;
+using System;
 
 public class GameControllerScript : MonoBehaviour {
 
@@ -15,10 +17,36 @@ public class GameControllerScript : MonoBehaviour {
     float countdownTimer;
     Vector3 Checkpoint;
     GameObject player;
+    //savefile stuff
+    string saveFile = "saveFile.txt";
+    int currentScene;
+    Vector3 currentCheckpoint;
+    public bool useSaveFile = true;
     void Awake()
     {
+        if (!File.Exists(saveFile))
+        {
+            using(StreamWriter sw = File.CreateText(saveFile))
+            {
+                //0. line currentScene int
+                //1. line currentCheckpointx float
+                //2. line currentCheckpointy float
+                //3. line currentCheckpointz float
+                sw.WriteLine("1");
+                sw.WriteLine("0.0");
+                sw.WriteLine("0.0");
+                sw.WriteLine("0.0");
+            }
+        }
+        else if(File.Exists(saveFile) && useSaveFile)
+        {
+            //reaload from the savefile
+            //set scene
+            //set player spawnpoint
+        }
         gameAudio = GetComponent<AudioSource>();
         player = GameObject.FindGameObjectWithTag("Player");
+        readSaveFile();
     }
 	void Start () {
         playerDead = false;
@@ -53,6 +81,18 @@ public class GameControllerScript : MonoBehaviour {
             gameAudio.Play();
         }
 
+    }
+    void readSaveFile()
+    {
+        //set atributes from the save file into gamecontroller variables
+        string [] rawRead = System.IO.File.ReadAllLines(saveFile);
+        currentScene = Convert.ToInt32(rawRead[0]);
+        float x = Convert.ToSingle(rawRead[1]);
+        float y = Convert.ToSingle(rawRead[2]);
+        float z = Convert.ToSingle(rawRead[3]);
+        currentCheckpoint = new Vector3(x, y, z);
+        Debug.Log(currentScene);
+        Debug.Log(currentCheckpoint);
     }
     public void setPlayerDead()
     {
