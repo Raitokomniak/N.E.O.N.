@@ -44,6 +44,7 @@ public class EnemyPatrollingMovement : MonoBehaviour {
     float oldpoint;
     Vector3 lastDetectedPosition;
     bool playerHeard;
+    bool firstTime;
     enum states
     {
         normal,
@@ -65,6 +66,7 @@ public class EnemyPatrollingMovement : MonoBehaviour {
         waypoint = (facing == 1) ? waypoints[0] : waypoints[1];
         searchTimer = 0;
         grounded = false;
+        firstTime = true;
         startingSpeed = speed;
         oldpoint = 0;
     }
@@ -129,13 +131,20 @@ public class EnemyPatrollingMovement : MonoBehaviour {
             }
             else
             {
-                if (state == states.caution)
+                if (state == states.caution&&!personalAlert)
                 {
                     turnAround();
                 }
                 else if (personalAlert)
                 {
-                    StartCoroutine(checkPos());
+                    stop();
+                    if (firstTime)
+                    {
+                        firstTime = false;
+                        float waitTime = Random.Range(1, 4);
+                        Invoke("checkPos", waitTime);
+                        Debug.Log(waitTime);
+                    }
                     //stop();
                     //personalAlert = false;
                 }
@@ -221,11 +230,13 @@ public class EnemyPatrollingMovement : MonoBehaviour {
         enemyRig.velocity = new Vector2(0, enemyRig.velocity.y);
     }
 
-    IEnumerator checkPos()
+    void checkPos()
     {
         stop();
-        yield return new WaitForSeconds(1f);
+        //yield return new WaitForSeconds(waitTime);
+        turnAround();
         personalAlert = false;
+        firstTime = true;
         state = states.caution;
     }
 
@@ -236,7 +247,14 @@ public class EnemyPatrollingMovement : MonoBehaviour {
             moveToDirection(lastDetectedPosition);
             if (Vector2.Distance(this.transform.position, lastDetectedPosition) <= 2)
             {
-                StartCoroutine(checkPos());
+                if (firstTime)
+                {
+                    firstTime = false;
+                    float waitTime = Random.Range(1, 4);
+                    Invoke("checkPos", waitTime);
+                    Debug.Log(waitTime);
+                    //StartCoroutine(checkPos(waitTime));
+                }
             }
         }
     }
@@ -360,6 +378,13 @@ public class EnemyPatrollingMovement : MonoBehaviour {
     public void playerIsHeard(Vector2 pPos)
     {
         lastDetectedPosition = new Vector2(pPos.x, this.transform.position.y);
+        float hearingTime = 1.4f;
+        float newTimer = 0;
+        while (newTimer < hearingTime)
+        {
+            stop();
+            newTimer += Time.deltaTime;
+        }
         personalAlert = true;
     }
 

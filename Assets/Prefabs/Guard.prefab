@@ -179,7 +179,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1980406237191576
 GameObject:
   m_ObjectHideFlags: 1
@@ -294,7 +294,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1525343912743354}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.748, y: -0.13000004, z: 0}
+  m_LocalPosition: {x: -2.05, y: -0.13000004, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4227773749689022}
@@ -360,7 +360,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1135221877065568}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2.731, y: -0.12, z: 0}
+  m_LocalPosition: {x: -1.21, y: -0.12, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4227773749689022}
@@ -689,11 +689,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fa83ce3a13be084b8632cc9e150757f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inputSound: event:/Enemy sounds/Guard (cyborg grunt)/Gunshots/Single
   waypoints:
   - {fileID: 4878338772624894}
   - {fileID: 4422126561963344}
-  speed: 5
+  patrollingSpeed: 2
+  cautionSpeed: 4
+  alertSpeed: 5.5
   currentWayPoint: 0
   target: {x: 0, y: 0}
   moveDirection: {x: 0, y: 0}
@@ -719,7 +720,7 @@ MonoBehaviour:
   gunBarrell: {fileID: 4295662446186712}
   bullet: {fileID: 1081764111275878, guid: 9f3f1c5b07d0add4295a281d7760dfbf, type: 2}
   velocity: 20
-  timeBetweenBullets: 0.5
+  timeBetweenBullets: 1
   speed: 5
   wayPoints: []
 --- !u!114 &114459212720179316
