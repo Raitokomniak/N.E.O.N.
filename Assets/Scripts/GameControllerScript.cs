@@ -199,12 +199,12 @@ public class GameControllerScript : MonoBehaviour {
 
         
     }
-    public void loadNextScene(int scene)
+    public void loadNextScene()
     {
         //called from player entering door to next levelpart
         if (useSaveFile)
         {
-            currentScene = scene;
+            currentScene = SceneManager.GetActiveScene().buildIndex + 1;
             currentCheckpoint = new Vector3(0f, 0f, 0f);
             using (StreamWriter sw = File.CreateText(saveFile))
             {
@@ -214,11 +214,11 @@ public class GameControllerScript : MonoBehaviour {
                 sw.WriteLine(currentCheckpoint.y);
                 sw.WriteLine(currentCheckpoint.z);
             }
-            SceneManager.LoadScene(scene);
+            SceneManager.LoadScene(currentScene);
         }
         else
         {
-            SceneManager.LoadScene(scene);
+            SceneManager.LoadScene(currentScene);
         }
         
     }

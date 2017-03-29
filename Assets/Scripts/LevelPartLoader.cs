@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class LevelPartLoader : MonoBehaviour
 {
-    public int nextScene;
     GameControllerScript gScript;
     void Awake()
     {
@@ -15,7 +14,7 @@ public class LevelPartLoader : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            gScript.loadNextScene(nextScene);
+            gScript.loadNextScene();
         }
     }
 }
