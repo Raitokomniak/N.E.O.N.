@@ -141,7 +141,7 @@ public class EnemyPatrollingMovement : MonoBehaviour {
                     if (firstTime)
                     {
                         firstTime = false;
-                        float waitTime = Random.Range(1, 4);
+                        float waitTime = Random.Range(1, 3);
                         Invoke("checkPos", waitTime);
                     }
                     //stop();
