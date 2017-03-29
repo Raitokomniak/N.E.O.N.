@@ -35,7 +35,7 @@ public class GameControllerScript : MonoBehaviour {
                 //1. line currentCheckpointx float
                 //2. line currentCheckpointy float
                 //3. line currentCheckpointz float
-                sw.WriteLine("1");
+                sw.WriteLine("2");
                 sw.WriteLine("0.0");
                 sw.WriteLine("0.0");
                 sw.WriteLine("0.0");
@@ -66,7 +66,6 @@ public class GameControllerScript : MonoBehaviour {
         if (Input.GetKey(KeyCode.Escape))
         {
             Application.Quit();
-            Debug.Break();
         }
         if (guardsAlerted)
         {

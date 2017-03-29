@@ -156,7 +156,7 @@ public class CutsceneHandler : MonoBehaviour
 	}
 
 	void NextScene(){
-		SceneManager.LoadScene(1);
+		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
 	}
 
 
