@@ -65,7 +65,8 @@ public class GameControllerScript : MonoBehaviour {
     {
         if (Input.GetKey(KeyCode.Escape))
         {
-            reload();
+            Application.Quit();
+            Debug.Break();
         }
         if (guardsAlerted)
         {
