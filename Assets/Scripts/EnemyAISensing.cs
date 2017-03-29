@@ -112,9 +112,13 @@ public class EnemyAISensing : MonoBehaviour {
                     }
                     else
                     {
+                        
                         if (playerSeen)
                         {
-                            playerSeen = false;
+                            if (!checkIfPlayerIsBehind())
+                            {
+                                playerSeen = false;
+                            }
                         }
                         else
                         {
@@ -129,15 +133,12 @@ public class EnemyAISensing : MonoBehaviour {
         
     }
 
-    bool checkIfPlayerIsFront()
+    public bool checkIfPlayerIsBehind()
     {
-        anotherTimer += Time.deltaTime;
         int dir = moving.facingRight() ? 1 : -1;
         Vector2 directionToTarget = transform.position - player.transform.position;
         float angle = Vector2.Angle(transform.right * dir, directionToTarget);
-        float distance = directionToTarget.magnitude;
-
-        return (angle >= 90) ? true : false;
+        return (!(angle >= 90)) ? true : false;
     }
 
     IEnumerator detect()

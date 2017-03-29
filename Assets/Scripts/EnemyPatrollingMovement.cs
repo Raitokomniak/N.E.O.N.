@@ -135,7 +135,7 @@ public class EnemyPatrollingMovement : MonoBehaviour {
                 {
                     turnAround();
                 }
-                else if (personalAlert)
+                else if (personalAlert&&!sensing.playerInSight())
                 {
                     stop();
                     if (firstTime)
@@ -143,7 +143,6 @@ public class EnemyPatrollingMovement : MonoBehaviour {
                         firstTime = false;
                         float waitTime = Random.Range(1, 4);
                         Invoke("checkPos", waitTime);
-                        Debug.Log(waitTime);
                     }
                     //stop();
                     //personalAlert = false;
@@ -234,10 +233,13 @@ public class EnemyPatrollingMovement : MonoBehaviour {
     {
         stop();
         //yield return new WaitForSeconds(waitTime);
-        turnAround();
-        personalAlert = false;
+        if (!sensing.playerInSight())
+        {
+           // turnAround();
+            personalAlert = false;
+            state = states.caution;
+        }
         firstTime = true;
-        state = states.caution;
     }
 
     void checkLastPosition()
@@ -245,14 +247,13 @@ public class EnemyPatrollingMovement : MonoBehaviour {
         if (lastDetectedPosition != null)
         {
             moveToDirection(lastDetectedPosition);
-            if (Vector2.Distance(this.transform.position, lastDetectedPosition) <= 2)
+            if (Vector2.Distance(this.transform.position, new Vector2(lastDetectedPosition.x, this.transform.position.y)) <= 3)
             {
                 if (firstTime)
                 {
                     firstTime = false;
                     float waitTime = Random.Range(1, 4);
                     Invoke("checkPos", waitTime);
-                    Debug.Log(waitTime);
                     //StartCoroutine(checkPos(waitTime));
                 }
             }
@@ -274,7 +275,11 @@ public class EnemyPatrollingMovement : MonoBehaviour {
  
         }
        // facing = enemyDirection(facing);
-        if (!playerInShootingRange)
+        if (sensing.checkIfPlayerIsBehind())
+        {
+            turnAround();
+        }
+        else if (!playerInShootingRange)
         {
             moveToDirection(direction);
         }
@@ -282,7 +287,7 @@ public class EnemyPatrollingMovement : MonoBehaviour {
         {
             stop();
         }
-        Shoot();
+       // Shoot();
     }
 
     void targetOnRightOrLeft(Vector2 target)

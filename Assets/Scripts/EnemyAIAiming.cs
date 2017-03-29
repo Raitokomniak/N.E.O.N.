@@ -45,15 +45,19 @@ public class EnemyAIAiming : MonoBehaviour {
             
         if ((!gScript.isDead()&&sensing.playerInSight())||movement.checks())
         {
-
-            //BoxCollider2D box = player.GetComponent<BoxCollider2D>();
-            // box.transform
             Vector2 playerPos = sensing.playerLastSeenPosition();
             Vector2 direction = playerPos - new Vector2(this.transform.parent.position.x, this.transform.parent.position.y);
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-            Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward*Time.smoothDeltaTime);
+            if (movement.facingRight()){
+                angle = Mathf.Clamp(angle, -50, 50);
+                sensing.checkIfPlayerIsBehind();
+            }
+            else
+            {
+                sensing.checkIfPlayerIsBehind();
+            }
+            Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward * Time.smoothDeltaTime);
             this.transform.rotation = rotation;
-           // this.transform.rotation = Quaternion.FromToRotation(this.transform.position, direction * Time.deltaTime);
             if (!movement.facingRight())
             {
                 sr.flipY = true;
