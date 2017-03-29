@@ -246,9 +246,10 @@ public class EnemyPatrollingMovement : MonoBehaviour {
     {
         if (lastDetectedPosition != null)
         {
-            moveToDirection(lastDetectedPosition);
-            if (Vector2.Distance(this.transform.position, new Vector2(lastDetectedPosition.x, this.transform.position.y)) <= 3)
+            Vector3 dir = lastDetectedPosition;
+            if (Vector3.Distance(this.transform.position, lastDetectedPosition) <= 3)
             {
+                stop();
                 if (firstTime)
                 {
                     firstTime = false;
@@ -256,6 +257,10 @@ public class EnemyPatrollingMovement : MonoBehaviour {
                     Invoke("checkPos", waitTime);
                     //StartCoroutine(checkPos(waitTime));
                 }
+            }
+            else
+            {
+                moveToDirection(dir);
             }
         }
     }
@@ -277,7 +282,8 @@ public class EnemyPatrollingMovement : MonoBehaviour {
        // facing = enemyDirection(facing);
         if (sensing.checkIfPlayerIsBehind())
         {
-            turnAround();
+            //turnAround();
+    
         }
         else if (!playerInShootingRange)
         {

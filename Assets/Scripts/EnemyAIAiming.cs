@@ -100,7 +100,6 @@ public class EnemyAIAiming : MonoBehaviour {
         if (movement.facingRight())
         {
             sr.flipX = false;
-
         }
         else
         {
