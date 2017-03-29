@@ -69,4 +69,8 @@ public class MenuController : MonoBehaviour {
         eventSystem.SetSelectedGameObject(continueButton);
     }
 
+    public void exitButtonPressed()
+    {
+        Application.Quit();
+    }
 }

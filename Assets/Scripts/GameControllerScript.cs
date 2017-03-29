@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.IO;
 using System;
+using UnityEngine.EventSystems;
 
 public class GameControllerScript : MonoBehaviour {
 
@@ -22,11 +23,18 @@ public class GameControllerScript : MonoBehaviour {
     int currentScene;
     Vector3 currentCheckpoint;
     public bool useSaveFile = true;
+    //menustuff
+    public GameObject pauseMenuCanvas;
+    public bool pauseOn = false;
+    public EventSystem eventSystem;
+    public GameObject restartButton;
+    public GameObject exitMainMenuButton;
     void Awake()
     {
         gameAudio = GetComponent<AudioSource>();
         player = GameObject.FindGameObjectWithTag("Player");
         camera = GameObject.FindGameObjectWithTag("MainCamera");
+
         if (!File.Exists(saveFile))
         {
             using(StreamWriter sw = File.CreateText(saveFile))
@@ -49,7 +57,9 @@ public class GameControllerScript : MonoBehaviour {
             readSaveFile();
             loadSaveFile();
         }
-        
+
+        pauseMenuCanvas.SetActive(false);
+        pauseOn = false; 
     }
 
 	void Start () {
@@ -63,9 +73,17 @@ public class GameControllerScript : MonoBehaviour {
 	// Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.Escape))
+        if (Input.GetButtonDown("Cancel"))
         {
-            Application.Quit();
+            
+            if (pauseMenuCanvas.activeInHierarchy)
+            {
+                unPause();
+            }
+            else
+            {
+                pause();
+            }
         }
         if (guardsAlerted)
         {
@@ -85,6 +103,40 @@ public class GameControllerScript : MonoBehaviour {
             gameAudio.Play();
         }
 
+    }
+
+    void pause()
+    {
+        pauseOn = true;
+        pauseMenuCanvas.SetActive(true);
+        if (eventSystem.currentSelectedGameObject != restartButton)
+        {
+            eventSystem.SetSelectedGameObject(restartButton);
+        }
+        
+    }
+
+    void unPause()
+    {
+        pauseOn = false;
+        eventSystem.SetSelectedGameObject(exitMainMenuButton);
+        pauseMenuCanvas.SetActive(false);
+    }
+
+    public void restartButtonPressed()
+    {
+        readSaveFile();
+        reload();
+    }
+
+    public void exitMainMenuButtonPressed()
+    {
+        SceneManager.LoadScene(0);
+    }
+
+    public void exitButtonPressed()
+    {
+        Application.Quit();
     }
 
     void readSaveFile()

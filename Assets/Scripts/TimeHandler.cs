@@ -31,7 +31,15 @@ public class TimeHandler : MonoBehaviour {
 
     void handleTime()
     {
-        if (!gScript.isDead())
+        if (gScript.pauseOn)
+        {
+            Time.timeScale = 0f;
+        }
+        else if(!gScript.pauseOn && Time.timeScale == 0f)
+        {
+            Time.timeScale = originalTimeScale;
+        }
+        else if (!gScript.isDead()&& !gScript.pauseOn)
         {
             if (Input.GetAxis("Aim") != 0)
             {
