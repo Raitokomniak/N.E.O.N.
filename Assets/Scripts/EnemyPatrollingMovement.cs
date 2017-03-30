@@ -7,6 +7,7 @@ public class EnemyPatrollingMovement : MonoBehaviour {
    // [FMODUnity.EventRef]
    // public string inputSound = "event:/Input_1";
     public Transform[] waypoints;
+    public AudioClip[] guardSteps;
     Transform waypoint;
     public float patrollingSpeed = 4;
     public float cautionSpeed = 6;
@@ -32,6 +33,7 @@ public class EnemyPatrollingMovement : MonoBehaviour {
     public GameObject bullet;
     public GameObject player;
     AudioSource gunAudio;
+    AudioSource stepAudio;
     public float bulletVelocity = 20f;
     public float timeBetweenBullets = 0.5f;
     float bulletTimer;
@@ -45,6 +47,9 @@ public class EnemyPatrollingMovement : MonoBehaviour {
     Vector3 lastDetectedPosition;
     bool playerHeard;
     bool firstTime;
+    float timeBetweenSteps = 0;
+    float stepTimer;
+    bool runned;    
     enum states
     {
         normal,
@@ -58,7 +63,7 @@ public class EnemyPatrollingMovement : MonoBehaviour {
         spriteRend = GetComponent<SpriteRenderer>();
         sensing = GetComponent<EnemyAISensing>();
         timer = 0f;
-        gunAudio = GetComponent<AudioSource>();
+        
         AlertZone = GetComponentInChildren<PlayerInsideAlertZone>();
         player = GameObject.FindGameObjectWithTag("Player");
         gScript = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameControllerScript>();
@@ -69,12 +74,58 @@ public class EnemyPatrollingMovement : MonoBehaviour {
         firstTime = true;
         startingSpeed = speed;
         oldpoint = 0;
+        stepTimer = 0;
+        AudioSource[] audios = GetComponents<AudioSource>();
+        gunAudio = audios[0];
+        stepAudio = audios[1];
+        runned = true;
     }
 
     void Update()
     {
-        behaviorHandler();
-        flipHandler();
+
+
+        float distance = Vector2.Distance(this.transform.position, player.transform.position);
+        Debug.Log(distance);
+        if (distance <= 40)
+        {
+            if (!runned)
+            {
+                toggleObjectOnorOff(true);
+            }
+            runned = true;
+            behaviorHandler();
+            flipHandler();
+        }
+        else
+        {
+            if (runned)
+            {
+                toggleObjectOnorOff(false);
+                
+            }
+            runned = false;
+        }
+       
+    }
+
+
+    void toggleObjectOnorOff(bool option)
+    {
+        spriteRend.enabled = option;
+        Light[] lights = GetComponentsInChildren<Light>();
+        for (int i = 0; i < lights.Length; i++)
+        {
+            lights[i].enabled = option;
+        }
+         SpriteRenderer[] childSprites = GetComponentsInChildren<SpriteRenderer>();
+         for (int i = 0; i < childSprites.Length; i++)
+         {
+            if (childSprites[i].name != "exclamation_mark")
+            {
+                childSprites[i].enabled = option;
+            }
+         }
     }
 
     int enemyDirection(int dir)
@@ -155,6 +206,24 @@ public class EnemyPatrollingMovement : MonoBehaviour {
         }
     }
 
+    void handleSteps()
+    {
+        if (enemyRig.velocity.magnitude != 0)
+        {
+            timeBetweenSteps = (state == states.normal) ? 0.9f : 0.5f;
+            stepTimer += Time.deltaTime;
+            if (stepTimer >= timeBetweenSteps)
+            {
+                int rand = Random.Range(0, guardSteps.Length);
+                stepAudio.clip = guardSteps[rand];
+                stepAudio.volume = (state == states.normal) ? 0.1f : 0.3f;
+                //  FMODUnity.RuntimeManager.PlayOneShot(inputSound);
+                stepAudio.pitch = Random.Range(0.8f, 1f);
+                stepAudio.Play();
+                stepTimer = 0;
+            }
+        }
+    }
 
     void moveToDirection(Vector3 point)
     {
@@ -168,7 +237,9 @@ public class EnemyPatrollingMovement : MonoBehaviour {
             {
                 enemyRig.velocity = new Vector2(maxSpeed*facing, enemyRig.velocity.y);
             }
+            handleSteps();
         }
+
     }
 
     void WaypointPatrol()
