@@ -18,24 +18,30 @@ public class GameControllerScript : MonoBehaviour {
     float countdownTimer;
     GameObject player;
     GameObject camera;
+
     //savefile stuff
     string saveFile = "saveFile.txt";
     int currentScene;
     Vector3 currentCheckpoint;
     public bool useSaveFile = true;
+    int deaths;
+    int alarms;
+    float time;
+
     //menustuff
     public GameObject pauseMenuCanvas;
     public bool pauseOn = false;
     public EventSystem eventSystem;
     public GameObject restartButton;
     public GameObject exitMainMenuButton;
+
     void Awake()
     {
         gameAudio = GetComponent<AudioSource>();
         player = GameObject.FindGameObjectWithTag("Player");
         camera = GameObject.FindGameObjectWithTag("MainCamera");
 
-        if (!File.Exists(saveFile))
+        if (!File.Exists(saveFile) && useSaveFile)
         {
             using(StreamWriter sw = File.CreateText(saveFile))
             {
@@ -43,11 +49,18 @@ public class GameControllerScript : MonoBehaviour {
                 //1. line currentCheckpointx float
                 //2. line currentCheckpointy float
                 //3. line currentCheckpointz float
+                //4. line deaths int
+                //5. line alarms int
+                //6. line time float
                 sw.WriteLine("2");
                 sw.WriteLine("0.0");
                 sw.WriteLine("0.0");
                 sw.WriteLine("0.0");
+                sw.WriteLine("0");
+                sw.WriteLine("0");
+                sw.WriteLine("0.0");
             }
+            readSaveFile();
         }
         else if(File.Exists(saveFile) && useSaveFile)
         {
@@ -148,8 +161,10 @@ public class GameControllerScript : MonoBehaviour {
         float y = Convert.ToSingle(rawRead[2]);
         float z = Convert.ToSingle(rawRead[3]);
         currentCheckpoint = new Vector3(x, y, z);
-        Debug.Log(currentScene);
-        Debug.Log(currentCheckpoint);
+        deaths = Convert.ToInt32(rawRead[4]);
+        alarms = Convert.ToInt32(rawRead[5]);
+        time = Convert.ToSingle(rawRead[6]);
+        Debug.Log("savefile read: scene = " + currentScene + ", checkpoint = " + currentCheckpoint + ", deaths = " + deaths + ", alarms = " + alarms + ", time = " + time);
     }
 
     void loadSaveFile()
@@ -164,6 +179,7 @@ public class GameControllerScript : MonoBehaviour {
 
     public void setPlayerDead()
     {
+        deaths++;
         playerDead = true;
         player.SetActive(false);
         StartCoroutine(reloadScene());
@@ -189,6 +205,8 @@ public class GameControllerScript : MonoBehaviour {
     {
         if (useSaveFile)
         {
+            time = time + Time.timeSinceLevelLoad;
+            writeSavefile();
             SceneManager.LoadScene(currentScene, LoadSceneMode.Single);
         }
         else
@@ -206,14 +224,7 @@ public class GameControllerScript : MonoBehaviour {
         {
             currentScene = SceneManager.GetActiveScene().buildIndex + 1;
             currentCheckpoint = new Vector3(0f, 0f, 0f);
-            using (StreamWriter sw = File.CreateText(saveFile))
-            {
-                sw.Flush();
-                sw.WriteLine(currentScene);
-                sw.WriteLine(currentCheckpoint.x);
-                sw.WriteLine(currentCheckpoint.y);
-                sw.WriteLine(currentCheckpoint.z);
-            }
+            writeSavefile();
             SceneManager.LoadScene(currentScene);
         }
         else
@@ -225,6 +236,10 @@ public class GameControllerScript : MonoBehaviour {
 
     public void setAlertState(bool alert)
     {
+        if (!guardsAlerted)
+        {
+            alarms++;
+        }
         guardsAlerted = alert;
         if (alert)
         {
@@ -232,10 +247,12 @@ public class GameControllerScript : MonoBehaviour {
             setMusic("Alert");
         }
     }
+
     public bool allGuardsAlerted()
     {
         return guardsAlerted;
     }
+
     void setMusic(string music)
     {
         switch (music)
@@ -265,15 +282,21 @@ public class GameControllerScript : MonoBehaviour {
             Debug.Log("Checkpoint reached");
             currentCheckpoint = checkpoint;
             currentScene = SceneManager.GetActiveScene().buildIndex;
-
-            using (StreamWriter sw = File.CreateText(saveFile))
-            {
-                sw.Flush();
-                sw.WriteLine(currentScene);
-                sw.WriteLine(currentCheckpoint.x);
-                sw.WriteLine(currentCheckpoint.y);
-                sw.WriteLine(currentCheckpoint.z);
-            }
+            writeSavefile();
+        }
+    }
+    public void writeSavefile()
+    {
+        using (StreamWriter sw = File.CreateText(saveFile))
+        {
+            sw.Flush();
+            sw.WriteLine(currentScene);
+            sw.WriteLine(currentCheckpoint.x);
+            sw.WriteLine(currentCheckpoint.y);
+            sw.WriteLine(currentCheckpoint.z);
+            sw.WriteLine(deaths);
+            sw.WriteLine(alarms);
+            sw.WriteLine(time);
         }
     }
 }
