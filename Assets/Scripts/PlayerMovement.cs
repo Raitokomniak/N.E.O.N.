@@ -67,11 +67,18 @@ public class PlayerMovement : MonoBehaviour
 
     void steps()
     {
-        stepTimer += Time.deltaTime;
-        if (stepTimer >= timeBetweensteps)
+        if (playerRig.velocity.magnitude != 0)
         {
-          //  FMODUnity.RuntimeManager.PlayOneShot(inputSound);
-            stepTimer = 0;
+            timeBetweensteps = (state == charStates.run) ? 0.25f : 0.5f;
+            stepTimer += Time.deltaTime;
+            if (stepTimer >= timeBetweensteps)
+            {
+               stepAudio.volume = (state == charStates.run) ? 0.4f : 0.2f;
+                //  FMODUnity.RuntimeManager.PlayOneShot(inputSound);
+                stepAudio.pitch = Random.Range(0.8f, 1.1f);
+                stepAudio.Play();
+                stepTimer = 0;
+            }
         }
     }
   
@@ -151,6 +158,7 @@ public class PlayerMovement : MonoBehaviour
         {
             playerRig.AddForce(new Vector2((x * speed), 0));
             charSpeedDefiner(x);
+            steps();
         }
         else
         {

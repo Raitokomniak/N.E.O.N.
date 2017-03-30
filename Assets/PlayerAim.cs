@@ -6,12 +6,14 @@ public class PlayerAim : MonoBehaviour {
 
     // Use this for initialization
     PlayerMovement playMov;
+    GameControllerScript gScript;
     SpriteRenderer sr;
 	
     void Awake()
     {
         playMov = GetComponentInParent<PlayerMovement>();
         sr = GetComponent<SpriteRenderer>();
+        gScript = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameControllerScript>();
     }
 
     void Start()
@@ -20,7 +22,8 @@ public class PlayerAim : MonoBehaviour {
     }
 	// Update is called once per frame
 	void Update () {
-        if (Input.GetAxis("Aim") !=0 )
+
+        if (Input.GetAxis("Aim") !=0 && !gScript.pauseOn)
         {
             aim();
             sr.enabled = true;
