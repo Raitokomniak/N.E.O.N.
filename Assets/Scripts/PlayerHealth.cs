@@ -46,7 +46,7 @@ public class PlayerHealth : MonoBehaviour {
         damageTimer = 0;
         if (health <= 0)
         {
-            die();
+            //die();
         }
     }
 
