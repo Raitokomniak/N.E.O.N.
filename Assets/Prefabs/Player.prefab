@@ -293,7 +293,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdfdcb0caa56d5b4a99824e4af1ffffc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inputSound: event:/Character sounds/Footsteps/Running
   speed: 20
   jumpForce: 8
   maxJumpPower: 10
@@ -302,6 +301,12 @@ MonoBehaviour:
   maxVelocity_sneak: 2
   wallFriction: 6
   timeBetweensteps: 0.5
+  stepSounds:
+  - {fileID: 8300000, guid: be016825d68f22a459dfe834bddf4559, type: 3}
+  - {fileID: 8300000, guid: fa32ecb5626513d48aeddba4e63203c6, type: 3}
+  - {fileID: 8300000, guid: b436f3ff32503dd4b8f5071fa019d13f, type: 3}
+  - {fileID: 8300000, guid: 35ac3037ceb6e3d47acd736de86580b0, type: 3}
+  - {fileID: 8300000, guid: f1b3285e8d3a5004db30ab0aa306716d, type: 3}
 --- !u!114 &114657542728914234
 MonoBehaviour:
   m_ObjectHideFlags: 1
