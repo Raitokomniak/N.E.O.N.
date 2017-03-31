@@ -7,14 +7,16 @@ public class PlayerMovement : MonoBehaviour
 {
     //[FMODUnity.EventRef]
    // public string inputSound = "event:/Input_1";
-    public float speed = 20;
+    public float acceleration = 20;
     public float jumpForce = 8;
-    public float maxJumpPower = 10;
+    public float maxJumpPower = 12;
     public float maxVelocity_run = 20;
     public float maxVelocity_walk = 10;
-    public float maxVelocity_sneak = 5;
     public float wallFriction = 6;
     public float timeBetweensteps = 0.5f;
+    float _jumpForce;
+    float _maxVelocity_run;
+    float _maxVelocity_walk;
     public AudioClip[] stepSounds;
     AudioSource stepAudio;
     Rigidbody2D playerRig;
@@ -30,6 +32,8 @@ public class PlayerMovement : MonoBehaviour
     float crouchingSize;
     float standingOffset;
     float crouchingOffset;
+    float speed;
+    float adrenalineMeter;
     int facing; // 1= RIGHT -1 = LEFT
     bool grounded;
     bool moving;
@@ -37,10 +41,15 @@ public class PlayerMovement : MonoBehaviour
     bool crouched;
     bool ledgeHold;
     bool jumped;
+    bool adrenalineRush;
+    bool reducing;
+    bool ableToRegenerate;
+    bool adding;
+    bool checker;
+
     enum charStates
     {
         idle,
-        sneak,
         walk,
         run,
         jump,
@@ -63,6 +72,7 @@ public class PlayerMovement : MonoBehaviour
         box = GetComponent<BoxCollider2D>();
         stepTimer = 0;
         initialize();
+
         
     }
 
@@ -82,6 +92,7 @@ public class PlayerMovement : MonoBehaviour
                 stepTimer = 0;
             }
         }
+        speed = 0;
     }
   
     void Start()
@@ -109,15 +120,101 @@ public class PlayerMovement : MonoBehaviour
         standingOffset = box.offset.y;
         crouchingOffset = -1.010162f;
         wall = null;
+        reducing = false;
+        adrenalineRush = false;
+        ableToRegenerate = true;
+        adding = false;
+        checker = false;
+        adrenalineMeter = 10;
     }
 
     void Update()
     {
+        handleAbilities();
+        Debug.Log(adrenalineMeter);
+        setPowers();
         flipHandler();
         ledgeCheck();
         grounded = feet.isFeetOnGround();
         jump();
         wallJump();
+    }
+
+    void handleAbilities()
+    {
+        if (Input.GetButtonDown("LeftBumber"))
+        {
+            if (adrenalineRush)
+            {
+                setAdrenalineRush(false);
+            }
+            else if (!checker)
+            {
+                setAdrenalineRush(true);
+            }
+        }
+        if (adrenalineRush&&!reducing)
+        {
+            reducing = true;
+            StartCoroutine(drainMeter());
+        }
+
+        if (!adrenalineRush && ableToRegenerate && !adding)
+        {
+            adding = true;
+            StartCoroutine(regenerateAdrenaline());
+        }
+    }
+
+    void setAdrenalineRush(bool option)
+    {
+        if ((option == true&&adrenalineMeter !=0)||option == false)
+        {
+            adrenalineRush = option;
+        }
+    }
+
+    IEnumerator drainMeter()
+    {
+        yield return new WaitForSeconds(0.5f);
+        reducing = false;
+        adrenalineMeter--;
+        if (adrenalineMeter <= 0)
+        {
+            //ableToRegenerate = false;
+            checker = true;
+            StartCoroutine(adrenalineBack());
+            setAdrenalineRush(false);
+        }
+    }
+
+    IEnumerator adrenalineBack()
+    {
+        yield return new WaitForSeconds(5f);
+        ableToRegenerate = true;
+    }
+
+    IEnumerator regenerateAdrenaline()
+    {
+        yield return new WaitForSeconds(0.5f);
+        
+        adrenalineMeter++;
+        if (adrenalineMeter >= 10)
+        {
+            adrenalineMeter = 10;
+            checker = false;
+            ableToRegenerate = false;
+        }
+        adding = false;
+    }
+
+    void setPowers()
+    {
+        int power = (adrenalineRush) ? 2 : 1;
+        _maxVelocity_run = maxVelocity_run * power;
+        _maxVelocity_walk = maxVelocity_walk * power;
+        _jumpForce = jumpForce * power;
+        speed = acceleration * power;
     }
     void FixedUpdate()
     {
@@ -243,9 +340,6 @@ public class PlayerMovement : MonoBehaviour
             case charStates.idle:
                 anim.Play("Idle");
                 break;
-            case charStates.sneak:
-                anim.Play("Run");
-                break;
             case charStates.walk:
                 anim.Play("Run");
                 break;
@@ -272,21 +366,18 @@ public class PlayerMovement : MonoBehaviour
         switch (state)
         {
             case charStates.walk:
-                maxVelocity = maxVelocity_walk;
+                maxVelocity = _maxVelocity_walk;
                 break;
             case charStates.run:
-                maxVelocity = maxVelocity_run;
-                break;
-            case charStates.sneak:
-                maxVelocity = maxVelocity_sneak;
+                maxVelocity = _maxVelocity_run;
                 break;
             default:
-                maxVelocity = maxVelocity_walk;
+                maxVelocity = _maxVelocity_walk;
                 break;
         }
         if (crouched)
         {
-            maxVelocity = maxVelocity_sneak;
+            maxVelocity = _maxVelocity_walk/2;
         }
     }
 
@@ -311,15 +402,11 @@ public class PlayerMovement : MonoBehaviour
     void charSpeedDefiner(float x)
     {
         x = Mathf.Abs(x);
-        if (x == 0)
+        if (x <= 0.1f)
         {
             state = charStates.idle;
         }
-        else if (x <= 0.35f)
-        {
-            state = charStates.sneak;
-        }
-        else if (x <= 0.75f)
+        else if (x <= 0.65f)
         {
             state = charStates.walk;
         }
@@ -334,7 +421,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (grounded && Input.GetButtonDown("Jump"))
         {
-            playerRig.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
+            playerRig.AddForce(new Vector2(0, _jumpForce), ForceMode2D.Impulse);
             state = charStates.jump;
             jumped = false;
         }
@@ -347,7 +434,7 @@ public class PlayerMovement : MonoBehaviour
             if (Input.GetButtonDown("Jump"))
             {
                 int dir = facing * -1;
-                playerRig.AddForce(new Vector2(dir * jumpForce / 1.5f, jumpForce), ForceMode2D.Impulse);
+                playerRig.AddForce(new Vector2(dir * _jumpForce / 1.5f, _jumpForce), ForceMode2D.Impulse);
                 state = charStates.wallJump;
                 wallJumpAble = false;
                 jumped = false;
