@@ -86,7 +86,6 @@ public class EnemyPatrollingMovement : MonoBehaviour {
 
 
         float distance = Vector2.Distance(this.transform.position, player.transform.position);
-        Debug.Log(distance);
         if (distance <= 40)
         {
             if (!spriteRend.enabled)
@@ -110,6 +109,14 @@ public class EnemyPatrollingMovement : MonoBehaviour {
     void toggleObjectOnorOff(bool option)
     {
         spriteRend.enabled = option;
+        if (option == false)
+        {
+            enemyRig.Sleep();
+        }
+        else
+        {
+            enemyRig.WakeUp();
+        }
         Light[] lights = GetComponentsInChildren<Light>();
         for (int i = 0; i < lights.Length; i++)
         {
@@ -213,7 +220,7 @@ public class EnemyPatrollingMovement : MonoBehaviour {
             {
                 int rand = Random.Range(0, guardSteps.Length);
                 stepAudio.clip = guardSteps[rand];
-                stepAudio.volume = (state == states.normal) ? 0.1f : 0.3f;
+                stepAudio.volume = (state == states.normal) ? 0.05f : 0.1f;
                 //  FMODUnity.RuntimeManager.PlayOneShot(inputSound);
                 stepAudio.pitch = Random.Range(0.8f, 1f);
                 stepAudio.Play();

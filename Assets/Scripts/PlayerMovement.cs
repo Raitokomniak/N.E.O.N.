@@ -15,6 +15,7 @@ public class PlayerMovement : MonoBehaviour
     public float maxVelocity_sneak = 5;
     public float wallFriction = 6;
     public float timeBetweensteps = 0.5f;
+    public AudioClip[] stepSounds;
     AudioSource stepAudio;
     Rigidbody2D playerRig;
     BoxCollider2D box;
@@ -69,13 +70,14 @@ public class PlayerMovement : MonoBehaviour
     {
         if (playerRig.velocity.magnitude != 0)
         {
+            stepAudio.clip = stepSounds[Random.Range(0, stepSounds.Length)];
             timeBetweensteps = (state == charStates.run) ? 0.25f : 0.5f;
             stepTimer += Time.deltaTime;
             if (stepTimer >= timeBetweensteps)
             {
                stepAudio.volume = (state == charStates.run) ? 0.4f : 0.2f;
                 //  FMODUnity.RuntimeManager.PlayOneShot(inputSound);
-                stepAudio.pitch = Random.Range(0.8f, 1.1f);
+                stepAudio.pitch = Random.Range(0.85f, 0.95f);
                 stepAudio.Play();
                 stepTimer = 0;
             }
