@@ -49,7 +49,7 @@ public class EnemyPatrollingMovement : MonoBehaviour {
     bool firstTime;
     float timeBetweenSteps = 0;
     float stepTimer;
-    bool runned;    
+   
     enum states
     {
         normal,
@@ -78,7 +78,7 @@ public class EnemyPatrollingMovement : MonoBehaviour {
         AudioSource[] audios = GetComponents<AudioSource>();
         gunAudio = audios[0];
         stepAudio = audios[1];
-        runned = true;
+
     }
 
     void Update()
@@ -89,22 +89,19 @@ public class EnemyPatrollingMovement : MonoBehaviour {
         Debug.Log(distance);
         if (distance <= 40)
         {
-            if (!runned)
+            if (!spriteRend.enabled)
             {
                 toggleObjectOnorOff(true);
             }
-            runned = true;
             behaviorHandler();
             flipHandler();
         }
         else
         {
-            if (runned)
+            if (spriteRend.enabled)
             {
                 toggleObjectOnorOff(false);
-                
             }
-            runned = false;
         }
        
     }
