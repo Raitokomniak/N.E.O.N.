@@ -81,13 +81,13 @@ public class PlayerMovement : MonoBehaviour
         if (playerRig.velocity.magnitude != 0)
         {
             stepAudio.clip = stepSounds[Random.Range(0, stepSounds.Length)];
-            timeBetweensteps = (state == charStates.run) ? 0.25f : 0.5f;
+            timeBetweensteps = 0.25f;
             stepTimer += Time.deltaTime;
-            if (stepTimer >= timeBetweensteps)
+            if (stepTimer >= timeBetweensteps&&state == charStates.run)
             {
-               stepAudio.volume = (state == charStates.run) ? 0.4f : 0.2f;
+                stepAudio.volume = 0.4f;
                 //  FMODUnity.RuntimeManager.PlayOneShot(inputSound);
-                stepAudio.pitch = Random.Range(0.85f, 0.95f);
+                stepAudio.pitch = Random.Range(0.90f, 1f);
                 stepAudio.Play();
                 stepTimer = 0;
             }
@@ -402,17 +402,20 @@ public class PlayerMovement : MonoBehaviour
     void charSpeedDefiner(float x)
     {
         x = Mathf.Abs(x);
-        if (x <= 0.1f)
+        if (!crouched)
         {
-            state = charStates.idle;
-        }
-        else if (x <= 0.65f)
-        {
-            state = charStates.walk;
-        }
-        else if (x > 0.75f)
-        {
-            state = charStates.run;
+            if (x <= 0.1f)
+            {
+                state = charStates.idle;
+            }
+            else if (x <= 0.65f)
+            {
+                state = charStates.walk;
+            }
+            else if (x > 0.75f)
+            {
+                state = charStates.run;
+            }
         }
         charSpeedHandler();
     }

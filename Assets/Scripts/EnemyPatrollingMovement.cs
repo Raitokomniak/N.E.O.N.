@@ -216,7 +216,7 @@ public class EnemyPatrollingMovement : MonoBehaviour {
         {
             timeBetweenSteps = (state == states.normal) ? 0.9f : 0.5f;
             stepTimer += Time.deltaTime;
-            if (stepTimer >= timeBetweenSteps)
+            if (stepTimer >= timeBetweenSteps&&!stepAudio.isPlaying)
             {
                 int rand = Random.Range(0, guardSteps.Length);
                 stepAudio.clip = guardSteps[rand];
@@ -227,6 +227,7 @@ public class EnemyPatrollingMovement : MonoBehaviour {
                 stepTimer = 0;
             }
         }
+        
     }
 
     void moveToDirection(Vector3 point)
