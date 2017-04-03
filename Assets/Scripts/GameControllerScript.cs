@@ -258,14 +258,14 @@ public class GameControllerScript : MonoBehaviour {
         switch (music)
         {
             case "Normal":
-                gameAudio.volume = 0.2f;
+                gameAudio.volume = 0.1f;
                 gameAudio.clip = musics[0];
                 break;
             case "Caution":
                 gameAudio.clip = musics[1];
                 break;
             case "Alert":
-                gameAudio.volume = 0.6f;
+                gameAudio.volume = 0.3f;
                 gameAudio.clip = musics[2];
                 break;
             default:
