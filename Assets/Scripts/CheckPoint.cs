@@ -5,6 +5,7 @@ using UnityEngine;
 public class CheckPoint : MonoBehaviour
 {
     GameControllerScript gScript;
+    bool flag = false;
     //not in use
     void Awake()
     {
@@ -13,8 +14,9 @@ public class CheckPoint : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (other.gameObject.CompareTag("Player") && !flag)
         {
+            flag = true;
             gScript.setCheckpoint(this.transform.position);
         }
     }
