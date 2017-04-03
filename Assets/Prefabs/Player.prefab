@@ -293,12 +293,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdfdcb0caa56d5b4a99824e4af1ffffc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 20
+  acceleration: 40
   jumpForce: 8
   maxJumpPower: 10
-  maxVelocity_run: 7
-  maxVelocity_walk: 5
-  maxVelocity_sneak: 2
+  maxVelocity_run: 5
+  maxVelocity_walk: 3
   wallFriction: 6
   timeBetweensteps: 0.5
   stepSounds:

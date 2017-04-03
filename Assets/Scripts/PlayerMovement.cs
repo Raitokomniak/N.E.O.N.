@@ -131,7 +131,6 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         handleAbilities();
-        Debug.Log(adrenalineMeter);
         setPowers();
         flipHandler();
         ledgeCheck();
@@ -227,7 +226,8 @@ public class PlayerMovement : MonoBehaviour
         {
             Collider2D col = wall;
             Vector2 upper = col.bounds.center + (col.bounds.size / 2);
-            this.transform.position = new Vector2(this.transform.position.x+((box.size.x)*facing), upper.y+this.transform.up.y);
+            int dir = (this.transform.position.x > wall.transform.position.x) ? -1 : 1;
+            this.transform.position = new Vector2(this.transform.position.x+((box.size.x)*dir), upper.y+this.transform.up.y);
             crouched = true;
             ledgeHold = false;
         }
@@ -347,6 +347,12 @@ public class PlayerMovement : MonoBehaviour
                 anim.Play("Run");
                 break;
             case charStates.midAir:
+                anim.Play("MidAir");
+                break;
+            case charStates.jump:
+                anim.Play("MidAir");
+                break;
+            case charStates.wallJump:
                 anim.Play("MidAir");
                 break;
             case charStates.wallSlide:
@@ -522,14 +528,12 @@ public class PlayerMovement : MonoBehaviour
 
     void collisionChecker()
     {
-        if (nroOfCollisions == 0)
+        if (nroOfCollisions == 0|| (nroOfCollisions != 0 && !grounded && !ledgeHold && !wallJumpAble))
         {
-            grounded = false;
-            wallJumpAble = false;
-            ledgeHold = false;
-            wall = null;
             state = charStates.midAir;
         }
+      
+        
     }
 
     void OnCollisionEnter2D(Collision2D col)
