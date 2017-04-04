@@ -137,6 +137,8 @@ public class PlayerMovement : MonoBehaviour
         grounded = feet.isFeetOnGround();
         jump();
         wallJump();
+        speedLimiter();
+        Debug.Log(playerRig.velocity.x);
     }
 
     void handleAbilities()
@@ -211,7 +213,7 @@ public class PlayerMovement : MonoBehaviour
     {
         int power = (adrenalineRush) ? 2 : 1;
         _maxVelocity_run = maxVelocity_run * power;
-        _maxVelocity_walk = maxVelocity_walk * power;
+        _maxVelocity_walk = maxVelocity_walk;
         _jumpForce = jumpForce * power;
         speed = acceleration * power;
     }
@@ -261,7 +263,9 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            playerRig.AddForce(new Vector2((x * (speed / 3)), 0));
+            float divider = GetComponent<DistanceJoint2D>().enabled ? 3 : 4.5f;
+            float something = GetComponent<DistanceJoint2D>().enabled ? acceleration : 20;
+            playerRig.AddForce(new Vector2((x * (something / 3)), 0));
         }
         if (!wallJumpAble)
         {
@@ -284,7 +288,7 @@ public class PlayerMovement : MonoBehaviour
         {
             moving = false;
         }
-        speedLimiter();
+        
     }
 
     bool crouchChecker()
@@ -369,40 +373,43 @@ public class PlayerMovement : MonoBehaviour
 
     void charSpeedHandler()
     {
-        switch (state)
+        if (grounded)
         {
-            case charStates.walk:
-                maxVelocity = _maxVelocity_walk;
-                break;
-            case charStates.run:
-                maxVelocity = _maxVelocity_run;
-                break;
-            default:
-                maxVelocity = _maxVelocity_walk;
-                break;
+            switch (state)
+            {
+                case charStates.walk:
+                    maxVelocity = _maxVelocity_walk;
+                    break;
+                case charStates.run:
+                    maxVelocity = _maxVelocity_run;
+                    break;
+                default:
+                    maxVelocity = _maxVelocity_walk;
+                    break;
+            }
+            if (crouched)
+            {
+                maxVelocity = _maxVelocity_walk / 2;
+            }
         }
-        if (crouched)
+        else
         {
-            maxVelocity = _maxVelocity_walk/2;
+            maxVelocity = maxVelocity_run * 2;
         }
     }
 
     void speedLimiter()
     {
-        if (Mathf.Abs(playerRig.velocity.x) > maxVelocity)
+        if (Mathf.Abs(playerRig.velocity.x) >= maxVelocity)
         {
-            float maxSpeed = maxVelocity;
-            if (playerRig.velocity.x < 0)
-            {
-                maxSpeed *= -1;
-            }
-            float _maxSpeed = Mathf.Lerp(playerRig.velocity.x, maxSpeed, 6 * Time.deltaTime);
-            playerRig.velocity = new Vector2(_maxSpeed, playerRig.velocity.y);
+            int dir = (playerRig.velocity.x < 0) ? -1 : 1;
+            playerRig.velocity = new Vector2(maxVelocity * dir, playerRig.velocity.y);
         }
         if (playerRig.velocity.y > maxJumpPower)
         {
             playerRig.velocity = new Vector2(playerRig.velocity.x, maxJumpPower);
         }
+
     }
 
     void charSpeedDefiner(float x)

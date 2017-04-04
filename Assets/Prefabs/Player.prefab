@@ -296,7 +296,7 @@ MonoBehaviour:
   acceleration: 40
   jumpForce: 8
   maxJumpPower: 10
-  maxVelocity_run: 5
+  maxVelocity_run: 10
   maxVelocity_walk: 3
   wallFriction: 6
   timeBetweensteps: 0.5

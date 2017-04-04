@@ -214,15 +214,16 @@ public class EnemyPatrollingMovement : MonoBehaviour {
     {
         if (enemyRig.velocity.magnitude != 0)
         {
-            timeBetweenSteps = (state == states.normal) ? 0.9f : 0.5f;
+            timeBetweenSteps = (state == states.normal) ? 1.1f : 0.6f;
             stepTimer += Time.deltaTime;
             if (stepTimer >= timeBetweenSteps&&!stepAudio.isPlaying)
             {
                 int rand = Random.Range(0, guardSteps.Length);
                 stepAudio.clip = guardSteps[rand];
-                stepAudio.volume = (state == states.normal) ? 0.05f : 0.1f;
+                stepAudio.volume = (state == states.normal) ? 0.05f : 0.2f;
                 //  FMODUnity.RuntimeManager.PlayOneShot(inputSound);
-                stepAudio.pitch = Random.Range(0.8f, 1f);
+                stepAudio.pitch = Random.Range(0.8f, 1f)*Time.timeScale;
+                stepAudio.maxDistance = 5f;
                 stepAudio.Play();
                 stepTimer = 0;
             }
