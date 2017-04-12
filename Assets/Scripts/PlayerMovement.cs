@@ -138,7 +138,7 @@ public class PlayerMovement : MonoBehaviour
         jump();
         wallJump();
         speedLimiter();
-        Debug.Log(playerRig.velocity.x);
+        //Debug.Log(playerRig.velocity.x);
     }
 
     void handleAbilities()
