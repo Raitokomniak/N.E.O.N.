@@ -116,9 +116,9 @@ public class PlayerMovement : MonoBehaviour
         jumped = false;
         nroOfCollisions = 0;
         standingSize = box.size.y;
-        crouchingSize = 1.887391f;
+        crouchingSize = 5.520669f;
         standingOffset = box.offset.y;
-        crouchingOffset = -1.010162f;
+        crouchingOffset = -2.786731f;
         wall = null;
         reducing = false;
         adrenalineRush = false;
@@ -138,7 +138,7 @@ public class PlayerMovement : MonoBehaviour
         jump();
         wallJump();
         speedLimiter();
-        //Debug.Log(playerRig.velocity.x);
+        
     }
 
     void handleAbilities()

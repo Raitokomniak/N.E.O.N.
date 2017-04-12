@@ -18,7 +18,7 @@ public class GameControllerScript : MonoBehaviour {
     float countdownTimer;
     GameObject player;
     GameObject camera;
-
+    GameObject[] guards;
     //savefile stuff
     string saveFile = "saveFile.txt";
     int currentScene;
@@ -40,7 +40,7 @@ public class GameControllerScript : MonoBehaviour {
         gameAudio = GetComponent<AudioSource>();
         player = GameObject.FindGameObjectWithTag("Player");
         camera = GameObject.FindGameObjectWithTag("MainCamera");
-
+        guards = GameObject.FindGameObjectsWithTag("Enemy");
         if (!File.Exists(saveFile) && useSaveFile)
         {
             using(StreamWriter sw = File.CreateText(saveFile))
@@ -103,8 +103,8 @@ public class GameControllerScript : MonoBehaviour {
             countdownTimer += Time.deltaTime;
             if (countdownTimer >= alertTime)
             {
-                guardsAlerted = false;
-               
+                // guardsAlerted = false;
+                setGuardsToStartingPosition();
             }
         }
         else
@@ -127,6 +127,44 @@ public class GameControllerScript : MonoBehaviour {
             eventSystem.SetSelectedGameObject(restartButton);
         }
         
+    }
+
+    void setGuardsToStartingPosition()
+    {
+        bool allGuardsInStartPosition = false;
+        if (!allGuardsInStartPosition)
+        {
+            bool atStartPos = true;
+            foreach (GameObject guard in guards)
+            {
+                EnemyPatrollingMovement enemyMov = guard.GetComponent<EnemyPatrollingMovement>();
+                if (!enemyMov.playerInSight() && enemyMov.inUse)
+                {
+                    if (!enemyMov.guardInStartPosition())
+                    {
+                        enemyMov.controlOnGameController(true);
+                        enemyMov.returnToStartPosition();
+                        atStartPos = false;
+                    }
+
+                }
+                else
+                {
+                    atStartPos = true;
+                }
+                allGuardsInStartPosition = atStartPos;
+            }
+            
+        }
+        if (allGuardsInStartPosition)
+        {
+            guardsAlerted = false;
+            foreach (GameObject guard in guards)
+            {
+                EnemyPatrollingMovement enemyMov = guard.GetComponent<EnemyPatrollingMovement>();
+                enemyMov.controlOnGameController(false);
+            }
+        }
     }
 
     void unPause()

@@ -49,7 +49,9 @@ public class EnemyPatrollingMovement : MonoBehaviour {
     bool firstTime;
     float timeBetweenSteps = 0;
     float stepTimer;
-   
+    Vector3 startPosition;
+    bool controlledByGameController;
+    public bool inUse;
     enum states
     {
         normal,
@@ -78,13 +80,13 @@ public class EnemyPatrollingMovement : MonoBehaviour {
         AudioSource[] audios = GetComponents<AudioSource>();
         gunAudio = audios[0];
         stepAudio = audios[1];
-
+        startPosition = this.transform.position;
+        controlledByGameController = false;
+        inUse = true;
     }
 
     void Update()
     {
-
-
         float distance = Vector2.Distance(this.transform.position, player.transform.position);
         if (distance <= 40)
         {
@@ -94,6 +96,7 @@ public class EnemyPatrollingMovement : MonoBehaviour {
             }
             behaviorHandler();
             flipHandler();
+            inUse = true;
         }
         else
         {
@@ -101,10 +104,30 @@ public class EnemyPatrollingMovement : MonoBehaviour {
             {
                 toggleObjectOnorOff(false);
             }
+            inUse = false;
         }
        
     }
+    public bool playerInSight()
+    {
+        return sensing.playerInSight();
+    }
 
+    public void controlOnGameController(bool control)
+    {
+        controlledByGameController = control;
+    }
+
+    public void returnToStartPosition()
+    {
+        startPosition = new Vector3(startPosition.x, this.transform.position.y);
+        moveToDirection(startPosition);
+    }
+
+    public bool guardInStartPosition()
+    {
+        return (Mathf.Approximately(this.transform.position.x, startPosition.x)) ? true : false;
+    }
 
     void toggleObjectOnorOff(bool option)
     {
@@ -147,65 +170,78 @@ public class EnemyPatrollingMovement : MonoBehaviour {
         return dir;
     }
 
+    void withoutObstacles()
+    {
+        if (sensing.playerInSight())
+        {
+            Alert();
+            maxSpeed = alertSpeed;
+            state = states.alert;
+            personalAlert = true;
+        }
+        else if (personalAlert)
+        {
+            checkLastPosition();
+            maxSpeed = patrollingSpeed;
+        }
+        else if (gScript.allGuardsAlerted() && !sensing.playerInSight() && !personalAlert)
+        {
+            Caution();
+            maxSpeed = cautionSpeed;
+            state = states.caution;
+        }
+        else
+        {
+            WaypointPatrol();
+            maxSpeed = patrollingSpeed;
+            state = states.normal;
+        }
+    }
+
+    void withObstacles()
+    {
+        if (sensing.playerInSight())
+        {
+            stop();
+        }
+        else
+        {
+            if (state == states.caution && !personalAlert)
+            {
+                turnAround();
+            }
+            else if (personalAlert && !sensing.playerInSight())
+            {
+                stop();
+                if (firstTime)
+                {
+                    firstTime = false;
+                    float waitTime = Random.Range(1, 3);
+                    Invoke("checkPos", waitTime);
+                }
+                //stop();
+                //personalAlert = false;
+            }
+            else
+            {
+                reachedWaypoint();
+            }
+        }
+    }
+
     void behaviorHandler()
     {
         
         ObstacleCheck();
-        if (!obstacleSpotted && !ledgeSpotted)
+        if (!controlledByGameController||sensing.playerInSight())
         {
-            if (sensing.playerInSight())
+            if (!obstacleSpotted && !ledgeSpotted)
             {
-                Alert();
-                maxSpeed = alertSpeed;
-                state = states.alert;
-                personalAlert = true;
-            }
-            else if (personalAlert)
-            {
-                checkLastPosition();
-                maxSpeed = patrollingSpeed;
-            }
-            else if (gScript.allGuardsAlerted() && !sensing.playerInSight()&&!personalAlert)
-            {
-                Caution();
-                maxSpeed = cautionSpeed;
-                state = states.caution;
+                withoutObstacles();
             }
             else
             {
-                WaypointPatrol();
-                maxSpeed = patrollingSpeed;
-                state = states.normal;
-            }
-        }
-        else
-        {
-            if (sensing.playerInSight())
-            {
-                stop();
-            }
-            else
-            {
-                if (state == states.caution&&!personalAlert)
-                {
-                    turnAround();
-                }
-                else if (personalAlert&&!sensing.playerInSight())
-                {
-                    stop();
-                    if (firstTime)
-                    {
-                        firstTime = false;
-                        float waitTime = Random.Range(1, 3);
-                        Invoke("checkPos", waitTime);
-                    }
-                    //stop();
-                    //personalAlert = false;
-                }
-                else
-                {
-                    reachedWaypoint();
-                }
+                withObstacles();
             }
         }
     }
@@ -235,15 +271,18 @@ public class EnemyPatrollingMovement : MonoBehaviour {
     {
         if (grounded)
         {
-            targetOnRightOrLeft(point);
-            Vector3 direction = (point - transform.position).normalized;
-            //  enemyRig.MovePosition(transform.position + direction * speed * Time.deltaTime);
-            enemyRig.AddForce(direction * speed);
-            if (Mathf.Abs(enemyRig.velocity.x) > maxSpeed)
+            if (!controlledByGameController || (controlledByGameController && !(Mathf.Approximately(this.transform.position.x, startPosition.x))))
             {
-                enemyRig.velocity = new Vector2(maxSpeed*facing, enemyRig.velocity.y);
+                targetOnRightOrLeft(point);
+                Vector3 direction = (point - transform.position).normalized;
+                //  enemyRig.MovePosition(transform.position + direction * speed * Time.deltaTime);
+                enemyRig.AddForce(direction * speed);
+                if (Mathf.Abs(enemyRig.velocity.x) > maxSpeed)
+                {
+                    enemyRig.velocity = new Vector2(maxSpeed * facing, enemyRig.velocity.y);
+                }
+                handleSteps();
             }
-            handleSteps();
         }
 
     }
@@ -301,7 +340,7 @@ public class EnemyPatrollingMovement : MonoBehaviour {
         facing *= -1;
     }
 
-    void stop()
+    public void stop()
     {
         enemyRig.velocity = new Vector2(0, enemyRig.velocity.y);
     }
