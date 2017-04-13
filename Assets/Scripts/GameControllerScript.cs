@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 using System.IO;
 using System;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class GameControllerScript : MonoBehaviour {
 
@@ -34,6 +35,7 @@ public class GameControllerScript : MonoBehaviour {
     public EventSystem eventSystem;
     public GameObject restartButton;
     public GameObject exitMainMenuButton;
+    public GameObject alertIndicator;
 
     void Awake()
     {
@@ -72,7 +74,8 @@ public class GameControllerScript : MonoBehaviour {
         }
 
         pauseMenuCanvas.SetActive(false);
-        pauseOn = false; 
+        pauseOn = false;
+        alertIndicator.SetActive(false);
     }
 
 	void Start () {
@@ -100,7 +103,9 @@ public class GameControllerScript : MonoBehaviour {
         }
         if (guardsAlerted)
         {
+            alertIndicator.SetActive(true);
             countdownTimer += Time.deltaTime;
+            alertIndicator.GetComponent<Slider>().value = alertTime - countdownTimer;
             if (countdownTimer >= alertTime)
             {
                 // guardsAlerted = false;
@@ -110,6 +115,7 @@ public class GameControllerScript : MonoBehaviour {
         else
         {
             setMusic("Normal");
+            alertIndicator.SetActive(false);
         }
         if (!gameAudio.isPlaying)
         {
