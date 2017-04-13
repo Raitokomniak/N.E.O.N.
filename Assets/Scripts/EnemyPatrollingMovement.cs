@@ -52,6 +52,7 @@ public class EnemyPatrollingMovement : MonoBehaviour {
     Vector3 startPosition;
     bool controlledByGameController;
     public bool inUse;
+    public bool startPointReached;
     enum states
     {
         normal,
@@ -83,6 +84,7 @@ public class EnemyPatrollingMovement : MonoBehaviour {
         startPosition = this.transform.position;
         controlledByGameController = false;
         inUse = true;
+        startPointReached = true;
     }
 
     void Update()
@@ -94,9 +96,13 @@ public class EnemyPatrollingMovement : MonoBehaviour {
             {
                 toggleObjectOnorOff(true);
             }
-            behaviorHandler();
+            if (!controlledByGameController)
+            {
+                behaviorHandler();
+            }
             flipHandler();
             inUse = true;
+
         }
         else
         {
@@ -106,7 +112,7 @@ public class EnemyPatrollingMovement : MonoBehaviour {
             }
             inUse = false;
         }
-       
+
     }
     public bool playerInSight()
     {
@@ -120,13 +126,22 @@ public class EnemyPatrollingMovement : MonoBehaviour {
 
     public void returnToStartPosition()
     {
+        waypoint = waypoints[0];
         startPosition = new Vector3(startPosition.x, this.transform.position.y);
-        moveToDirection(startPosition);
+        if (!startPointReached)
+        {
+            moveToDirection(startPosition);
+            if (Vector2.Distance(this.transform.position, startPosition) < 1)
+            {
+                startPointReached = true;
+            }
+        }
+
     }
 
     public bool guardInStartPosition()
     {
-        return (Mathf.Approximately(this.transform.position.x, startPosition.x)) ? true : false;
+        return startPointReached;
     }
 
     void toggleObjectOnorOff(bool option)
@@ -233,17 +248,16 @@ public class EnemyPatrollingMovement : MonoBehaviour {
     {
         
         ObstacleCheck();
-        if (!controlledByGameController||sensing.playerInSight())
+        startPointReached = false;
+        if (!obstacleSpotted && !ledgeSpotted)
         {
-            if (!obstacleSpotted && !ledgeSpotted)
-            {
-                withoutObstacles();
-            }
-            else
-            {
-                withObstacles();
-            }
+            withoutObstacles();
         }
+        else
+        {
+            withObstacles();
+        }
+
     }
 
     void handleSteps()
