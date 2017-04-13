@@ -27,7 +27,7 @@ public class GameControllerScript : MonoBehaviour {
     int deaths;
     int alarms;
     float time;
-
+    public GameObject checkpointText;
     //menustuff
     public GameObject pauseMenuCanvas;
     public bool pauseOn = false;
@@ -321,7 +321,14 @@ public class GameControllerScript : MonoBehaviour {
             currentCheckpoint = checkpoint;
             currentScene = SceneManager.GetActiveScene().buildIndex;
             writeSavefile();
+            checkpointText.SetActive(true);
+            StartCoroutine(disableCheckpointText());
         }
+    }
+    IEnumerator disableCheckpointText()
+    {
+        yield return new WaitForSeconds(2);
+        checkpointText.SetActive(false);
     }
     public void writeSavefile()
     {
