@@ -232,7 +232,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03e171feb4fbb0b4486231f707956944, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nextScene: 4
 --- !u!61 &119682062
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1221,6 +1220,16 @@ Prefab:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 224645103800979488, guid: 4fc1ef342e41ce349b8a64dde446cfd4,
+        type: 2}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224645103800979488, guid: 4fc1ef342e41ce349b8a64dde446cfd4,
+        type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4fc1ef342e41ce349b8a64dde446cfd4, type: 2}
   m_IsPrefabParent: 0
@@ -1950,7 +1959,7 @@ Prefab:
     - target: {fileID: 61398104535508356, guid: db2cba9164f3170448bb766747c9af29,
         type: 2}
       propertyPath: m_Offset.x
-      value: 0.177742
+      value: 1.1961479
       objectReference: {fileID: 0}
     - target: {fileID: 61398104535508356, guid: db2cba9164f3170448bb766747c9af29,
         type: 2}
@@ -1961,6 +1970,11 @@ Prefab:
         type: 2}
       propertyPath: m_Size.y
       value: 8.593962
+      objectReference: {fileID: 0}
+    - target: {fileID: 61398104535508356, guid: db2cba9164f3170448bb766747c9af29,
+        type: 2}
+      propertyPath: m_Size.x
+      value: 4.0821133
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: db2cba9164f3170448bb766747c9af29, type: 2}
