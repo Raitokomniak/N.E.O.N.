@@ -6,8 +6,10 @@ public class EnemyAISensing : MonoBehaviour {
 
     // Use this for initialization
     public SpriteRenderer exclamationMarkSprite;
+    public AudioClip detectionSound;
+    public AudioClip alertSound;
     public float enemyFieldOfView = 110f;
-    public float detectionTime = 0.5f;
+    public float detectionTime = 1f;
     bool playerSeen;
     EnemyPatrollingMovement moving;
     CircleCollider2D circle;
@@ -18,13 +20,15 @@ public class EnemyAISensing : MonoBehaviour {
     GameControllerScript gScript;
     float timer;
     float anotherTimer;
+    AudioSource guardAudio;
+
     void Awake()
     {
        
         moving = GetComponent<EnemyPatrollingMovement>();
         circle = GetComponent<CircleCollider2D>();
         gScript = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameControllerScript>();
-        
+        guardAudio = GetComponent<AudioSource>();
     }
 
     void Start () {
@@ -102,6 +106,11 @@ public class EnemyAISensing : MonoBehaviour {
                     {
                         if (!playerSeen)
                         {
+                            guardAudio.clip = detectionSound;
+                            if (!guardAudio.isPlaying)
+                            {
+                                guardAudio.Play();
+                            }
                             playerSeen = detectionHandler(playerSeen);
                         }
                         else
@@ -149,6 +158,11 @@ public class EnemyAISensing : MonoBehaviour {
 
     IEnumerator alert()
     {
+        guardAudio.clip = alertSound;
+        if (!guardAudio.isPlaying)
+        {
+            guardAudio.Play();
+        }
         exclamationMarkSprite.enabled = true;
         yield return new WaitForSeconds(2f);
         exclamationMarkSprite.enabled = false;
