@@ -53,6 +53,7 @@ public class EnemyPatrollingMovement : MonoBehaviour {
     bool controlledByGameController;
     public bool inUse;
     public bool startPointReached;
+    bool getSilentlyKilled;
     enum states
     {
         normal,
@@ -85,6 +86,7 @@ public class EnemyPatrollingMovement : MonoBehaviour {
         controlledByGameController = false;
         inUse = true;
         startPointReached = true;
+        getSilentlyKilled = false;
     }
 
     void Update()
@@ -96,7 +98,7 @@ public class EnemyPatrollingMovement : MonoBehaviour {
             {
                 toggleObjectOnorOff(true);
             }
-            if (!controlledByGameController)
+            if (!controlledByGameController&&!getSilentlyKilled)
             {
                 behaviorHandler();
             }
@@ -114,6 +116,12 @@ public class EnemyPatrollingMovement : MonoBehaviour {
         }
 
     }
+
+    public void silentKill(bool option)
+    {
+        getSilentlyKilled = option;
+    }
+
     public bool playerInSight()
     {
         return sensing.playerInSight();

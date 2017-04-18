@@ -46,6 +46,7 @@ public class PlayerMovement : MonoBehaviour
     bool ableToRegenerate;
     bool adding;
     bool checker;
+    bool performingAction;
 
     enum charStates
     {
@@ -71,9 +72,8 @@ public class PlayerMovement : MonoBehaviour
         feet = GetComponentInChildren<GroundCheck_feet>();
         box = GetComponent<BoxCollider2D>();
         stepTimer = 0;
+        performingAction = false;
         initialize();
-
-        
     }
 
     void steps()
@@ -104,6 +104,11 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    public void setPerformAction(bool action)
+    {
+        performingAction = action;
+    }
+
     void initialize()
     {
         anim.Play("Idle");
@@ -130,6 +135,14 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        if (!performingAction)
+        {
+            characterHandler();
+        }
+    }
+
+    void characterHandler()
+    {
         handleAbilities();
         setPowers();
         flipHandler();
@@ -138,8 +151,6 @@ public class PlayerMovement : MonoBehaviour
         jump();
         wallJump();
         speedLimiter();
-        Debug.Log(playerRig.velocity.x);
-        
     }
 
     void handleAbilities()
@@ -230,7 +241,7 @@ public class PlayerMovement : MonoBehaviour
             Collider2D col = wall;
             Vector2 upper = col.bounds.center + (col.bounds.size / 2);
             int dir = (this.transform.position.x > wall.transform.position.x) ? -1 : 1;
-            this.transform.position = new Vector2(this.transform.position.x+((box.size.x)*dir), upper.y+this.transform.up.y);
+            this.transform.position = new Vector2(this.transform.position.x+((box.size.x/4)*dir), upper.y+this.transform.up.y);
             crouched = true;
             ledgeHold = false;
         }
@@ -259,15 +270,16 @@ public class PlayerMovement : MonoBehaviour
         if (grounded)
         {
             playerRig.AddForce(new Vector2((x * speed), 0));
-            charSpeedDefiner(x);
             steps();
         }
         else
         {
             float divider = GetComponent<DistanceJoint2D>().enabled ? 3 : 4.5f;
             float something = GetComponent<DistanceJoint2D>().enabled ? acceleration : 20;
-            playerRig.AddForce(new Vector2((x * (something / 3)), 0));
+            playerRig.AddForce(new Vector2((x * (something/ 3)), 0));
         }
+        charSpeedDefiner(x);
+
         if (!wallJumpAble)
         {
             if (x < 0)
@@ -395,7 +407,8 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            maxVelocity = maxVelocity_run * 2;
+            int multiplier = (GetComponent<DistanceJoint2D>().enabled) ? 2 : 1; 
+            maxVelocity = Mathf.Lerp(maxVelocity, maxVelocity_run * multiplier, 6 * Time.deltaTime);
         }
     }
 

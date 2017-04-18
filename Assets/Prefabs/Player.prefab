@@ -143,6 +143,7 @@ CircleCollider2D:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_UsedByEffector: 0
+  m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 3.4599006
@@ -157,9 +158,20 @@ BoxCollider2D:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_UsedByEffector: 0
+  m_UsedByComposite: 0
   m_Offset: {x: 0.07018903, y: -0.27506304}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
   serializedVersion: 2
   m_Size: {x: 1.5079595, y: 0.7350719}
+  m_EdgeRadius: 0
 --- !u!61 &61399149227856602
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -171,9 +183,20 @@ BoxCollider2D:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_UsedByEffector: 0
+  m_UsedByComposite: 0
   m_Offset: {x: 0.060653687, y: -0.68983465}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 6.68, y: 12.64}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
   serializedVersion: 2
   m_Size: {x: 2.4818695, y: 9.57}
+  m_EdgeRadius: 0
 --- !u!82 &82581555309467660
 AudioSource:
   m_ObjectHideFlags: 1
@@ -301,11 +324,9 @@ MonoBehaviour:
   wallFriction: 6
   timeBetweensteps: 0.5
   stepSounds:
-  - {fileID: 8300000, guid: be016825d68f22a459dfe834bddf4559, type: 3}
   - {fileID: 8300000, guid: fa32ecb5626513d48aeddba4e63203c6, type: 3}
   - {fileID: 8300000, guid: b436f3ff32503dd4b8f5071fa019d13f, type: 3}
   - {fileID: 8300000, guid: 35ac3037ceb6e3d47acd736de86580b0, type: 3}
-  - {fileID: 8300000, guid: f1b3285e8d3a5004db30ab0aa306716d, type: 3}
 --- !u!114 &114657542728914234
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -371,6 +392,7 @@ LineRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 0
   m_Positions:
   - {x: 0, y: 0, z: 0}
@@ -391,30 +413,15 @@ LineRenderer:
       m_PostInfinity: 2
       m_RotationOrder: 4
     colorGradient:
-      key0:
-        serializedVersion: 2
-        rgba: 4294967295
-      key1:
-        serializedVersion: 2
-        rgba: 4294967295
-      key2:
-        serializedVersion: 2
-        rgba: 0
-      key3:
-        serializedVersion: 2
-        rgba: 0
-      key4:
-        serializedVersion: 2
-        rgba: 0
-      key5:
-        serializedVersion: 2
-        rgba: 0
-      key6:
-        serializedVersion: 2
-        rgba: 0
-      key7:
-        serializedVersion: 2
-        rgba: 0
+      serializedVersion: 2
+      key0: {r: 1, g: 1, b: 1, a: 1}
+      key1: {r: 1, g: 1, b: 1, a: 1}
+      key2: {r: 0, g: 0, b: 0, a: 0}
+      key3: {r: 0, g: 0, b: 0, a: 0}
+      key4: {r: 0, g: 0, b: 0, a: 0}
+      key5: {r: 0, g: 0, b: 0, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
       ctime0: 0
       ctime1: 65535
       ctime2: 0
@@ -439,6 +446,7 @@ LineRenderer:
     alignment: 0
     textureMode: 0
   m_UseWorldSpace: 1
+  m_Loop: 0
 --- !u!212 &212099926052366902
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -469,11 +477,16 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 5
   m_Sprite: {fileID: 21300000, guid: fabc5b445fcc7cc4cb8b38c40be261b0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1, y: 1}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
 --- !u!212 &212547911511706474
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -504,11 +517,16 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 123b1a5d2acc25e43a04cc6ece3a00c2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1, y: 1}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
 --- !u!232 &232490367128873642
 DistanceJoint2D:
   m_ObjectHideFlags: 1

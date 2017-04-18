@@ -19,7 +19,7 @@ public class GameControllerScript : MonoBehaviour {
     float countdownTimer;
     GameObject player;
     GameObject camera;
-    GameObject[] guards;
+   // GameObject[] guards;
     //savefile stuff
     string saveFile = "saveFile.txt";
     int currentScene;
@@ -36,13 +36,15 @@ public class GameControllerScript : MonoBehaviour {
     public GameObject restartButton;
     public GameObject exitMainMenuButton;
     public GameObject alertIndicator;
-
+    List<GameObject> guards;
     void Awake()
     {
+        // guards = new ArrayList();
+        guards = new List<GameObject>();
+        guards.AddRange(GameObject.FindGameObjectsWithTag("Enemy"));
         gameAudio = GetComponent<AudioSource>();
         player = GameObject.FindGameObjectWithTag("Player");
         camera = GameObject.FindGameObjectWithTag("MainCamera");
-        guards = GameObject.FindGameObjectsWithTag("Enemy");
         if (!File.Exists(saveFile) && useSaveFile)
         {
             using(StreamWriter sw = File.CreateText(saveFile))
@@ -124,6 +126,12 @@ public class GameControllerScript : MonoBehaviour {
 
     }
 
+    public void killGuard(GameObject guard)
+    {
+        guards.Remove(guard);
+        Destroy(guard);
+    }
+
     void pause()
     {
         pauseOn = true;
@@ -138,30 +146,28 @@ public class GameControllerScript : MonoBehaviour {
     void setGuardsToStartingPosition()
     {
         bool allGuardsInStartPosition = false;
-        if (!allGuardsInStartPosition)
+        bool atStartPos = true;
+        foreach (GameObject guard in guards)
         {
-            bool atStartPos = true;
-            foreach (GameObject guard in guards)
+            EnemyPatrollingMovement enemyMov = guard.GetComponent<EnemyPatrollingMovement>();
+            if (!enemyMov.playerInSight() && enemyMov.inUse)
             {
-                EnemyPatrollingMovement enemyMov = guard.GetComponent<EnemyPatrollingMovement>();
-                if (!enemyMov.playerInSight() && enemyMov.inUse)
+                if (!enemyMov.guardInStartPosition())
                 {
-                    if (!enemyMov.guardInStartPosition())
-                    {
-                        enemyMov.controlOnGameController(true);
-                        enemyMov.returnToStartPosition();
-                        atStartPos = false;
-                    }
+                    enemyMov.controlOnGameController(true);
+                    enemyMov.returnToStartPosition();
+                    atStartPos = false;
+                }
 
-                }
-                else
-                {
-                    atStartPos = true;
-                }
-                allGuardsInStartPosition = atStartPos;
             }
-            
+            else
+            {
+                atStartPos = true;
+            }
+            allGuardsInStartPosition = atStartPos;
         }
+            
+        
         if (allGuardsInStartPosition)
         {
             guardsAlerted = false;
