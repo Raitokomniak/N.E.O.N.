@@ -21,7 +21,12 @@ Assets/StreamingAssets/Master Bank.bank
 Assets/StreamingAssets/Master Bank.bank.meta
 Assets/StreamingAssets/Master Bank.strings.bank
 Assets/StreamingAssets/Master Bank.strings.bank.meta
+Assets/StreamingAssets.meta
 saveFile.txt
+Assets/FMOD/*
+Assets/FMOD.meta
+Assets/GAF/*
+
 # ============================================= #
 # Visual Studio / MonoDevelop / Rider generated #
 # ============================================= #
