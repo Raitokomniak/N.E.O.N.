@@ -5,22 +5,24 @@ using UnityEngine;
 public class EnemyAISensing : MonoBehaviour {
 
     // Use this for initialization
+    public AudioSource guardAudio;
     public SpriteRenderer exclamationMarkSprite;
     public AudioClip detectionSound;
     public AudioClip alertSound;
+    public Transform eyes;
     public float enemyFieldOfView = 110f;
     public float detectionTime = 1f;
-    bool playerSeen;
     EnemyPatrollingMovement moving;
     CircleCollider2D circle;
     BoxCollider2D box;
     Vector2 playerIsAt;
-    public Transform eyes;
     GameObject player;
     GameControllerScript gScript;
+    
     float timer;
     float anotherTimer;
-    AudioSource guardAudio;
+    float originalVolume;
+    bool playerSeen;
 
     void Awake()
     {
@@ -28,22 +30,32 @@ public class EnemyAISensing : MonoBehaviour {
         moving = GetComponent<EnemyPatrollingMovement>();
         circle = GetComponent<CircleCollider2D>();
         gScript = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameControllerScript>();
-        guardAudio = GetComponent<AudioSource>();
-    }
-
-    void Start () {
         playerSeen = false;
         exclamationMarkSprite.enabled = false;
         timer = 0;
         anotherTimer = 0;
         player = GameObject.FindGameObjectWithTag("Player");
         box = player.GetComponent<BoxCollider2D>();
+        originalVolume = guardAudio.volume;
+        // guardAudio = GetComponentInChildren<AudioSource>();
+    }
+
+    void Start () {
+        
     }
     void Update()
     {
         if (playerSeen)
         {
+
+           
             gScript.setAlertState(true);
+            
+
+        }
+        if (guardAudio.clip == alertSound && guardAudio.isPlaying)
+        {
+            guardAudio.volume = Mathf.Lerp(guardAudio.volume, 0.1f, 4* Time.deltaTime);
         }
     }
 
@@ -52,6 +64,12 @@ public class EnemyAISensing : MonoBehaviour {
         timer += Time.deltaTime;
         if (timer >= detectionTime)
         {
+            guardAudio.clip = alertSound;
+            guardAudio.volume = originalVolume;
+            if (!seen)
+            {
+                guardAudio.Play();
+            }
             seen = true;
             StartCoroutine(alert());
         }
@@ -158,11 +176,8 @@ public class EnemyAISensing : MonoBehaviour {
 
     IEnumerator alert()
     {
-        guardAudio.clip = alertSound;
-        if (!guardAudio.isPlaying)
-        {
-            guardAudio.Play();
-        }
+        
+        
         exclamationMarkSprite.enabled = true;
         yield return new WaitForSeconds(2f);
         exclamationMarkSprite.enabled = false;

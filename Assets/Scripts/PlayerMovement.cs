@@ -351,36 +351,48 @@ public class PlayerMovement : MonoBehaviour
 
     void animationHandler(float x)
     {
-        switch (state)
+        if (grounded)
         {
-            //To be changed when animations arrive
-            case charStates.idle:
-                anim.Play("Idle");
-                break;
-            case charStates.walk:
-                anim.Play("Run");
-                break;
-            case charStates.run:
-                anim.Play("Run");
-                break;
-            case charStates.midAir:
-                anim.Play("MidAir");
-                break;
-            case charStates.jump:
-                anim.Play("MidAir");
-                break;
-            case charStates.wallJump:
-                anim.Play("MidAir");
-                break;
-            case charStates.wallSlide:
-                anim.Play("WallJump");
-                break;
-            case charStates.crouch:
-                anim.Play("Crouch");
-                break;
-            default:
-                anim.Play("MidAir");
-                break;
+            switch (state)
+            {
+                //To be changed when animations arrive
+                case charStates.idle:
+                    anim.Play("Idle");
+                    break;
+                case charStates.walk:
+                    anim.Play("Run");
+                    break;
+                case charStates.run:
+                    anim.Play("Run");
+                    break;
+                case charStates.crouch:
+                    anim.Play("Crouch");
+                    break;
+                default:
+                    anim.Play("Idle");
+                    break;
+            }
+        }
+        else
+        {
+            switch (state)
+            {
+                case charStates.midAir:
+                    anim.Play("MidAir");
+                    break;
+                case charStates.jump:
+                    anim.Play("MidAir");
+                    break;
+                case charStates.wallJump:
+                    anim.Play("WallJump");
+                    break;
+                case charStates.wallSlide:
+                    anim.Play("WallJump");
+                    break;
+                default:
+                    anim.Play("MidAir");
+                    break;
+            }
         }
     }
 
