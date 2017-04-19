@@ -139,6 +139,7 @@ public class PlayerMovement : MonoBehaviour
         {
             characterHandler();
         }
+
     }
 
     void characterHandler()
@@ -385,12 +386,15 @@ public class PlayerMovement : MonoBehaviour
                     break;
                 case charStates.wallJump:
                     anim.Play("WallJump");
+                    Debug.Log("wallJump");
                     break;
                 case charStates.wallSlide:
-                    anim.Play("WallJump");
+                    anim.Play("WallJumpSteady");
+                    Debug.Log("wallslide");
                     break;
                 default:
                     anim.Play("MidAir");
+                    Debug.Log("DEFAULTTI? "+ state);
                     break;
             }
         }
@@ -441,9 +445,9 @@ public class PlayerMovement : MonoBehaviour
     void charSpeedDefiner(float x)
     {
         x = Mathf.Abs(x);
-        if (!crouched)
+        if (!crouched&&grounded)
         {
-            if (x <= 0.1f)
+            if (x <= 0.05f)
             {
                 state = charStates.idle;
             }
