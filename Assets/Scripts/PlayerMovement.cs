@@ -242,7 +242,7 @@ public class PlayerMovement : MonoBehaviour
             Collider2D col = wall;
             Vector2 upper = col.bounds.center + (col.bounds.size / 2);
             int dir = (this.transform.position.x > wall.transform.position.x) ? -1 : 1;
-            this.transform.position = new Vector2(this.transform.position.x+((box.size.x/4)*dir), upper.y+this.transform.up.y);
+            this.transform.position = new Vector2(box.transform.position.x+((box.size.x/4)*dir), upper.y+box.transform.up.y);
             crouched = true;
             ledgeHold = false;
         }
@@ -394,7 +394,6 @@ public class PlayerMovement : MonoBehaviour
                     break;
                 default:
                     anim.Play("MidAir");
-                    Debug.Log("DEFAULTTI? "+ state);
                     break;
             }
         }

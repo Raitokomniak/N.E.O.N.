@@ -7,52 +7,54 @@ public class EnemyPatrollingMovement : MonoBehaviour {
    // [FMODUnity.EventRef]
    // public string inputSound = "event:/Input_1";
     public Transform[] waypoints;
+    public Transform gunBarrell;
     public AudioClip[] guardSteps;
-    Transform waypoint;
-    public float patrollingSpeed = 4;
-    public float cautionSpeed = 6;
-    public float alertSpeed = 9;
-    float speed = 8;
-    float maxSpeed = 4;
-    public int currentWayPoint;
-    bool patrol = true;
     public Vector2 target;
     public Vector2 moveDirection;
     public Vector2 velocity;
+    public SpriteRenderer headSpriteRend;  
+    public GameObject bullet;
+    public GameObject player;
+    public float patrollingSpeed = 4;
+    public float cautionSpeed = 6;
+    public float alertSpeed = 9;
+    public float bulletVelocity = 20f;
+    public float timeBetweenBullets = 0.5f;
+    public float cautionTimer = 5f;
+    public float timeToIdleInWayPoint = 2f;
+    public int currentWayPoint;
+    public bool inUse;
+    public bool startPointReached;
+    Transform waypoint;
     Rigidbody2D enemyRig;
     SpriteRenderer spriteRend;
-	public SpriteRenderer headSpriteRend;
     EnemyAISensing sensing;
+    GameControllerScript gScript;
+    AudioSource gunAudio;
+    AudioSource stepAudio;
+    Vector3 startPosition;
+    Vector3 lastDetectedPosition;
+    //PlayerInsideAlertZone AlertZone;
+    float speed = 8;
+    float maxSpeed = 4;
+    float timer;
+    float bulletTimer;
+    float timeToShoot;
+    float oldpoint;
+    float startingSpeed;
+    float searchTimer;
+    float timeBetweenSteps = 0;
+    float stepTimer;
+    float waitTimer = 0;
+    int facing;
+    bool personalAlert;
+    bool playerHeard;
+    bool firstTime; 
+    bool controlledByGameController;
+    bool patrol = true;
     bool grounded;
     bool ledgeSpotted;
     bool obstacleSpotted;
-    float timer;
-    public float cautionTimer = 5f;
-    GameControllerScript gScript;
-    public Transform gunBarrell;
-    public GameObject bullet;
-    public GameObject player;
-    AudioSource gunAudio;
-    AudioSource stepAudio;
-    public float bulletVelocity = 20f;
-    public float timeBetweenBullets = 0.5f;
-    float bulletTimer;
-    float timeToShoot;
-    PlayerInsideAlertZone AlertZone;
-    float startingSpeed;
-    float searchTimer;
-    int facing;
-    bool personalAlert;
-    float oldpoint;
-    Vector3 lastDetectedPosition;
-    bool playerHeard;
-    bool firstTime;
-    float timeBetweenSteps = 0;
-    float stepTimer;
-    Vector3 startPosition;
-    bool controlledByGameController;
-    public bool inUse;
-    public bool startPointReached;
     bool getSilentlyKilled;
     enum states
     {
@@ -63,12 +65,14 @@ public class EnemyPatrollingMovement : MonoBehaviour {
     states state;
     void Awake()
     {
+        AudioSource[] audios = GetComponents<AudioSource>();
+        gunAudio = audios[0];
+        stepAudio = audios[1];
         enemyRig = GetComponent<Rigidbody2D>();
         spriteRend = GetComponent<SpriteRenderer>();
         sensing = GetComponent<EnemyAISensing>();
         timer = 0f;
-        
-        AlertZone = GetComponentInChildren<PlayerInsideAlertZone>();
+       // AlertZone = GetComponentInChildren<PlayerInsideAlertZone>();
         player = GameObject.FindGameObjectWithTag("Player");
         gScript = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameControllerScript>();
         facing = 1;
@@ -79,9 +83,6 @@ public class EnemyPatrollingMovement : MonoBehaviour {
         startingSpeed = speed;
         oldpoint = 0;
         stepTimer = 0;
-        AudioSource[] audios = GetComponents<AudioSource>();
-        gunAudio = audios[0];
-        stepAudio = audios[1];
         startPosition = this.transform.position;
         controlledByGameController = false;
         inUse = true;
@@ -311,24 +312,32 @@ public class EnemyPatrollingMovement : MonoBehaviour {
 
     void WaypointPatrol()
     {
-        timer = 0;
-        moveToDirection(waypoint.position);
+        timer = 0;  
         if (Vector2.Distance (this.transform.position, waypoint.position) < 1)
         {
             reachedWaypoint();
+        }
+        else
+        {
+            moveToDirection(waypoint.position);
         }
     }
 
     void reachedWaypoint()
     {
-        stop();
-        if (waypoint.Equals(waypoints[0]))
+        waitTimer += Time.deltaTime;
+        if (waitTimer > timeToIdleInWayPoint)
         {
-            waypoint = waypoints[1];
-        }
-        else
-        {
-            waypoint = waypoints[0];
+            Debug.Log("WENT HERE");
+            if (waypoint.Equals(waypoints[0]))
+            {
+                waypoint = waypoints[1];
+            }
+            else
+            {
+                waypoint = waypoints[0];
+            }
+            waitTimer = 0;
         }
     }
 
