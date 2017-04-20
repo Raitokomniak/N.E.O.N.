@@ -5,24 +5,27 @@ using UnityEngine;
 public class PlayerAim : MonoBehaviour {
 
     // Use this for initialization
+    public GameObject dagger;
+    public float daggerThrowVelocity = 15f;
+    public float timeBetweedThrows = 2f;
     PlayerMovement playMov;
     GameControllerScript gScript;
     SpriteRenderer sr;
+    float timer;
 	
     void Awake()
     {
         playMov = GetComponentInParent<PlayerMovement>();
         sr = GetComponent<SpriteRenderer>();
         gScript = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameControllerScript>();
-    }
-
-    void Start()
-    {
+        timer = 0;
         sr.enabled = false;
     }
+
+
 	// Update is called once per frame
 	void Update () {
-
+        timer += Time.deltaTime;
         if (Input.GetAxis("Aim") !=0 && !gScript.pauseOn)
         {
             aim();
@@ -45,14 +48,22 @@ public class PlayerAim : MonoBehaviour {
          {
             angle = Mathf.Clamp(angle, -80, 80);
          }
-
+        if (Input.GetAxisRaw("Throw") == 1 && timer > timeBetweedThrows)
+        {
+            throwDagger();
+        }
         Debug.Log(angle);
         this.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
     }
 
     void throwDagger()
     {
-
+        timer = 0;
+        int dir = playMov.isFacingRight() ? 1 : -1;
+        Vector2 startPoint = this.transform.position + this.transform.right;
+        GameObject projectile = (GameObject)Instantiate(dagger, startPoint, this.transform.rotation);
+        Rigidbody2D rigidbody = projectile.GetComponent<Rigidbody2D>();
+        rigidbody.velocity = projectile.transform.right * daggerThrowVelocity;
     }
 
 
