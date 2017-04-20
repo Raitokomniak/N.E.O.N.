@@ -34,12 +34,10 @@ public class TakeDamage : MonoBehaviour {
             float angle = Vector2.Angle(transform.right * dir, directionToTarget);
             if (angle < 90)
             {
-
                 performSilentTakedown();
             }
             if (takedownStarted)
             {
-                
                 switchOffSystem();
             }
         }
@@ -53,7 +51,6 @@ public class TakeDamage : MonoBehaviour {
             player.GetComponent<PlayerMovement>().setPerformAction(true);
             enemyMov.silentKill(true);
             float mark = Random.Range(-2, 1);
-            Debug.Log("MARK " + mark);
             direction = (mark < 0) ? -1 : 1;
             takedownStarted = true;
         }
@@ -75,15 +72,12 @@ public class TakeDamage : MonoBehaviour {
             if (stickDir == direction)
             {
                 die();
-                Debug.Log(direction + " " + stickDir);
             }
             else if (stickDir == direction * -1)
             {
                 gScript.setAlertState(true);
                 die();
-                Debug.Log(direction + " " + stickDir);
-            }
-            
+            }           
         }
         else
         {
