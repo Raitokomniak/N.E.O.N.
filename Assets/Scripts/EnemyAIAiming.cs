@@ -15,6 +15,8 @@ public class EnemyAIAiming : MonoBehaviour {
     SpriteRenderer sr;
     GameObject player;
     GameControllerScript gScript;
+    bool stunned;
+
 
     void Awake()
     {
@@ -23,18 +25,26 @@ public class EnemyAIAiming : MonoBehaviour {
         sr = GetComponent<SpriteRenderer>();
         player = GameObject.FindGameObjectWithTag("Player");
         gScript = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameControllerScript>();
-    }
-    void Start () {
         normalPos = this.transform.rotation;
-	}
+        stunned = false;
+    }
+
 	
 	// Update is called once per frame
    
-	void FixedUpdate () {
+	void FixedUpdate ()
+    {
         turnHandler();
-        aimTowardPlayer();
-	}
+        if (!stunned)
+        {
+            aimTowardPlayer();
+        }
 
+	}
+    public void setHitStatus(bool status)
+    {
+        stunned = status;
+    }
     void aimTowardPlayer()
     {
         if (light)
