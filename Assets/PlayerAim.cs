@@ -11,14 +11,16 @@ public class PlayerAim : MonoBehaviour {
     PlayerMovement playMov;
     GameControllerScript gScript;
     SpriteRenderer sr;
+    List<GameObject> daggers;
     float timer;
 	
     void Awake()
     {
+        daggers = new List<GameObject>();
         playMov = GetComponentInParent<PlayerMovement>();
         sr = GetComponent<SpriteRenderer>();
         gScript = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameControllerScript>();
-        timer = 0;
+        timer = timeBetweedThrows;
         sr.enabled = false;
     }
 
@@ -32,6 +34,10 @@ public class PlayerAim : MonoBehaviour {
             sr.enabled = true;
             Time.timeScale = Mathf.Lerp(Time.timeScale, 0.001f, 30 * Time.deltaTime);
             Time.fixedDeltaTime = 0.02F * Time.timeScale;
+            if (Input.GetAxisRaw("Throw") == 1 && timer > timeBetweedThrows)
+            {
+                throwDagger();
+            }
         }
         else
         {
@@ -48,22 +54,47 @@ public class PlayerAim : MonoBehaviour {
          {
             angle = Mathf.Clamp(angle, -80, 80);
          }
-        if (Input.GetAxisRaw("Throw") == 1 && timer > timeBetweedThrows)
-        {
-            throwDagger();
-        }
-        Debug.Log(angle);
+        
         this.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
     }
 
     void throwDagger()
     {
+        Debug.Log("kavi taalla");
         timer = 0;
-        int dir = playMov.isFacingRight() ? 1 : -1;
-        Vector2 startPoint = this.transform.position + this.transform.right;
-        GameObject projectile = (GameObject)Instantiate(dagger, startPoint, this.transform.rotation);
+        GameObject projectile = getDagger();
+        projectile.SetActive(true);
+        projectile.transform.position = this.transform.position + this.transform.right;
+        projectile.transform.rotation = this.transform.rotation;
         Rigidbody2D rigidbody = projectile.GetComponent<Rigidbody2D>();
         rigidbody.velocity = projectile.transform.right * daggerThrowVelocity;
+    }
+
+    GameObject getDagger()
+    {
+        GameObject projectile = null;
+        foreach (GameObject dag in daggers)
+        {
+            if (!dag.activeSelf)
+            {
+                projectile = dag;
+            }
+                
+        }
+        if (projectile == null)
+        {
+            createDaggerToList();
+            projectile = getDagger();
+        }
+        return projectile;
+
+    }
+
+    void createDaggerToList()
+    {
+        GameObject projectile = (GameObject)Instantiate(dagger, this.transform.position, this.transform.rotation);
+        projectile.SetActive(false);
+        daggers.Add(projectile);
     }
 
 

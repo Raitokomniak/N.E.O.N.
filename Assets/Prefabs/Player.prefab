@@ -305,6 +305,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8707052762e88a8449992c20dc182674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dagger: {fileID: 1429012481785116, guid: a8dba378a32b57248b79e7824a566169, type: 2}
+  daggerThrowVelocity: 15
+  timeBetweedThrows: 2
 --- !u!114 &114593464557940440
 MonoBehaviour:
   m_ObjectHideFlags: 1

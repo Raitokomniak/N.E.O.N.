@@ -23,7 +23,7 @@ public class EnemyAISensing : MonoBehaviour {
     float anotherTimer;
     float originalVolume;
     bool playerSeen;
-
+    bool gotHit;
     void Awake()
     {
        
@@ -32,6 +32,7 @@ public class EnemyAISensing : MonoBehaviour {
         gScript = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameControllerScript>();
         playerSeen = false;
         exclamationMarkSprite.enabled = false;
+        bool gotHit = false;
         timer = 0;
         anotherTimer = 0;
         player = GameObject.FindGameObjectWithTag("Player");
@@ -45,20 +46,24 @@ public class EnemyAISensing : MonoBehaviour {
     }
     void Update()
     {
-        if (playerSeen)
+        if (!gotHit)
         {
-
-           
-            gScript.setAlertState(true);
-            
-
+            if (playerSeen)
+            {
+                gScript.setAlertState(true);
+            }
+            if (guardAudio.clip == alertSound && guardAudio.isPlaying)
+            {
+                guardAudio.volume = Mathf.Lerp(guardAudio.volume, 0.1f, 4 * Time.deltaTime);
+            }
         }
-        if (guardAudio.clip == alertSound && guardAudio.isPlaying)
-        {
-            guardAudio.volume = Mathf.Lerp(guardAudio.volume, 0.1f, 4* Time.deltaTime);
-        }
+
     }
-
+    public void setHitStatus(bool status)
+    {
+        gotHit = status;
+        GetComponentInChildren<EnemyAIAiming>().setHitStatus(status);
+    }
     bool detectionHandler(bool seen)
     {
         timer += Time.deltaTime;
