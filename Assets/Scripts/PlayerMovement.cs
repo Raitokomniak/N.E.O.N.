@@ -390,6 +390,7 @@ public class PlayerMovement : MonoBehaviour
                     break;
                 case charStates.wallSlide:
                     anim.Play("WallJumpSteady");
+                    Debug.Log("wallslide");
                     break;
                 default:
                     anim.Play("MidAir");

@@ -56,7 +56,6 @@ public class EnemyPatrollingMovement : MonoBehaviour {
     bool ledgeSpotted;
     bool obstacleSpotted;
     bool getSilentlyKilled;
-    bool gotHit;
     enum states
     {
         normal,
@@ -89,53 +88,34 @@ public class EnemyPatrollingMovement : MonoBehaviour {
         inUse = true;
         startPointReached = true;
         getSilentlyKilled = false;
-        gotHit = false;
     }
 
     void Update()
     {
         float distance = Vector2.Distance(this.transform.position, player.transform.position);
-        if (!gotHit)
+        if (distance <= 40)
         {
-            if (distance <= 40)
+            if (!spriteRend.enabled)
             {
-                if (!spriteRend.enabled)
-                {
-                    toggleObjectOnorOff(true);
-                }
-                if (!controlledByGameController && !getSilentlyKilled)
-                {
-                    behaviorHandler();
-                }
-                flipHandler();
-                inUse = true;
+                toggleObjectOnorOff(true);
+            }
+            if (!controlledByGameController&&!getSilentlyKilled)
+            {
+                behaviorHandler();
+            }
+            flipHandler();
+            inUse = true;
 
-            }
-            else
+        }
+        else
+        {
+            if (spriteRend.enabled)
             {
-                if (spriteRend.enabled)
-                {
-                    toggleObjectOnorOff(false);
-                }
-                inUse = false;
+                toggleObjectOnorOff(false);
             }
+            inUse = false;
         }
 
-    }
-
-    public void getDaggerHit()
-    {
-        Debug.Log("I GOT HIT");
-        StartCoroutine(getStunned());
-    }
-
-    IEnumerator getStunned()
-    {
-        sensing.setHitStatus(true);
-        gotHit = true;
-        yield return new WaitForSeconds(4f);
-        sensing.setHitStatus(false);
-        gotHit = false;
     }
 
     public void silentKill(bool option)
@@ -348,6 +328,7 @@ public class EnemyPatrollingMovement : MonoBehaviour {
         waitTimer += Time.deltaTime;
         if (waitTimer > timeToIdleInWayPoint)
         {
+            Debug.Log("WENT HERE");
             if (waypoint.Equals(waypoints[0]))
             {
                 waypoint = waypoints[1];
