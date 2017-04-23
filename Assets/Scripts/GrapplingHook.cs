@@ -13,6 +13,8 @@ public class GrapplingHook : MonoBehaviour {
     float distance;
     bool ableToShoot;
     bool connected;
+    string graplinghookSound = "event:/Character sounds/Grappling hook/Attach";
+
     void Start()
     {
         ableToShoot = false;
@@ -56,6 +58,7 @@ public class GrapplingHook : MonoBehaviour {
             if (shootSpot)
             {
                 fireGHook();
+                FMODUnity.RuntimeManager.PlayOneShot(graplinghookSound);
             }
         }
         if (connected)

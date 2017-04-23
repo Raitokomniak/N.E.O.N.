@@ -47,6 +47,8 @@ public class PlayerMovement : MonoBehaviour
     bool adding;
     bool checker;
     bool performingAction;
+    string runSound = "event:/Character sounds/Footsteps/Running";
+    string jumpSound = "event:/Character sounds/Jumping";
 
     enum charStates
     {
@@ -80,17 +82,18 @@ public class PlayerMovement : MonoBehaviour
     {
         if (playerRig.velocity.magnitude != 0)
         {
-            stepAudio.clip = stepSounds[Random.Range(0, stepSounds.Length)];
+            //stepAudio.clip = stepSounds[Random.Range(0, stepSounds.Length)];
             timeBetweensteps = 0.25f;
             stepTimer += Time.deltaTime;
             if (stepTimer >= timeBetweensteps&&state == charStates.run)
             {
-                stepAudio.volume = 0.4f;
-                //  FMODUnity.RuntimeManager.PlayOneShot(inputSound);
-                stepAudio.pitch = Random.Range(0.90f, 1f);
-                stepAudio.Play();
+                //stepAudio.volume = 0.4f;
+                FMODUnity.RuntimeManager.PlayOneShot(runSound);
+                //stepAudio.pitch = Random.Range(0.90f, 1f);
+                //stepAudio.Play();
                 stepTimer = 0;
             }
+            
         }
         speed = 0;
     }
@@ -465,6 +468,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (grounded && Input.GetButtonDown("Jump"))
         {
+            FMODUnity.RuntimeManager.PlayOneShot(jumpSound);
             playerRig.AddForce(new Vector2(0, _jumpForce), ForceMode2D.Impulse);
             state = charStates.jump;
             jumped = false;
