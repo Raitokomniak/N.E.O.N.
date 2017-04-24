@@ -13,7 +13,9 @@ public class GrapplingHook : MonoBehaviour {
     float distance;
     bool ableToShoot;
     bool connected;
-    string graplinghookSound = "event:/Character sounds/Grappling hook/Attach";
+    string graplinghookSound = "event:/Character sounds/Grappling hook/Attach (energy)";
+    FMOD.Studio.EventInstance hookSound;
+
 
     void Start()
     {
@@ -28,10 +30,11 @@ public class GrapplingHook : MonoBehaviour {
         line.material.color = Color.black;
         targets = new List<GameObject>();
         playMov = GetComponent<PlayerMovement>();
+        hookSound = FMODUnity.RuntimeManager.CreateInstance(graplinghookSound);
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update () {
 
         if (targets.Count == 0)
         {
@@ -45,6 +48,7 @@ public class GrapplingHook : MonoBehaviour {
             joint.enabled = false;
             line.enabled = false;
             connected = false;
+            hookSound.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
         }
 
        
@@ -58,7 +62,9 @@ public class GrapplingHook : MonoBehaviour {
             if (shootSpot)
             {
                 fireGHook();
-                FMODUnity.RuntimeManager.PlayOneShot(graplinghookSound);
+                //FMODUnity.RuntimeManager.PlayOneShot(graplinghookSound);
+                hookSound.start();
+
             }
         }
         if (connected)

@@ -57,6 +57,8 @@ public class EnemyPatrollingMovement : MonoBehaviour {
     bool obstacleSpotted;
     bool getSilentlyKilled;
     bool gotHit;
+    string guardStepSound1 = "event:/Enemy sounds/Guard (cyborg grunt)/Footsteps/Walking";
+    string guardStepSound2 = "event:/Enemy sounds/Guard (cyborg grunt)/Footsteps/Brisk walking";
     enum states
     {
         normal,
@@ -293,17 +295,18 @@ public class EnemyPatrollingMovement : MonoBehaviour {
     {
         if (enemyRig.velocity.magnitude != 0)
         {
-            timeBetweenSteps = (state == states.normal) ? 1.1f : 0.6f;
+            timeBetweenSteps = 0.75f;
             stepTimer += Time.deltaTime;
-            if (stepTimer >= timeBetweenSteps&&!stepAudio.isPlaying)
+            if (stepTimer >= timeBetweenSteps)
             {
-                int rand = Random.Range(0, guardSteps.Length);
-                stepAudio.clip = guardSteps[rand];
-                stepAudio.volume = (state == states.normal) ? 0.05f : 0.2f;
-                //  FMODUnity.RuntimeManager.PlayOneShot(inputSound);
-                stepAudio.pitch = Random.Range(0.8f, 1f)*Time.timeScale;
-                stepAudio.maxDistance = 5f;
-                stepAudio.Play();
+                if (state == states.normal)
+                {
+                    FMODUnity.RuntimeManager.PlayOneShot(guardStepSound1, transform.position);
+                }
+                else if (state == states.caution || state == states.alert)
+                {
+                    FMODUnity.RuntimeManager.PlayOneShot(guardStepSound2, transform.position);
+                }
                 stepTimer = 0;
             }
         }
