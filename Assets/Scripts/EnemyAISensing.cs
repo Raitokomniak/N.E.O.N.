@@ -7,8 +7,8 @@ public class EnemyAISensing : MonoBehaviour {
     // Use this for initialization
     public AudioSource guardAudio;
     public SpriteRenderer exclamationMarkSprite;
-    public AudioClip detectionSound;
-    public AudioClip alertSound;
+    //public AudioClip detectionSound;
+    //public AudioClip alertSound;
     public Transform eyes;
     public float enemyFieldOfView = 110f;
     public float detectionTime = 1f;
@@ -24,6 +24,11 @@ public class EnemyAISensing : MonoBehaviour {
     float originalVolume;
     bool playerSeen;
     bool gotHit;
+
+    FMOD.Studio.EventInstance detectionSound;
+    FMOD.Studio.EventInstance alertSound;
+    FMOD.Studio.PLAYBACK_STATE detectionSoundState;
+
     void Awake()
     {
        
@@ -39,6 +44,9 @@ public class EnemyAISensing : MonoBehaviour {
         box = player.GetComponent<BoxCollider2D>();
         originalVolume = guardAudio.volume;
         // guardAudio = GetComponentInChildren<AudioSource>();
+        detectionSound = FMODUnity.RuntimeManager.CreateInstance("event:/Enemy sounds/Guard (cyborg grunt)/Alert state");
+        alertSound = FMODUnity.RuntimeManager.CreateInstance("event:/Music/Alert sound");
+
     }
 
     void Start () {
@@ -52,10 +60,10 @@ public class EnemyAISensing : MonoBehaviour {
             {
                 gScript.setAlertState(true);
             }
-            if (guardAudio.clip == alertSound && guardAudio.isPlaying)
+            /*if (guardAudio.clip == alertSound && guardAudio.isPlaying)
             {
                 guardAudio.volume = Mathf.Lerp(guardAudio.volume, 0.1f, 4 * Time.deltaTime);
-            }
+            }*/
         }
 
     }
@@ -69,11 +77,11 @@ public class EnemyAISensing : MonoBehaviour {
         timer += Time.deltaTime;
         if (timer >= detectionTime)
         {
-            guardAudio.clip = alertSound;
-            guardAudio.volume = originalVolume;
+            //guardAudio.clip = alertSound;
+            //guardAudio.volume = originalVolume;
             if (!seen)
             {
-                guardAudio.Play();
+                alertSound.start();
             }
             seen = true;
             StartCoroutine(alert());
@@ -129,10 +137,10 @@ public class EnemyAISensing : MonoBehaviour {
                     {
                         if (!playerSeen)
                         {
-                            guardAudio.clip = detectionSound;
-                            if (!guardAudio.isPlaying)
+                            detectionSound.getPlaybackState(out detectionSoundState);
+                            if(detectionSoundState == FMOD.Studio.PLAYBACK_STATE.STOPPED)
                             {
-                                guardAudio.Play();
+                                detectionSound.start();
                             }
                             playerSeen = detectionHandler(playerSeen);
                         }

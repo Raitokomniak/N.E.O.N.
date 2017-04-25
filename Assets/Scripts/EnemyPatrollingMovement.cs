@@ -59,6 +59,7 @@ public class EnemyPatrollingMovement : MonoBehaviour {
     bool gotHit;
     string guardStepSound1 = "event:/Enemy sounds/Guard (cyborg grunt)/Footsteps/Walking";
     string guardStepSound2 = "event:/Enemy sounds/Guard (cyborg grunt)/Footsteps/Brisk walking";
+    FMOD.Studio.EventInstance gunSound;
     enum states
     {
         normal,
@@ -92,6 +93,7 @@ public class EnemyPatrollingMovement : MonoBehaviour {
         startPointReached = true;
         getSilentlyKilled = false;
         gotHit = false;
+        gunSound = FMODUnity.RuntimeManager.CreateInstance("event:/Enemy sounds/Guard (cyborg grunt)/Gunshots/Single");
     }
 
     void Update()
@@ -486,8 +488,9 @@ public class EnemyPatrollingMovement : MonoBehaviour {
             {
                 GameObject projectile = (GameObject)Instantiate(bullet, gunBarrell.position, gunBarrell.rotation);
                 Rigidbody2D rigidbody = projectile.GetComponent<Rigidbody2D>();
-                 gunAudio.Play();
-               // FMODUnity.RuntimeManager.PlayOneShot(inputSound);
+                //gunAudio.Play();
+                // FMODUnity.RuntimeManager.PlayOneShot(inputSound);
+                gunSound.start();
                 rigidbody.velocity = projectile.transform.right * bulletVelocity;
                 bulletTimer = 0;
             }  
@@ -496,7 +499,8 @@ public class EnemyPatrollingMovement : MonoBehaviour {
         {
             bulletTimer = 0;
         }
-        gunAudio.pitch = Time.timeScale;
+        //gunAudio.pitch = Time.timeScale;
+        gunSound.setPitch(Time.timeScale);
     }
     void ObstacleCheck()
     {
