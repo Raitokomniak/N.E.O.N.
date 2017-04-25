@@ -60,7 +60,6 @@ public class PlayerAim : MonoBehaviour {
 
     void throwDagger()
     {
-        Debug.Log("kavi taalla");
         timer = 0;
         GameObject projectile = getDagger();
         projectile.SetActive(true);

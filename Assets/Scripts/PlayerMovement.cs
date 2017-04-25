@@ -151,6 +151,10 @@ public class PlayerMovement : MonoBehaviour
         setPowers();
         flipHandler();
         ledgeCheck();
+        if (!grounded && feet.isFeetOnGround())
+        {
+            anim.Play("Landing");
+        }
         grounded = feet.isFeetOnGround();
         jump();
         wallJump();
@@ -385,11 +389,10 @@ public class PlayerMovement : MonoBehaviour
                     anim.Play("MidAir");
                     break;
                 case charStates.jump:
-                    anim.Play("MidAir");
+                    anim.SetTrigger("Jump");
                     break;
                 case charStates.wallJump:
                     anim.Play("WallJump");
-                    Debug.Log("wallJump");
                     break;
                 case charStates.wallSlide:
                     anim.Play("WallJumpSteady");
@@ -520,6 +523,7 @@ public class PlayerMovement : MonoBehaviour
                 if (wall)
                 {
                     ledgeHold = true;
+                    state = charStates.wallSlide;
                     wallJumpAble = false;
                     Collider2D col = wall;
                     Vector2 upper = col.bounds.center + (col.bounds.size / 2);

@@ -150,7 +150,7 @@ public class GameControllerScript : MonoBehaviour {
         foreach (GameObject guard in guards)
         {
             EnemyPatrollingMovement enemyMov = guard.GetComponent<EnemyPatrollingMovement>();
-            if (!enemyMov.playerInSight() && enemyMov.inUse)
+            if (!enemyMov.playerInSight() && enemyMov.inUse && !enemyMov.checks())
             {
                 if (!enemyMov.guardInStartPosition())
                 {

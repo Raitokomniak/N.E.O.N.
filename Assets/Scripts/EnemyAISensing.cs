@@ -91,7 +91,7 @@ public class EnemyAISensing : MonoBehaviour {
 	
     void OnTriggerStay2D(Collider2D col)
     {
-        if (!gScript.isDead())
+        if (!gScript.isDead()&&!gotHit)
         {
             seeing(col);
             if (!playerSeen && col.gameObject == player)
@@ -189,8 +189,6 @@ public class EnemyAISensing : MonoBehaviour {
 
     IEnumerator alert()
     {
-        
-        
         exclamationMarkSprite.enabled = true;
         yield return new WaitForSeconds(2f);
         exclamationMarkSprite.enabled = false;

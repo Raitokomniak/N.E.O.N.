@@ -35,9 +35,13 @@ public class EnemyAIAiming : MonoBehaviour {
 	void FixedUpdate ()
     {
         turnHandler();
-        if (!stunned)
+        if (!stunned&&!movement.controlledBySomeone())
         {
             aimTowardPlayer();
+        }
+        else
+        {
+            normalActivity();
         }
 
 	}
@@ -58,6 +62,7 @@ public class EnemyAIAiming : MonoBehaviour {
             Vector2 playerPos = sensing.playerLastSeenPosition();
             Vector2 direction = playerPos - new Vector2(this.transform.parent.position.x, this.transform.parent.position.y);
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+
             if (movement.facingRight()){
                 angle = Mathf.Clamp(angle, -50, 50);
                 sensing.checkIfPlayerIsBehind();
@@ -80,29 +85,34 @@ public class EnemyAIAiming : MonoBehaviour {
         }
         else
         {
-            this.transform.rotation = normalPos;
-            if (light)
-            {
-                if (movement.facingRight())
-                {
-                    light.transform.localEulerAngles = new Vector3(0, 75, 0);
-                }
-                else
-                {
-                    light.transform.localEulerAngles = new Vector3(0, -75, 0);
-                }
-            }
+            normalActivity();
+        }
+ 
+    }
+
+    void normalActivity()
+    {
+        this.transform.rotation = normalPos;
+        if (light)
+        {
             if (movement.facingRight())
             {
-                sr.flipY = false;
-                sr.flipX = false;
+                light.transform.localEulerAngles = new Vector3(0, 75, 0);
             }
             else
             {
-                sr.flipY = false;
+                light.transform.localEulerAngles = new Vector3(0, -75, 0);
             }
         }
- 
+        if (movement.facingRight())
+        {
+            sr.flipY = false;
+            sr.flipX = false;
+        }
+        else
+        {
+            sr.flipY = false;
+        }
     }
 
     void turnHandler()

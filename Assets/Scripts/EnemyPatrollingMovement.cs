@@ -157,6 +157,11 @@ public class EnemyPatrollingMovement : MonoBehaviour {
         controlledByGameController = control;
     }
 
+    public bool controlledBySomeone()
+    {
+        return controlledByGameController;
+    }
+
     public void returnToStartPosition()
     {
         waypoint = waypoints[0];

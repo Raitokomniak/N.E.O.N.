@@ -5,6 +5,7 @@ using UnityEngine;
 public class GrapplingHook : MonoBehaviour {
 
     // Use this for initialization
+
     DistanceJoint2D joint;
     GameObject shootSpot;
     LineRenderer line;
@@ -13,8 +14,9 @@ public class GrapplingHook : MonoBehaviour {
     float distance;
     bool ableToShoot;
     bool connected;
-    string graplinghookSound = "event:/Character sounds/Grappling hook/Attach (energy)";
-    FMOD.Studio.EventInstance hookSound;
+    //string graplinghookSound = "event:/Character sounds/Grappling hook/Attach (energy)";
+    
+    //FMOD.Studio.EventInstance hookSound;
 
     void Start()
     {
@@ -30,21 +32,25 @@ public class GrapplingHook : MonoBehaviour {
         line.material.color = Color.black;
         targets = new List<GameObject>();
         playMov = GetComponent<PlayerMovement>();
-        hookSound = FMODUnity.RuntimeManager.CreateInstance(graplinghookSound);      
+    //    hookSound = FMODUnity.RuntimeManager.CreateInstance(graplinghookSound);
+        
     }
 
-    ~GrapplingHook()
+ /*   ~GrapplingHook()
     {
         hookSound.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
-    }
+    }*/
 
     // Update is called once per frame
     void Update () {
-
         if (targets.Count == 0)
         {
             ableToShoot = false;
             shootSpot = null;
+        }
+        else
+        {
+            setShootSpot();
         }
        
         
@@ -53,7 +59,7 @@ public class GrapplingHook : MonoBehaviour {
             joint.enabled = false;
             line.enabled = false;
             connected = false;
-            hookSound.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+          //  hookSound.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
         }
 
         
@@ -64,12 +70,12 @@ public class GrapplingHook : MonoBehaviour {
     {
         if (ableToShoot && Input.GetButton("FireGHook") && !connected)
         {
-            setShootSpot();
+            
             if (shootSpot)
             {
                 fireGHook();
                 //FMODUnity.RuntimeManager.PlayOneShot(graplinghookSound);
-                hookSound.start();
+             //   hookSound.start();
             }
         }
 
@@ -98,7 +104,7 @@ public class GrapplingHook : MonoBehaviour {
     void setShootSpot()
     {
         float closestDistance = 0;
-        shootSpot = null;
+
         for (int i = 0; i < targets.Count; i++)
         {
             //Very much in the works
@@ -123,7 +129,12 @@ public class GrapplingHook : MonoBehaviour {
                 if (closestDistance == distance && targets[i].transform.position.y > this.transform.position.y)
                 {
                     shootSpot = targets[i];
+                    shootSpot.GetComponent<VantagePointScript>().setLight(3);
                 }
+            }
+            if (shootSpot != targets[i] && !connected)
+            {
+                targets[i].GetComponent<VantagePointScript>().setLight(1);
             }
         }
         if (!shootSpot)
@@ -150,7 +161,12 @@ public class GrapplingHook : MonoBehaviour {
                         shootSpot = targets[i];
                     }
                 }
+                if (shootSpot != targets[i] && !connected)
+                {
+                    targets[i].GetComponent<VantagePointScript>().setLight(1);
+                }
             }
+
         }
     }
     public void setGHookable(GameObject vantagePos)
