@@ -9,6 +9,7 @@ public class RedboxCollision : MonoBehaviour {
     {
         player = GameObject.FindGameObjectWithTag("Player");
         health = player.GetComponent<PlayerHealth>();
+        FMODUnity.RuntimeManager.PlayOneShot("event:/Environmental sounds/Electric trap", transform.position);
     }
 
     void OnTriggerEnter2D(Collider2D col)
