@@ -74,7 +74,6 @@ public class GrapplingHook : MonoBehaviour {
             if (shootSpot)
             {
                 fireGHook();
-                FMODUnity.RuntimeManager.PlayOneShot(graplinghookSound);
                 hookSound.start();
             }
         }
