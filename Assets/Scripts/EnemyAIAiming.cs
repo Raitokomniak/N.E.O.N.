@@ -34,9 +34,27 @@ public class EnemyAIAiming : MonoBehaviour {
 	
 	// Update is called once per frame
    
-	void FixedUpdate ()
+
+    void lightTurner(Light lite)
+    {
+        if (lite)
+        {
+            if (movement.facingRight())
+            {
+                lite.transform.localEulerAngles = new Vector3(0, 75, 0);
+            }
+            else
+            {
+                lite.transform.localEulerAngles = new Vector3(0, -75, 0);
+            }
+        }
+    }
+	void Update ()
     {
         turnHandler();
+
+       // lightTurner(light);
+       // lightTurner(spotLight);
         if (!stunned&&!movement.controlledBySomeone())
         {
             aimTowardPlayer();
@@ -78,6 +96,7 @@ public class EnemyAIAiming : MonoBehaviour {
         if ((!gScript.isDead()&&sensing.playerInSight())||movement.checks())
         {
             Vector2 playerPos = sensing.playerLastSeenPosition();
+            turnHead(playerPos);
             Vector2 direction = playerPos - new Vector2(this.transform.parent.position.x, this.transform.parent.position.y);
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
@@ -91,7 +110,7 @@ public class EnemyAIAiming : MonoBehaviour {
             }
             Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward * Time.smoothDeltaTime);
             this.transform.rotation = rotation;
-            turnHead(playerPos);
+            
             if (!movement.facingRight())
             {
                 sr.flipY = true;
@@ -113,17 +132,8 @@ public class EnemyAIAiming : MonoBehaviour {
     {
         this.transform.rotation = normalPos;
         head.transform.rotation = new Quaternion(0, 0, 0, 0);
-        if (light)
-        {
-            if (movement.facingRight())
-            {
-                light.transform.localEulerAngles = new Vector3(0, 75, 0);
-            }
-            else
-            {
-                light.transform.localEulerAngles = new Vector3(0, -75, 0);
-            }
-        }
+        lightTurner(light);
+        lightTurner(spotLight);
         if (movement.facingRight())
         {
             sr.flipY = false;

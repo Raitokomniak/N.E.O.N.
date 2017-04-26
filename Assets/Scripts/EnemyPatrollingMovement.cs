@@ -129,7 +129,6 @@ public class EnemyPatrollingMovement : MonoBehaviour {
 
     public void getDaggerHit()
     {
-        Debug.Log("I GOT HIT");
         StartCoroutine(getStunned());
     }
 
