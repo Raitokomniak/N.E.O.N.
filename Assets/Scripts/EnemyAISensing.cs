@@ -172,7 +172,7 @@ public class EnemyAISensing : MonoBehaviour {
         }
         
     }
-
+    
     public bool checkIfPlayerIsBehind()
     {
         int dir = moving.facingRight() ? 1 : -1;

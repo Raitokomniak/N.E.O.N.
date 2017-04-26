@@ -7,6 +7,7 @@ public class EnemyAIAiming : MonoBehaviour {
     // Use this for initialization
     public float aimSpeed = 1;
     public Transform gunBarrell;
+    public GameObject head;
     EnemyAISensing sensing;
     EnemyPatrollingMovement movement;
     Quaternion normalPos;
@@ -27,6 +28,7 @@ public class EnemyAIAiming : MonoBehaviour {
         gScript = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameControllerScript>();
         normalPos = this.transform.rotation;
         stunned = false;
+
     }
 
 	
@@ -49,6 +51,22 @@ public class EnemyAIAiming : MonoBehaviour {
     {
         stunned = status;
     }
+
+    void turnHead(Vector3 target)
+    {
+        float angle = 0;
+        if (target.y > head.transform.position.y)
+        {
+            angle = movement.facingRight() ? 9 : -9;
+        }
+        else if (target.y < head.transform.position.y)
+        {
+            angle = movement.facingRight() ? -9 : 9;
+        }
+
+        head.transform.localEulerAngles = new Vector3(0, 0, angle);
+    }
+
     void aimTowardPlayer()
     {
         if (light)
@@ -73,6 +91,7 @@ public class EnemyAIAiming : MonoBehaviour {
             }
             Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward * Time.smoothDeltaTime);
             this.transform.rotation = rotation;
+            turnHead(playerPos);
             if (!movement.facingRight())
             {
                 sr.flipY = true;
@@ -93,6 +112,7 @@ public class EnemyAIAiming : MonoBehaviour {
     void normalActivity()
     {
         this.transform.rotation = normalPos;
+        head.transform.rotation = new Quaternion(0, 0, 0, 0);
         if (light)
         {
             if (movement.facingRight())

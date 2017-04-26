@@ -24,9 +24,9 @@ public class DaggerScript : MonoBehaviour {
                 col.gameObject.GetComponent<EnemyPatrollingMovement>().getDaggerHit();
                 daggerRig.gameObject.SetActive(false);
             }
-            daggerRig.velocity = Vector2.Reflect(daggerRig.velocity, transform.right);
+           // daggerRig.velocity = Vector2.Reflect(daggerRig.velocity, transform.right);
            
-            //daggerRig.gameObject.SetActive(false);
+            daggerRig.gameObject.SetActive(false);
         }
        
     }
