@@ -28,6 +28,10 @@ public class EnemyAIAiming : MonoBehaviour {
         gScript = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameControllerScript>();
         normalPos = this.transform.rotation;
         stunned = false;
+        if (head == null)
+        {
+            head = this.transform.parent.transform.GetChild(0).gameObject;
+        }
 
     }
 
