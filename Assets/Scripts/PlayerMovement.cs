@@ -49,7 +49,6 @@ public class PlayerMovement : MonoBehaviour
     bool performingAction;
     string runSound = "event:/Character sounds/Footsteps/Running";
     string jumpSound = "event:/Character sounds/Jumping";
-    landingSound landingSound;
 
     enum charStates
     {
@@ -77,7 +76,6 @@ public class PlayerMovement : MonoBehaviour
         stepTimer = 0;
         performingAction = false;
         initialize();
-        landingSound = GetComponent<landingSound>();
     }
 
     void steps()
