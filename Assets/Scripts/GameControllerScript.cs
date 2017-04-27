@@ -334,7 +334,7 @@ public class GameControllerScript : MonoBehaviour {
             currentScene = SceneManager.GetActiveScene().buildIndex;
             writeSavefile();
             checkpointText.SetActive(true);
-            StartCoroutine(disableCheckpointText());
+            //StartCoroutine(disableCheckpointText());
         }
     }
     IEnumerator disableCheckpointText()

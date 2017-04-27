@@ -49,6 +49,7 @@ public class PlayerMovement : MonoBehaviour
     bool performingAction;
     string runSound = "event:/Character sounds/Footsteps/Running";
     string jumpSound = "event:/Character sounds/Jumping";
+    landingSound landingSound;
 
     enum charStates
     {
@@ -76,6 +77,7 @@ public class PlayerMovement : MonoBehaviour
         stepTimer = 0;
         performingAction = false;
         initialize();
+        landingSound = GetComponent<landingSound>();
     }
 
     void steps()
@@ -154,6 +156,7 @@ public class PlayerMovement : MonoBehaviour
         if (!grounded && feet.isFeetOnGround())
         {
             anim.Play("Landing");
+            FMODUnity.RuntimeManager.PlayOneShot("event:/Character sounds/Landing");
         }
         grounded = feet.isFeetOnGround();
         jump();
@@ -475,6 +478,7 @@ public class PlayerMovement : MonoBehaviour
             playerRig.AddForce(new Vector2(0, _jumpForce), ForceMode2D.Impulse);
             state = charStates.jump;
             jumped = false;
+            //landingSound.jumped();
         }
     }
     void wallJump()

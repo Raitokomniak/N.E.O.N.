@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 665a62a84223fe14194dcc6a283b42de
+timeCreated: 1493293619
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Enduro Dos
+  fontNames:
+  - Enduro Dos
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
