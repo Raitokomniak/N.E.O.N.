@@ -314,6 +314,11 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f88fd1a851cde0045a5f7fb33c6b6591, type: 2}
   m_IsPrefabParent: 0
+--- !u!20 &185014172 stripped
+Camera:
+  m_PrefabParentObject: {fileID: 20405655192840700, guid: f88fd1a851cde0045a5f7fb33c6b6591,
+    type: 2}
+  m_PrefabInternal: {fileID: 185014171}
 --- !u!1 &235366560
 GameObject:
   m_ObjectHideFlags: 0
@@ -889,6 +894,11 @@ Prefab:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114251675280043454, guid: 4fc1ef342e41ce349b8a64dde446cfd4,
+        type: 2}
+      propertyPath: mainCamera
+      value: 
+      objectReference: {fileID: 185014172}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4fc1ef342e41ce349b8a64dde446cfd4, type: 2}
   m_IsPrefabParent: 0
@@ -2367,11 +2377,11 @@ Transform:
   m_Children:
   - {fileID: 471768496}
   - {fileID: 476503625}
+  - {fileID: 602558663}
   - {fileID: 1354194446}
-  - {fileID: 1586536412}
   - {fileID: 1196447926}
   - {fileID: 496425205}
-  - {fileID: 602558663}
+  - {fileID: 1586536412}
   m_Father: {fileID: 235366561}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

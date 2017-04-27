@@ -15,7 +15,8 @@ public class cinematicAspect : MonoBehaviour {
     float down2Y = -230;
     float deltaDownY;
     float startingFieldOfView = 60;
-    float cinematicFieldOfView = 65;
+    float cinematicFieldOfView = 70;
+
     float deltaFieldOfView;
     float upY;
     float downY;
