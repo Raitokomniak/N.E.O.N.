@@ -29,7 +29,7 @@ public class GrapplingHook : MonoBehaviour {
     void Awake () {
         joint = GetComponent<DistanceJoint2D>();
         line = GetComponent<LineRenderer>();
-        line.material.color = Color.black;
+        
         targets = new List<GameObject>();
         playMov = GetComponent<PlayerMovement>();
         hookSound = FMODUnity.RuntimeManager.CreateInstance(graplinghookSound);
@@ -56,10 +56,7 @@ public class GrapplingHook : MonoBehaviour {
         
         if (connected && Input.GetButton("Jump"))
         {
-            joint.enabled = false;
-            line.enabled = false;
-            connected = false;
-            hookSound.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+            detachHook();
         }
 
         if (ableToShoot && Input.GetButtonDown("FireGHook") && !connected)
@@ -79,13 +76,27 @@ public class GrapplingHook : MonoBehaviour {
 
     }
 
+    void detachHook()
+    {
+        joint.enabled = false;
+        line.enabled = false;
+        connected = false;
+        hookSound.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+    }
+
     void FixedUpdate()
     {
+        
         if (connected)
         {
             line.SetPosition(0, transform.position);
             line.SetPosition(1, shootSpot.transform.position);
             joint.distance = distance;
+            
+            if (distance < 0.5f)
+            {
+                climb();
+            }
         }
 
         if (connected && Input.GetButton("FireGHook"))
@@ -94,13 +105,24 @@ public class GrapplingHook : MonoBehaviour {
         }
     }
 
+    void climb()
+    {
+        BoxCollider2D box = shootSpot.GetComponent<BoxCollider2D>();
+        this.transform.position = box.transform.position + box.transform.up;
+        GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+        detachHook();
+    }
+
     void fireGHook()
     {
+        line.SetPosition(0, transform.position);
+        line.SetPosition(1, shootSpot.transform.position);
         joint.connectedBody = shootSpot.GetComponent<Rigidbody2D>();
         distance = Vector2.Distance(this.transform.position, shootSpot.transform.position);
         connected = true;
         line.enabled = true;
         joint.enabled = true;
+    
     }
 
     GameObject setShootSpot(GameObject shooter)
@@ -130,13 +152,12 @@ public class GrapplingHook : MonoBehaviour {
                 if (targets[i].transform.position.y > this.transform.position.y)
                 {
                     shooter = targets[i];
-                    Debug.Log("Valittiin taman perusteella");
                     shooter.GetComponent<VantagePointScript>().setLight(3);
                 }
                 else if (closestDistance == distance)
                 {
                     shooter = targets[i];
-                    Debug.Log("Valittiin taman toisen perusteella");
+                    shooter.GetComponent<VantagePointScript>().setLight(3);
                 }
             }
             if (shooter != targets[i] && !connected)
@@ -166,7 +187,6 @@ public class GrapplingHook : MonoBehaviour {
                     if (closestDistance == distance)
                     {
                         shooter = targets[i];
-                        
                     }
                 }
                 if (shooter != targets[i] && !connected)
