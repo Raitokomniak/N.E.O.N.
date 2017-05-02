@@ -27,7 +27,7 @@ public class CameraScript : MonoBehaviour {
         if (!gScript.isDead()&&!usedFromOutside)
         {
            Vector3 targetPos = new Vector3(player.transform.position.x, player.transform.position.y, z);
-           this.transform.position = Vector3.Lerp(this.transform.position, targetPos, smoothing * Time.unscaledDeltaTime);
+           this.transform.position = Vector3.Lerp(this.transform.position, targetPos, smoothing * Time.deltaTime);
         }
     }
 
@@ -36,7 +36,7 @@ public class CameraScript : MonoBehaviour {
         if (!usedFromOutside)
         {
             float zValue = getDistance(z);
-            this.transform.position = Vector3.Lerp(this.transform.position, new Vector3(this.transform.position.x, this.transform.position.y, zValue), 1.5f * Time.unscaledDeltaTime);
+            this.transform.position = Vector3.Lerp(this.transform.position, new Vector3(this.transform.position.x, this.transform.position.y, zValue), 1.5f * Time.deltaTime);
         }
     }
 
