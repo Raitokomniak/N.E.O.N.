@@ -11,6 +11,7 @@ public class TimeHandler : MonoBehaviour {
     float originalTimeScale;
     float originalFixedDeltaTime;
     bool fullSlowMo = false;
+    bool controlledFromOutside = false;
 
 	void Awake() {
         playerMov = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
@@ -26,7 +27,10 @@ public class TimeHandler : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-       handleTime();
+        if (!controlledFromOutside)
+        {
+            handleTime();
+        }
     }
 
     void handleTime()
@@ -71,6 +75,11 @@ public class TimeHandler : MonoBehaviour {
             Time.fixedDeltaTime = Mathf.Lerp(Time.fixedDeltaTime, originalFixedDeltaTime, 10 * Time.fixedDeltaTime);
             fullSlowMo = false;
         }
+    }
+
+    public void setTimeFromOutside(bool option)
+    {
+        controlledFromOutside = option;
     }
 
     public bool fullSlowMotion()
