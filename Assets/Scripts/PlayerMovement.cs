@@ -49,6 +49,7 @@ public class PlayerMovement : MonoBehaviour
     bool performingAction;
     string runSound = "event:/Character sounds/Footsteps/Running";
     string jumpSound = "event:/Character sounds/Jumping";
+    string wallJumpSound = "event:/Character sounds/Wall jumping";
 
     enum charStates
     {
@@ -486,6 +487,7 @@ public class PlayerMovement : MonoBehaviour
             state = charStates.wallSlide;
             if (Input.GetButtonDown("Jump"))
             {
+                FMODUnity.RuntimeManager.PlayOneShot(wallJumpSound);
                 int dir = facing * -1;
                 playerRig.AddForce(new Vector2(dir * _jumpForce / 1.5f, _jumpForce), ForceMode2D.Impulse);
                 state = charStates.wallJump;
