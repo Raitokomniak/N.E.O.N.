@@ -32,8 +32,6 @@ public class CheckPoint : MonoBehaviour
     {    
         if (camAction != null)
         {
-            
-            playerMov.setPerformAction(true);
             camAction();
             if (Input.GetButton("Jump"))
             {
@@ -58,6 +56,7 @@ public class CheckPoint : MonoBehaviour
             gScript.setCheckpoint(this.transform.position);
             if (usedForCinematicPurposes)
             {
+                playerMov.setPerformAction(true);
                 originPosition = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>().transform.position;
                 camAction += moveCameraToPoint;
             }
@@ -92,6 +91,7 @@ public class CheckPoint : MonoBehaviour
         {
             Time.timeScale = Mathf.Lerp(Time.timeScale, 1, cameraMoveSpeedBackToA * Time.unscaledDeltaTime);
             Time.fixedDeltaTime = Mathf.Lerp(Time.fixedDeltaTime, 0.2f, cameraMoveSpeedBackToA * Time.unscaledDeltaTime);
+            setCinematicOff();
             camAction = null;
         }
     }
