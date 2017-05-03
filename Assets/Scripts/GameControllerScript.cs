@@ -37,6 +37,8 @@ public class GameControllerScript : MonoBehaviour {
     public GameObject exitMainMenuButton;
     public GameObject alertIndicator;
     List<GameObject> guards;
+    string music = "event:/Music/Background 1";
+    FMOD.Studio.EventInstance Music;
     void Awake()
     {
         // guards = new ArrayList();
@@ -45,6 +47,8 @@ public class GameControllerScript : MonoBehaviour {
         gameAudio = GetComponent<AudioSource>();
         player = GameObject.FindGameObjectWithTag("Player");
         camera = GameObject.FindGameObjectWithTag("MainCamera");
+        Music = FMODUnity.RuntimeManager.CreateInstance(music);
+
         if (!File.Exists(saveFile) && useSaveFile)
         {
             using(StreamWriter sw = File.CreateText(saveFile))
@@ -84,8 +88,10 @@ public class GameControllerScript : MonoBehaviour {
         playerDead = false;
         guardsAlerted = false;
         countdownTimer = 0;
-        gameAudio.clip = musics[0];
-        gameAudio.Play();
+        Music.setParameterValue("Music speed", 0);
+        Music.start();
+        //gameAudio.clip = musics[0];
+        //gameAudio.Play();
 	}
 	
 	// Update is called once per frame
@@ -116,13 +122,17 @@ public class GameControllerScript : MonoBehaviour {
         }
         else
         {
-            setMusic("Normal");
+            //setMusic("Normal");
+            Music.setParameterValue("Music speed", 0);
+            //Music.start();
             alertIndicator.SetActive(false);
         }
+        /*
         if (!gameAudio.isPlaying)
         {
             gameAudio.Play();
         }
+        */
 
     }
 
@@ -232,6 +242,7 @@ public class GameControllerScript : MonoBehaviour {
         deaths++;
         playerDead = true;
         player.SetActive(false);
+        Music.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
         StartCoroutine(reloadScene());
     }
 
@@ -253,6 +264,7 @@ public class GameControllerScript : MonoBehaviour {
 
     void reload()
     {
+        Music.setParameterValue("Music speed", 0);
         if (useSaveFile)
         {
             time = time + Time.timeSinceLevelLoad;
@@ -275,6 +287,7 @@ public class GameControllerScript : MonoBehaviour {
             currentScene = SceneManager.GetActiveScene().buildIndex + 1;
             currentCheckpoint = new Vector3(0f, 0f, 0f);
             writeSavefile();
+            Music.setParameterValue("Music speed", 0);
             SceneManager.LoadScene(currentScene);
         }
         else
@@ -294,7 +307,9 @@ public class GameControllerScript : MonoBehaviour {
         if (alert)
         {
             countdownTimer = 0;
-            setMusic("Alert");
+            //setMusic("Alert");
+            Music.setParameterValue("Music speed", 1);
+            //Music.start();
         }
     }
 
@@ -303,7 +318,7 @@ public class GameControllerScript : MonoBehaviour {
         return guardsAlerted;
     }
 
-    void setMusic(string music)
+    /*void setMusic(string music)
     {
         switch (music)
         {
@@ -322,7 +337,7 @@ public class GameControllerScript : MonoBehaviour {
                 gameAudio.clip = musics[0];
                 break;
         }
-    }
+    }*/
 
     public void setCheckpoint(Vector3 checkpoint)
     {
@@ -355,5 +370,9 @@ public class GameControllerScript : MonoBehaviour {
             sw.WriteLine(alarms);
             sw.WriteLine(time);
         }
+    }
+    ~GameControllerScript()
+    {
+        Music.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
     }
 }
