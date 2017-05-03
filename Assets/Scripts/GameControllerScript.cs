@@ -39,6 +39,7 @@ public class GameControllerScript : MonoBehaviour {
     List<GameObject> guards;
     string music = "event:/Music/Background 1";
     FMOD.Studio.EventInstance Music;
+    public int crushing;
     void Awake()
     {
         // guards = new ArrayList();
@@ -48,7 +49,7 @@ public class GameControllerScript : MonoBehaviour {
         player = GameObject.FindGameObjectWithTag("Player");
         camera = GameObject.FindGameObjectWithTag("MainCamera");
         Music = FMODUnity.RuntimeManager.CreateInstance(music);
-
+        crushing = 0;
         if (!File.Exists(saveFile) && useSaveFile)
         {
             using(StreamWriter sw = File.CreateText(saveFile))
@@ -126,6 +127,10 @@ public class GameControllerScript : MonoBehaviour {
             Music.setParameterValue("Music speed", 0);
             //Music.start();
             alertIndicator.SetActive(false);
+        }
+        if (crushing > 1)
+        {
+            setPlayerDead();
         }
         /*
         if (!gameAudio.isPlaying)
@@ -375,4 +380,6 @@ public class GameControllerScript : MonoBehaviour {
     {
         Music.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
     }
+
+    
 }
