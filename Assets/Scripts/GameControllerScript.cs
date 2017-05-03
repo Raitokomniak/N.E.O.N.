@@ -40,6 +40,7 @@ public class GameControllerScript : MonoBehaviour {
     string music = "event:/Music/Background 1";
     FMOD.Studio.EventInstance Music;
     public int crushing;
+    public PlayerHealth playerHealth;
     void Awake()
     {
         // guards = new ArrayList();
@@ -49,6 +50,7 @@ public class GameControllerScript : MonoBehaviour {
         player = GameObject.FindGameObjectWithTag("Player");
         camera = GameObject.FindGameObjectWithTag("MainCamera");
         Music = FMODUnity.RuntimeManager.CreateInstance(music);
+        playerHealth = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHealth>();
         crushing = 0;
         if (!File.Exists(saveFile) && useSaveFile)
         {
@@ -130,7 +132,8 @@ public class GameControllerScript : MonoBehaviour {
         }
         if (crushing > 1)
         {
-            setPlayerDead();
+            //setPlayerDead();
+            playerHealth.takeDamage(100);
         }
         /*
         if (!gameAudio.isPlaying)

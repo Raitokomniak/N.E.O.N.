@@ -13,6 +13,8 @@ public class PlayerHealth : MonoBehaviour {
     bool adding;
     bool takingDamage;
     float damageTimer;
+    FMOD.Studio.EventInstance damageSound;
+
     void Awake()
     {
        gScript = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameControllerScript>();
@@ -22,6 +24,7 @@ public class PlayerHealth : MonoBehaviour {
         damageTimer = 0;
         takingDamage = false;
         adding = false;
+        damageSound = FMODUnity.RuntimeManager.CreateInstance("event:/Character sounds/Vocalizations/Damaged");
     }
    
 	// Update is called once per frame
@@ -40,6 +43,7 @@ public class PlayerHealth : MonoBehaviour {
     }
     public void takeDamage(int amount)
     {
+        damageSound.start();
         health -= amount;
 		ui.UpdateHealth (health);
         takingDamage = true;
