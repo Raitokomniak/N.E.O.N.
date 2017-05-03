@@ -29,7 +29,6 @@ public class GrapplingHook : MonoBehaviour {
     void Awake () {
         joint = GetComponent<DistanceJoint2D>();
         line = GetComponent<LineRenderer>();
-        
         targets = new List<GameObject>();
         playMov = GetComponent<PlayerMovement>();
         hookSound = FMODUnity.RuntimeManager.CreateInstance(graplinghookSound);
