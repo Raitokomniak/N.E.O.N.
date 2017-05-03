@@ -92,7 +92,6 @@ public class CheckPoint : MonoBehaviour
             Time.timeScale = Mathf.Lerp(Time.timeScale, 1, cameraMoveSpeedBackToA * Time.unscaledDeltaTime);
             Time.fixedDeltaTime = Mathf.Lerp(Time.fixedDeltaTime, 0.2f, cameraMoveSpeedBackToA * Time.unscaledDeltaTime);
             setCinematicOff();
-            camAction = null;
         }
     }
     
@@ -112,7 +111,7 @@ public class CheckPoint : MonoBehaviour
     void setCinematicOff()
     {
         playerMov.setPerformAction(false);
-        camAction = null;
         takeControlOfCameraAndTimeHandler(false);
+        camAction = null;
     }
 }
