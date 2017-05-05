@@ -76,6 +76,23 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1224887276737792
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4803961407209576}
+  - component: {fileID: 58325357638295892}
+  - component: {fileID: 114942049139954742}
+  m_Layer: 0
+  m_Name: GuardSpeechTrigger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1287270913461060
 GameObject:
   m_ObjectHideFlags: 1
@@ -307,6 +324,7 @@ Transform:
   - {fileID: 4422126561963344}
   - {fileID: 4402511616867880}
   - {fileID: 4631198298171328}
+  - {fileID: 4803961407209576}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -447,6 +465,19 @@ Transform:
   m_Father: {fileID: 4227773749689022}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4803961407209576
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1224887276737792}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.041564375, y: 0.04282888, z: 0.5}
+  m_Children: []
+  m_Father: {fileID: 4227773749689022}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4878338772624894
 Transform:
   m_ObjectHideFlags: 1
@@ -533,6 +564,21 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!58 &58325357638295892
+CircleCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1224887276737792}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 30
 --- !u!58 &58463203645439420
 CircleCollider2D:
   m_ObjectHideFlags: 1
@@ -1062,6 +1108,17 @@ MonoBehaviour:
   xButton: {fileID: 21300000, guid: aeac32ddab382c44cbbef003e3041125, type: 3}
   sr: {fileID: 212418739507292386}
   takeDownTime: 2
+--- !u!114 &114942049139954742
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1224887276737792}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4dab93cae3129446ac7f947b4b341ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!212 &212099930091575520
 SpriteRenderer:
   m_ObjectHideFlags: 1

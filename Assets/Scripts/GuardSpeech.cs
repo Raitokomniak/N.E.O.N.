@@ -4,11 +4,25 @@ using UnityEngine;
 
 public class GuardSpeech : MonoBehaviour {
 
+    GameControllerScript gScript;
+
+    void Awake()
+    {
+        gScript = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameControllerScript>();
+    }
+
     void OnTriggerStay2D(Collider2D col)
     {
-        if (col.gameObject.tag == "Enemy")
+        if (col.gameObject.tag == "Player")
         {
-            FMODUnity.RuntimeManager.PlayOneShot("event:/Enemy sounds/Guard (cyborg grunt)/Vocalizations/Acknowledged");
+            if (gScript.allGuardsAlerted())
+            {
+                FMODUnity.RuntimeManager.PlayOneShot("event:/Enemy sounds/Guard (cyborg grunt)/Vocalizations/Engaged",transform.position);
+            }
+            else
+            {
+                FMODUnity.RuntimeManager.PlayOneShot("event:/Enemy sounds/Guard (cyborg grunt)/Vocalizations/Acknowledged", transform.position);
+            }        
         }
     }
 }
