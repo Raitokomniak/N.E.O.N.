@@ -85,7 +85,7 @@ public class PlayerMovement : MonoBehaviour
         if (playerRig.velocity.magnitude != 0)
         {
             //stepAudio.clip = stepSounds[Random.Range(0, stepSounds.Length)];
-            timeBetweensteps = 0.25f;
+            timeBetweensteps = 0.31f;
             stepTimer += Time.deltaTime;
             if (stepTimer >= timeBetweensteps&&state == charStates.run)
             {
