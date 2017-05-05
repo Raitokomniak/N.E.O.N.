@@ -17,7 +17,7 @@ public class GuardSpeech : MonoBehaviour {
         {
             if (gScript.allGuardsAlerted())
             {
-                FMODUnity.RuntimeManager.PlayOneShot("event:/Enemy sounds/Guard (cyborg grunt)/Vocalizations/Engaged",transform.position);
+                FMODUnity.RuntimeManager.PlayOneShot("event:/Enemy sounds/Guard (cyborg grunt)/Vocalizations/Engaging", transform.position);
             }
             else
             {
