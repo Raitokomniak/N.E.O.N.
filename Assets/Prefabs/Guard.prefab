@@ -60,6 +60,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1186990794555450
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4601551274190186}
+  - component: {fileID: 212993665363204898}
+  m_Layer: 0
+  m_Name: hearingTest
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1287270913461060
 GameObject:
   m_ObjectHideFlags: 1
@@ -152,6 +168,7 @@ GameObject:
   - component: {fileID: 114478855194130434}
   - component: {fileID: 114489018902980392}
   - component: {fileID: 82001576751146234}
+  - component: {fileID: 114042350147044446}
   m_Layer: 0
   m_Name: AlertZone
   m_TagString: Untagged
@@ -222,7 +239,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1923293649421786}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -16.933214, y: 0.15103051, z: 0}
+  m_LocalPosition: {x: -14.52, y: 0.15103051, z: 0}
   m_LocalScale: {x: 3.6088643, y: 3.5023136, z: 1}
   m_Children:
   - {fileID: 4725201224848956}
@@ -286,7 +303,8 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 4601551274190186}
   m_Father: {fileID: 4227773749689022}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -297,7 +315,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1525343912743354}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.103, y: -0.13000004, z: 0}
+  m_LocalPosition: {x: 2.566, y: -0.13000004, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4227773749689022}
@@ -315,6 +333,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4227773749689022}
   m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4601551274190186
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1186990794555450}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.029999986, y: -0.029999997, z: 0}
+  m_LocalScale: {x: 0.42000002, y: 0.42, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4402511616867880}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4631198298171328
 Transform:
@@ -845,6 +876,19 @@ Light:
   m_UseColorTemperature: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!114 &114042350147044446
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1756404663413708}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be6969a42cce2834bb37151ff57514be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  senses:
+  - {fileID: 212993665363204898}
 --- !u!114 &114385101222963258
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -858,8 +902,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   guardAudio: {fileID: 82001576751146234}
   exclamationMarkSprite: {fileID: 212771594875618354}
-  detectionSound: {fileID: 8300000, guid: f18f67ff4d9a50c4d8f4c43315ab3c71, type: 3}
-  alertSound: {fileID: 8300000, guid: 56fb33282f166ea44936723e239dd32a, type: 3}
   eyes: {fileID: 4486589939018472}
   enemyFieldOfView: 110
   detectionTime: 0.5
@@ -877,23 +919,24 @@ MonoBehaviour:
   waypoints:
   - {fileID: 4878338772624894}
   - {fileID: 4422126561963344}
+  gunBarrell: {fileID: 4295662446186712}
   guardSteps:
   - {fileID: 8300000, guid: 05ebc573b0738ec46aed423400133fac, type: 3}
   - {fileID: 8300000, guid: a4f4c2f6b7aeb1644a33988ff212720a, type: 3}
-  patrollingSpeed: 1
-  cautionSpeed: 2
-  alertSpeed: 4
-  currentWayPoint: 0
   target: {x: 0, y: 0}
   moveDirection: {x: 0, y: 0}
   velocity: {x: 0, y: 0}
   headSpriteRend: {fileID: 212576390182678042}
-  cautionTimer: 5
-  gunBarrell: {fileID: 4295662446186712}
   bullet: {fileID: 1081764111275878, guid: 9f3f1c5b07d0add4295a281d7760dfbf, type: 2}
   player: {fileID: 0}
+  patrollingSpeed: 1
+  cautionSpeed: 2
+  alertSpeed: 4
   bulletVelocity: 20
   timeBetweenBullets: 0.5
+  cautionTimer: 5
+  timeToIdleInWayPoint: 2
+  currentWayPoint: 0
   inUse: 0
   startPointReached: 0
 --- !u!114 &114386847471623610
@@ -926,6 +969,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   aimSpeed: 1
   gunBarrell: {fileID: 4295662446186712}
+  head: {fileID: 0}
   light: {fileID: 108251339522791700}
   spotLight: {fileID: 0}
 --- !u!114 &114478855194130434
@@ -951,6 +995,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26d060dc35d26a34586f58f5977716f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  takeDownTime: 2
 --- !u!212 &212099930091575520
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -1189,5 +1234,45 @@ SpriteRenderer:
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 1, y: 1}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+--- !u!212 &212993665363204898
+SpriteRenderer:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1186990794555450}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 21300000, guid: 628aaecfbe517c841a1399b79e86d621, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 10, y: 10}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0

@@ -16,8 +16,13 @@ public class PresentationScript : MonoBehaviour {
         lite.enabled = false;
         ad = FMODUnity.RuntimeManager.CreateInstance(speech);
     }
-	
-	void OnTriggerEnter2D(Collider2D col)
+
+    ~PresentationScript()
+    {
+        ad.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+    }
+
+    void OnTriggerEnter2D(Collider2D col)
     {
         if (col.gameObject == player)
         {

@@ -62,7 +62,8 @@ public class PlayerMovement : MonoBehaviour
         wallJump,
         death,
         crouch,
-        crouchWalk
+        crouchWalk,
+        ledgeGrab
     };
     charStates state;
 
@@ -143,23 +144,59 @@ public class PlayerMovement : MonoBehaviour
         {
             characterHandler();
         }
-
+        if (wall == null)
+        {
+            ledgeHold = false;
+            wallJumpAble = false;
+            if (!grounded)
+            {
+                state = charStates.midAir;
+                if (!anim.GetCurrentAnimatorStateInfo(0).IsName("Jump"))
+                {
+                    //anim.Play("MidAir");
+                    playAnimation("MidAir");
+                }
+            }
+        }
     }
+    string animName;
+    void playAnimation(string name)
+    {
+        Debug.Log(animName + " " + name);
+        if (animName != "Jump" && animName != "Landing")
+        {
+            anim.Play(name);
+            animName = name;
+        }
+        else
+        {
 
+                anim.Play(name);
+
+        }
+    }
+   
+
+    bool animatorInTheMiddle()
+    {
+        return anim.GetCurrentAnimatorStateInfo(0).length >
+               anim.GetCurrentAnimatorStateInfo(0).normalizedTime;
+    }
     void characterHandler()
     {
         handleAbilities();
         setPowers();
         flipHandler();
         ledgeCheck();
+        jump();
+        wallJump();
         if (!grounded && feet.isFeetOnGround())
         {
-            anim.Play("Landing");
+            playAnimation("Landing");
             FMODUnity.RuntimeManager.PlayOneShot("event:/Character sounds/Landing");
         }
         grounded = feet.isFeetOnGround();
-        jump();
-        wallJump();
+       
         speedLimiter();
     }
 
@@ -262,18 +299,18 @@ public class PlayerMovement : MonoBehaviour
         float x = Input.GetAxisRaw("Horizontal");
         if (ledgeHold && !Input.GetButton("Crouch"))
         {
-             playerRig.velocity = new Vector2(0, 0);
-             playerRig.gravityScale = 0;
+            playerRig.velocity = Vector2.zero;
+            playerRig.gravityScale = 0;
         }
         else {
-            playerRig.isKinematic = false;
+            ledgeHold = false;
             playerRig.gravityScale = 1;
             frictionHandler();
         }
         move(x);
         crouch();
-        collisionChecker();
-        animationHandler(x);
+    //    collisionChecker();
+    //    animationHandler(x);
     }
     void move(float x)
     {
@@ -348,6 +385,7 @@ public class PlayerMovement : MonoBehaviour
         if (crouched)
         {
             state = charStates.crouch;
+            playAnimation("Crouch");
             box.size = new Vector2(box.size.x, crouchingSize);
             box.offset = new Vector2(box.offset.x, crouchingOffset);
         }
@@ -361,49 +399,56 @@ public class PlayerMovement : MonoBehaviour
 
     void animationHandler(float x)
     {
-        if (grounded)
-        {
-            switch (state)
+       // if (!anim.GetCurrentAnimatorStateInfo(0).)
+      //  {
+            if (grounded)
             {
-                //To be changed when animations arrive
-                case charStates.idle:
-                    anim.Play("Idle");
-                    break;
-                case charStates.walk:
-                    anim.Play("Run");
-                    break;
-                case charStates.run:
-                    anim.Play("Run");
-                    break;
-                case charStates.crouch:
-                    anim.Play("Crouch");
-                    break;
-                default:
-                    anim.Play("Idle");
-                    break;
+                switch (state)
+                {
+                    //To be changed when animations arrive
+                    case charStates.idle:
+                        anim.Play("Idle");
+                        break;
+                    case charStates.walk:
+                        anim.Play("Run");
+                        break;
+                    case charStates.jump:
+                        anim.Play("Jump");
+                        break;
+                    case charStates.run:
+                        anim.Play("Run");
+                        break;
+                    case charStates.crouch:
+                        anim.Play("Crouch");
+                        break;
+                    default:
+                        anim.Play("Idle");
+                        break;
+                }
             }
-        }
-        else
-        {
-            switch (state)
+            else
             {
-                case charStates.midAir:
-                    anim.Play("MidAir");
-                    break;
-                case charStates.jump:
-                    anim.SetTrigger("Jump");
-                    break;
-                case charStates.wallJump:
-                    anim.Play("WallJump");
-                    break;
-                case charStates.wallSlide:
-                    anim.Play("WallJumpSteady");
-                    break;
-                default:
-                    anim.Play("MidAir");
-                    break;
+                switch (state)
+                {
+                    case charStates.midAir:
+                        anim.Play("MidAir");
+                        break;
+                    case charStates.wallJump:
+                        anim.Play("WallJump");
+                        break;
+                    case charStates.wallSlide:
+                        anim.Play("WallJumpSteady");
+                        break;
+                    case charStates.ledgeGrab:
+                        anim.Play("LedgeGrab");
+                        break;
+                    default:
+                        anim.Play("MidAir");
+                        break;
+                }
+
             }
-        }
+     //   }
     }
 
     void charSpeedHandler()
@@ -456,14 +501,17 @@ public class PlayerMovement : MonoBehaviour
             if (x <= 0.05f)
             {
                 state = charStates.idle;
+                playAnimation("Idle");
             }
             else if (x <= 0.65f)
             {
                 state = charStates.walk;
+                playAnimation("Walk");
             }
             else if (x > 0.75f)
             {
                 state = charStates.run;
+                playAnimation("Run");
             }
         }
         charSpeedHandler();
@@ -473,6 +521,8 @@ public class PlayerMovement : MonoBehaviour
     {
         if (grounded && Input.GetButtonDown("Jump"))
         {
+            state = charStates.jump;
+            playAnimation("Jump");
             FMODUnity.RuntimeManager.PlayOneShot(jumpSound);
             playerRig.AddForce(new Vector2(0, _jumpForce), ForceMode2D.Impulse);
             state = charStates.jump;
@@ -485,12 +535,15 @@ public class PlayerMovement : MonoBehaviour
         if (wallJumpAble)
         {
             state = charStates.wallSlide;
+            playAnimation("WallJumpSteady");
+            
             if (Input.GetButtonDown("Jump"))
             {
                 FMODUnity.RuntimeManager.PlayOneShot(wallJumpSound);
                 int dir = facing * -1;
                 playerRig.AddForce(new Vector2(dir * _jumpForce / 1.5f, _jumpForce), ForceMode2D.Impulse);
                 state = charStates.wallJump;
+                playAnimation("WallJump");
                 wallJumpAble = false;
                 jumped = false;
                 facing *= -1;
@@ -527,22 +580,16 @@ public class PlayerMovement : MonoBehaviour
                 if (wall)
                 {
                     ledgeHold = true;
-                    state = charStates.wallSlide;
+                    state = charStates.ledgeGrab;
+                    playAnimation("LedgeGrab");
                     wallJumpAble = false;
                     Collider2D col = wall;
                     Vector2 upper = col.bounds.center + (col.bounds.size / 2);
                     this.transform.position = new Vector2(this.transform.position.x, upper.y);
                 }
             }
-            else
-            {
-                ledgeHold = false;
-            }
         }
-        else
-        {
-            ledgeHold = false;
-        }
+       
     }
 
     void wallCheck(Collider2D col)
@@ -570,6 +617,7 @@ public class PlayerMovement : MonoBehaviour
                 }
             }
         }
+
               
     }
 
@@ -577,10 +625,9 @@ public class PlayerMovement : MonoBehaviour
     {
         if (nroOfCollisions == 0|| (nroOfCollisions != 0 && !grounded && !ledgeHold && !wallJumpAble))
         {
-            state = charStates.midAir;
+            //state = charStates.midAir;
         }
       
-        
     }
 
     void OnCollisionEnter2D(Collision2D col)
@@ -598,26 +645,13 @@ public class PlayerMovement : MonoBehaviour
     {
         if (!grounded)
         {
-            RaycastHit2D right = Physics2D.Raycast(this.transform.position, this.transform.right);
-            RaycastHit2D left = Physics2D.Raycast(this.transform.position, -this.transform.right);
-            if (left || right)
+            if (wall == col.collider)
             {
-                if (left.collider == col.collider)
-                {
-                    wallJumpAble = false;
-                    wall = null;
-                    state = charStates.midAir;
-                }
-                if (right.collider == col.collider)
-                {
-                    wallJumpAble = false;
-                    wall = null;
-                    state = charStates.midAir;
-                }
+                wall = null;
             }
         }
         nroOfCollisions--;
-        collisionChecker();
+      //  collisionChecker();
     }
     public void reset()
     {

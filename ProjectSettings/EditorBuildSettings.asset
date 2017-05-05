@@ -7,19 +7,31 @@ EditorBuildSettings:
   m_Scenes:
   - enabled: 1
     path: Assets/Scenes/StartingMenu.unity
+    guid: 698ee12e6b259f1458dee947779d15aa
   - enabled: 1
     path: Assets/Scenes/cutScene.unity
+    guid: de4b2862423de2d409df9cfb771924fd
   - enabled: 0
     path: Assets/Scenes/testLevel1.unity
+    guid: 3e0585aba566cd94b853239b0acda82c
   - enabled: 0
     path: Assets/Scenes/testLevel2.unity
+    guid: 896c64cc53d735149af5b48ec80db390
   - enabled: 1
     path: Assets/Scenes/Level1Part1.unity
+    guid: 97d50e65aa4356c41a641e507dbf6290
   - enabled: 1
     path: Assets/Scenes/Level1Part2.unity
+    guid: 35758a24a03d53745bb2a0f638747d3a
+  - enabled: 1
+    path: Assets/Scenes/ChamberOfHorrors.unity
+    guid: c609bf4533ad92e4cad2013e7a4ed156
   - enabled: 1
     path: Assets/Scenes/Level1Part3.unity
+    guid: d977b8ada4d219549bb8512f96593e45
   - enabled: 1
     path: Assets/Scenes/Level1Part4.unity
+    guid: aaec8a2084e202a4e8c0d75ae16ec231
   - enabled: 1
     path: Assets/Scenes/End.unity
+    guid: 9cec9275636b4d6439d1641062e0e488
