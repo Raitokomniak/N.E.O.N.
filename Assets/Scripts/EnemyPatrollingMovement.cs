@@ -12,7 +12,8 @@ public class EnemyPatrollingMovement : MonoBehaviour {
     public Vector2 target;
     public Vector2 moveDirection;
     public Vector2 velocity;
-    public SpriteRenderer headSpriteRend;  
+    public SpriteRenderer headSpriteRend;
+    public SpriteRenderer sightRend;
     public GameObject bullet;
     public GameObject player;
     public float patrollingSpeed = 4;
@@ -375,11 +376,13 @@ public class EnemyPatrollingMovement : MonoBehaviour {
         {
             spriteRend.flipX = false;
 			headSpriteRend.flipX = false;
+            sightRend.flipX = false;
         }
         else
         {
             spriteRend.flipX = true;
 			headSpriteRend.flipX = true;
+            sightRend.flipX = true;
         }
     }
 

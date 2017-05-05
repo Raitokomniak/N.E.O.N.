@@ -9,6 +9,10 @@ public class TakeDamage : MonoBehaviour {
     GameControllerScript gScript;
     GameObject player;
     EnemyPatrollingMovement enemyMov;
+    public Sprite leftStick;
+    public Sprite rightStick;
+    public Sprite xButton;
+    public SpriteRenderer sr;
     public float takeDownTime = 2f;
     float timer;
     bool takedownStarted;
@@ -34,12 +38,22 @@ public class TakeDamage : MonoBehaviour {
             float angle = Vector2.Angle(transform.right * dir, directionToTarget);
             if (angle < 90)
             {
+                sr.sprite = xButton;
+                sr.enabled = true;
                 performSilentTakedown();
+            }
+            else
+            {
+                sr.enabled = false;
             }
             if (takedownStarted)
             {
                 switchOffSystem();
             }
+        }
+        else
+        {
+            sr.enabled = false;
         }
     }
 
@@ -67,6 +81,8 @@ public class TakeDamage : MonoBehaviour {
         Debug.Log(direction);
         int stickDir = Mathf.RoundToInt(Input.GetAxisRaw("Horizontal"));
         timer += Time.deltaTime;
+        sr.sprite = (direction == 1) ? rightStick : leftStick;
+        sr.enabled = true;
         if (timer < takeDownTime)
         {
             if (stickDir == direction)
@@ -84,6 +100,7 @@ public class TakeDamage : MonoBehaviour {
             enemyMov.silentKill(false);
             enemyMov.playerIsHeard(player.transform.position);
             takedownStarted = false;
+            sr.enabled = false;
             player.GetComponent<PlayerMovement>().setPerformAction(false);
         }
 

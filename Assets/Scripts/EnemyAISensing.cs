@@ -71,6 +71,7 @@ public class EnemyAISensing : MonoBehaviour {
     {
         gotHit = status;
         GetComponentInChildren<EnemyAIAiming>().setHitStatus(status);
+        GetComponentInChildren<SensesIndicator>().setHitStatus(status);
     }
     bool detectionHandler(bool seen)
     {

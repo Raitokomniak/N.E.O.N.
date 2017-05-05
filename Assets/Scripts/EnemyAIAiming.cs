@@ -85,7 +85,7 @@ public class EnemyAIAiming : MonoBehaviour {
         {
             angle = movement.facingRight() ? -9 : 9;
         }
-
+        GetComponentInParent<EnemyPatrollingMovement>().sightRend.transform.localEulerAngles = new Vector3(0, 0, angle);
         head.transform.localEulerAngles = new Vector3(0, 0, angle);
     }
 
@@ -136,6 +136,7 @@ public class EnemyAIAiming : MonoBehaviour {
     {
         this.transform.rotation = normalPos;
         head.transform.rotation = new Quaternion(0, 0, 0, 0);
+        GetComponentInParent<EnemyPatrollingMovement>().sightRend.transform.rotation = new Quaternion(0, 0, 0, 0);
         lightTurner(light);
         lightTurner(spotLight);
         if (movement.facingRight())
