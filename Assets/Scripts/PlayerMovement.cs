@@ -162,7 +162,6 @@ public class PlayerMovement : MonoBehaviour
     string animName;
     void playAnimation(string name)
     {
-        Debug.Log(animName + " " + name);
         if (animName != "Jump" && animName != "Landing")
         {
             anim.Play(name);
@@ -170,9 +169,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-
-                anim.Play(name);
-
+            anim.Play(name);
         }
     }
    
