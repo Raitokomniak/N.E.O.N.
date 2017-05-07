@@ -31,13 +31,12 @@ public class EnemyAISensing : MonoBehaviour {
 
     void Awake()
     {
-       
         moving = GetComponent<EnemyPatrollingMovement>();
         circle = GetComponent<CircleCollider2D>();
         gScript = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameControllerScript>();
         playerSeen = false;
         exclamationMarkSprite.enabled = false;
-        bool gotHit = false;
+        gotHit = false;
         timer = 0;
         anotherTimer = 0;
         player = GameObject.FindGameObjectWithTag("Player");
@@ -46,7 +45,6 @@ public class EnemyAISensing : MonoBehaviour {
         // guardAudio = GetComponentInChildren<AudioSource>();
         detectionSound = FMODUnity.RuntimeManager.CreateInstance("event:/Enemy sounds/Guard (cyborg grunt)/Alert state");
         alertSound = FMODUnity.RuntimeManager.CreateInstance("event:/Music/Alert sound");
-
     }
 
     void Start () {

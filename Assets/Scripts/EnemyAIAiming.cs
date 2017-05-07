@@ -35,9 +35,9 @@ public class EnemyAIAiming : MonoBehaviour {
 
     }
 
-	
-	// Update is called once per frame
-   
+
+    // Update is called once per frame
+
 
     void lightTurner(Light lite)
     {
@@ -50,6 +50,30 @@ public class EnemyAIAiming : MonoBehaviour {
             else
             {
                 lite.transform.localEulerAngles = new Vector3(0, -75, 0);
+            }
+        }
+        if (stunned&&lite.enabled)
+        {
+            lite.enabled = false;
+            foreach (Light li in this.transform.parent.gameObject.GetComponents<Light>())
+            {
+                li.enabled = false;
+            }
+            foreach (Light li in this.transform.parent.gameObject.GetComponentsInChildren<Light>())
+            {
+                li.enabled = false;
+            }
+        }
+        else if (!stunned&&!lite.enabled)
+        {
+            lite.enabled = true;
+            foreach (Light li in this.transform.parent.gameObject.GetComponents<Light>())
+            {
+                li.enabled = true;
+            }
+            foreach (Light li in this.transform.parent.gameObject.GetComponentsInChildren<Light>())
+            {
+                li.enabled = true;
             }
         }
     }
