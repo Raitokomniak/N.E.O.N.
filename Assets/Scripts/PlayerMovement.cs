@@ -309,6 +309,8 @@ public class PlayerMovement : MonoBehaviour
     //    collisionChecker();
     //    animationHandler(x);
     }
+    float wallTimer = 0;
+    bool wasInTheWall = false;
     void move(float x)
     {
         if (grounded)
@@ -316,12 +318,29 @@ public class PlayerMovement : MonoBehaviour
             playerRig.AddForce(new Vector2((x * speed), 0));
             steps();
         }
-        else
+        else if (!wallJumpAble||wasInTheWall)
         {
             float divider = GetComponent<DistanceJoint2D>().enabled ? 3 : 4.5f;
             float something = GetComponent<DistanceJoint2D>().enabled ? acceleration : 20;
             playerRig.AddForce(new Vector2((x * (something/ 3)), 0));
         }
+        else
+        {
+            if (Mathf.Abs(x) > 0.3f)
+            {
+                wallTimer += Time.deltaTime;
+                Debug.Log(wallTimer);
+            }
+            else
+            {
+                wallTimer = 0;
+            }
+            if (wallTimer > 0.75f)
+            {
+                playerRig.AddForce(new Vector2((x * (acceleration / 3)), 0));
+            }
+        }
+
         charSpeedDefiner(x);
 
         if (!wallJumpAble)
@@ -601,6 +620,7 @@ public class PlayerMovement : MonoBehaviour
                 {
                     facing = -1;
                     wallJumpAble = true;
+                    wasInTheWall = false;
                     wall = col;
                 }
             }
@@ -610,6 +630,7 @@ public class PlayerMovement : MonoBehaviour
                 {
                     facing = 1;
                     wallJumpAble = true;
+                    wasInTheWall = false;
                     wall = col;
                 }
             }
