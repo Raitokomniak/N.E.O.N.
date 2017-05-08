@@ -46,29 +46,29 @@ public class EnemyAIAiming : MonoBehaviour {
             {
                 lite.transform.localEulerAngles = new Vector3(0, -75, 0);
             }
-        }
-        if (stunned&&lite.enabled)
-        {
-            lite.enabled = false;
-            foreach (Light li in this.transform.parent.gameObject.GetComponents<Light>())
+            if (stunned && lite.enabled)
             {
-                li.enabled = false;
+                lite.enabled = false;
+                foreach (Light li in this.transform.parent.gameObject.GetComponents<Light>())
+                {
+                    li.enabled = false;
+                }
+                foreach (Light li in this.transform.parent.gameObject.GetComponentsInChildren<Light>())
+                {
+                    li.enabled = false;
+                }
             }
-            foreach (Light li in this.transform.parent.gameObject.GetComponentsInChildren<Light>())
+            else if (!stunned && !lite.enabled)
             {
-                li.enabled = false;
-            }
-        }
-        else if (!stunned&&!lite.enabled)
-        {
-            lite.enabled = true;
-            foreach (Light li in this.transform.parent.gameObject.GetComponents<Light>())
-            {
-                li.enabled = true;
-            }
-            foreach (Light li in this.transform.parent.gameObject.GetComponentsInChildren<Light>())
-            {
-                li.enabled = true;
+                lite.enabled = true;
+                foreach (Light li in this.transform.parent.gameObject.GetComponents<Light>())
+                {
+                    li.enabled = true;
+                }
+                foreach (Light li in this.transform.parent.gameObject.GetComponentsInChildren<Light>())
+                {
+                    li.enabled = true;
+                }
             }
         }
     }
