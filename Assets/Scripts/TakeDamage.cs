@@ -17,6 +17,7 @@ public class TakeDamage : MonoBehaviour {
     float timer;
     bool takedownStarted;
     int direction;
+    bool playerInTheArea = false;
     
     void Awake () {
         gScript = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameControllerScript>();
@@ -29,11 +30,24 @@ public class TakeDamage : MonoBehaviour {
     }
    
     // Update is called once per frame
+    private void Update()
+    {
+        if (!playerInTheArea && sr.enabled)
+        {
+            sr.enabled = false;
+        }
+    }
+    private void OnTriggerEnter2D(Collider2D col)
+    {
+        if (col.gameObject == player)
+        {
+            playerInTheArea = true;
+        }
+    }
     private void OnTriggerStay2D(Collider2D col)
     {
         if (col.gameObject == player)
         {
-            //UI tip for the player that silent takedown is enabled
             int dir = enemyMov.facingRight() ? 1 : -1;
             Vector2 directionToTarget = transform.position - player.transform.position;
             float angle = Vector2.Angle(transform.right * dir, directionToTarget);
@@ -57,6 +71,7 @@ public class TakeDamage : MonoBehaviour {
     {
         if (col.gameObject == player)
         {
+            playerInTheArea = false;
             sr.enabled = false;
         }
     }

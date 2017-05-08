@@ -167,6 +167,11 @@ public class PlayerMovement : MonoBehaviour
                 }
             }
         }
+        if (grounded)
+        {
+            wallJumpAble = false;
+            wall = null;
+        }
     }
 
     void FixedUpdate()
