@@ -36,7 +36,7 @@ public class CameraScript : MonoBehaviour {
         if (!usedFromOutside)
         {
             float zValue = getDistance(z);
-            this.transform.position = Vector3.Lerp(this.transform.position, new Vector3(this.transform.position.x, this.transform.position.y, zValue), 1.5f * Time.deltaTime);
+            this.transform.position = Vector3.Lerp(this.transform.position, new Vector3(this.transform.position.x, this.transform.position.y, zValue), Time.unscaledDeltaTime);
         }
     }
 
