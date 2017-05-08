@@ -5,15 +5,17 @@ using UnityEngine;
 public class GuardSpeech : MonoBehaviour {
 
     GameControllerScript gScript;
+    EnemyPatrollingMovement movement;
 
     void Awake()
     {
         gScript = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameControllerScript>();
+        movement = GameObject.FindGameObjectWithTag("Enemy").GetComponent<EnemyPatrollingMovement>();
     }
 
     void OnTriggerStay2D(Collider2D col)
     {
-        if (col.gameObject.tag == "Player")
+        if (col.gameObject.tag == "Player" && !movement.returnStunned())
         {
             if (gScript.allGuardsAlerted())
             {

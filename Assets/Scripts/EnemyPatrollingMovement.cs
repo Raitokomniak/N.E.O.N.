@@ -579,4 +579,9 @@ public class EnemyPatrollingMovement : MonoBehaviour {
         personalAlert = true;
     }
 
+    public bool returnStunned()
+    {
+        return gotHit;
+    }
+
 }
