@@ -32,12 +32,7 @@ public class EnemyAIAiming : MonoBehaviour {
         {
             head = this.transform.parent.transform.GetChild(0).gameObject;
         }
-
     }
-
-
-    // Update is called once per frame
-
 
     void lightTurner(Light lite)
     {

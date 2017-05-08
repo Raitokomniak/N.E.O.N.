@@ -25,7 +25,8 @@ public class TakeDamage : MonoBehaviour {
         timer = 0;
         direction = 0;
         takedownStarted = false;
-	}
+        sr.enabled = false;
+    }
    
     // Update is called once per frame
     private void OnTriggerStay2D(Collider2D col)
@@ -36,7 +37,7 @@ public class TakeDamage : MonoBehaviour {
             int dir = enemyMov.facingRight() ? 1 : -1;
             Vector2 directionToTarget = transform.position - player.transform.position;
             float angle = Vector2.Angle(transform.right * dir, directionToTarget);
-            if (angle < 90)
+            if (angle < 90 && enemyMov.facingRight() == player.GetComponent<PlayerMovement>().isFacingRight())
             {
                 sr.sprite = xButton;
                 sr.enabled = true;
@@ -51,18 +52,22 @@ public class TakeDamage : MonoBehaviour {
                 switchOffSystem();
             }
         }
-        else
+    }
+    private void OnTriggerExit2D(Collider2D col)
+    {
+        if (col.gameObject == player)
         {
             sr.enabled = false;
         }
     }
-
     void performSilentTakedown()
     {
         if (Input.GetButtonDown("melee")&&!takedownStarted)
         {
             timer = 0;
             player.GetComponent<PlayerMovement>().setPerformAction(true);
+            int facing = enemyMov.facingRight() ? 1 : -1;
+            player.GetComponent<PlayerMovement>().setFacing(facing);
             enemyMov.silentKill(true);
             float mark = Random.Range(-2, 1);
             direction = (mark < 0) ? -1 : 1;
@@ -102,6 +107,7 @@ public class TakeDamage : MonoBehaviour {
             takedownStarted = false;
             sr.enabled = false;
             player.GetComponent<PlayerMovement>().setPerformAction(false);
+            
         }
 
     }

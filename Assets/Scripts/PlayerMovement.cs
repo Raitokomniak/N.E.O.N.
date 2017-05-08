@@ -114,6 +114,14 @@ public class PlayerMovement : MonoBehaviour
         performingAction = action;
     }
 
+    public void setFacing(int face)
+    {
+        if (face == 1 || face == -1)
+        {
+            facing = face;
+        }
+    }
+
     void initialize()
     {
         anim.Play("Idle");
@@ -144,6 +152,7 @@ public class PlayerMovement : MonoBehaviour
         {
             characterHandler();
         }
+        flipHandler();
         if (wall == null)
         {
             ledgeHold = false;
@@ -157,6 +166,14 @@ public class PlayerMovement : MonoBehaviour
                     playAnimation("MidAir");
                 }
             }
+        }
+    }
+
+    void FixedUpdate()
+    {
+        if (!performingAction)
+        {
+            movementHandler();
         }
     }
     string animName;
@@ -183,7 +200,7 @@ public class PlayerMovement : MonoBehaviour
     {
         handleAbilities();
         setPowers();
-        flipHandler();
+        
         ledgeCheck();
         jump();
         wallJump();
@@ -273,10 +290,7 @@ public class PlayerMovement : MonoBehaviour
         _jumpForce = jumpForce * power;
         speed = acceleration * power;
     }
-    void FixedUpdate()
-    {
-        movementHandler();    
-    }
+    
 
     void climbLedge(float y)
     {
