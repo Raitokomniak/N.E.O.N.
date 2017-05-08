@@ -41,6 +41,7 @@ public class GameControllerScript : MonoBehaviour {
     FMOD.Studio.EventInstance Music;
     public int crushing;
     public PlayerHealth playerHealth;
+    FMOD.Studio.PLAYBACK_STATE musicState;
     void Awake()
     {
         // guards = new ArrayList();
@@ -92,7 +93,11 @@ public class GameControllerScript : MonoBehaviour {
         guardsAlerted = false;
         countdownTimer = 0;
         Music.setParameterValue("Music speed", 0);
-        Music.start();
+        Music.getPlaybackState(out musicState);
+        if (musicState != FMOD.Studio.PLAYBACK_STATE.PLAYING)
+        {
+            Music.start();
+        }      
         //gameAudio.clip = musics[0];
         //gameAudio.Play();
 	}
@@ -212,6 +217,7 @@ public class GameControllerScript : MonoBehaviour {
 
     public void exitMainMenuButtonPressed()
     {
+        Music.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
         SceneManager.LoadScene(0);
     }
 
@@ -379,10 +385,14 @@ public class GameControllerScript : MonoBehaviour {
             sw.WriteLine(time);
         }
     }
-    ~GameControllerScript()
+
+    public void stopMusic()
     {
         Music.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
     }
 
-    
+    ~GameControllerScript()
+    {
+        Music.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+    }
 }
