@@ -77,7 +77,7 @@ public class TakeDamage : MonoBehaviour {
     }
     void performSilentTakedown()
     {
-        if (Input.GetButtonDown("melee")&&!takedownStarted)
+        if (Input.GetButton("melee")&&!takedownStarted)
         {
             timer = 0;
             player.GetComponent<PlayerMovement>().setPerformAction(true);
