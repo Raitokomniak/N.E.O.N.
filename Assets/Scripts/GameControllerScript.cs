@@ -37,11 +37,12 @@ public class GameControllerScript : MonoBehaviour {
     public GameObject exitMainMenuButton;
     public GameObject alertIndicator;
     List<GameObject> guards;
-    string music = "event:/Music/Background 1";
-    FMOD.Studio.EventInstance Music;
+    //string music = "event:/Music/Background 1";
+    //FMOD.Studio.EventInstance Music;
     public int crushing;
     public PlayerHealth playerHealth;
-    FMOD.Studio.PLAYBACK_STATE musicState;
+    musicController music;
+    //FMOD.Studio.PLAYBACK_STATE musicState;
     void Awake()
     {
         // guards = new ArrayList();
@@ -50,7 +51,8 @@ public class GameControllerScript : MonoBehaviour {
         gameAudio = GetComponent<AudioSource>();
         player = GameObject.FindGameObjectWithTag("Player");
         camera = GameObject.FindGameObjectWithTag("MainCamera");
-        Music = FMODUnity.RuntimeManager.CreateInstance(music);
+        music = gameObject.GetComponent<musicController>();
+        //Music = FMODUnity.RuntimeManager.CreateInstance(music);
         playerHealth = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHealth>();
         crushing = 0;
         if (!File.Exists(saveFile) && useSaveFile)
@@ -92,12 +94,12 @@ public class GameControllerScript : MonoBehaviour {
         playerDead = false;
         guardsAlerted = false;
         countdownTimer = 0;
-        Music.setParameterValue("Music speed", 0);
+        /*Music.setParameterValue("Music speed", 0);
         Music.getPlaybackState(out musicState);
         if (musicState != FMOD.Studio.PLAYBACK_STATE.PLAYING)
         {
             Music.start();
-        }      
+        }*/      
         //gameAudio.clip = musics[0];
         //gameAudio.Play();
 	}
@@ -131,8 +133,9 @@ public class GameControllerScript : MonoBehaviour {
         else
         {
             //setMusic("Normal");
-            Music.setParameterValue("Music speed", 0);
+            //Music.setParameterValue("Music speed", 0);
             //Music.start();
+            music.setSlowMusic();
             alertIndicator.SetActive(false);
         }
         if (crushing > 1)
@@ -217,7 +220,8 @@ public class GameControllerScript : MonoBehaviour {
 
     public void exitMainMenuButtonPressed()
     {
-        Music.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+        //Music.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+        music.stopMusic();
         SceneManager.LoadScene(0);
     }
 
@@ -256,7 +260,8 @@ public class GameControllerScript : MonoBehaviour {
         deaths++;
         playerDead = true;
         player.SetActive(false);
-        Music.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        //Music.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        music.stopMusic();
         StartCoroutine(reloadScene());
     }
 
@@ -278,7 +283,8 @@ public class GameControllerScript : MonoBehaviour {
 
     void reload()
     {
-        Music.setParameterValue("Music speed", 0);
+        //Music.setParameterValue("Music speed", 0);
+        music.setSlowMusic();
         if (useSaveFile)
         {
             time = time + Time.timeSinceLevelLoad;
@@ -301,7 +307,8 @@ public class GameControllerScript : MonoBehaviour {
             currentScene = SceneManager.GetActiveScene().buildIndex + 1;
             currentCheckpoint = new Vector3(0f, 0f, 0f);
             writeSavefile();
-            Music.setParameterValue("Music speed", 0);
+            //Music.setParameterValue("Music speed", 0);
+            music.setSlowMusic();
             SceneManager.LoadScene(currentScene);
         }
         else
@@ -322,7 +329,8 @@ public class GameControllerScript : MonoBehaviour {
         {
             countdownTimer = 0;
             //setMusic("Alert");
-            Music.setParameterValue("Music speed", 1);
+            //Music.setParameterValue("Music speed", 1);
+            music.setFastMusic();
             //Music.start();
         }
     }
@@ -386,7 +394,7 @@ public class GameControllerScript : MonoBehaviour {
         }
     }
 
-    public void stopMusic()
+  /*  public void stopMusic()
     {
         Music.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
     }
@@ -394,5 +402,5 @@ public class GameControllerScript : MonoBehaviour {
     ~GameControllerScript()
     {
         Music.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
-    }
+    }*/
 }

@@ -348,7 +348,7 @@ public class PlayerMovement : MonoBehaviour
             if (Mathf.Abs(x) > 0.3f)
             {
                 wallTimer += Time.deltaTime;
-                Debug.Log(wallTimer);
+                //Debug.Log(wallTimer);
             }
             else
             {
