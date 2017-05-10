@@ -12,6 +12,7 @@ public class GameControllerScript : MonoBehaviour {
     // Use this for initialization
     public CanvasRenderer blackScreen;
     public Text gameOverText;
+    public Text reloadText;
     public GameObject currentLevelPart;
     public float alertTime = 20;
     bool playerDead;
@@ -49,11 +50,14 @@ public class GameControllerScript : MonoBehaviour {
     void Awake()
     {
         // guards = new ArrayList();
-        gameOverText.enabled = false;
+        
         blackScreen.SetAlpha(0);
         blackScreen.gameObject.SetActive(true);
+        gameOverText.gameObject.SetActive(false);
+        reloadText.gameObject.SetActive(false);
         originalColor = gameOverText.color;
         gameOverText.color = Vector4.zero;
+        reloadText.color = Vector4.zero;
         guards = new List<GameObject>();
         guards.AddRange(GameObject.FindGameObjectsWithTag("Enemy"));
         gameAudio = GetComponent<AudioSource>();
@@ -157,6 +161,10 @@ public class GameControllerScript : MonoBehaviour {
             sr.color = Vector4.Lerp(sr.color, new Vector4(0, 1, 0, 0.4f), 2*Time.unscaledDeltaTime);
             gameOverText.color = Vector4.Lerp(gameOverText.color, new Vector4(originalColor.x, originalColor.y, originalColor.z, 0.5f), 2 * Time.unscaledDeltaTime);
             blackScreen.SetAlpha(Mathf.Lerp(blackScreen.GetAlpha(), 1, 0.5f*Time.unscaledDeltaTime));
+            if (reloadText.enabled)
+            {
+                reloadText.color = Vector4.Lerp(reloadText.color, new Vector4(originalColor.x, originalColor.y, originalColor.z, 0.5f), 4 * Time.unscaledDeltaTime);
+            }
         }
         /*
         if (!gameAudio.isPlaying)
@@ -275,11 +283,14 @@ public class GameControllerScript : MonoBehaviour {
         deaths++;
         playerDead = true;
         gameOverText.enabled = true;
+        gameOverText.gameObject.SetActive(true);
+        
         gameOverText.text = "SYSTEM FAILURE";
         //player.SetActive(false);
         //Music.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
         music.stopMusic();
         StartCoroutine(reloadScene());
+        StartCoroutine(showReloadText());
     }
 
 
@@ -292,7 +303,12 @@ public class GameControllerScript : MonoBehaviour {
     {
         return playerDead;
     }
-
+    IEnumerator showReloadText()
+    {
+        yield return new WaitForSecondsRealtime(3);
+        reloadText.gameObject.SetActive(true);
+        reloadText.enabled = true;
+    }
     IEnumerator reloadScene()
     {
         yield return new WaitForSecondsRealtime(5);
