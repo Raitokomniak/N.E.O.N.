@@ -1162,6 +1162,11 @@ Prefab:
       propertyPath: m_RootOrder
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 114251675280043454, guid: 4fc1ef342e41ce349b8a64dde446cfd4,
+        type: 2}
+      propertyPath: mainCamera
+      value: 
+      objectReference: {fileID: 406177148}
     - target: {fileID: 224645103800979488, guid: 4fc1ef342e41ce349b8a64dde446cfd4,
         type: 2}
       propertyPath: m_AnchorMax.x
@@ -1179,14 +1184,9 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 114251675280043454, guid: 4fc1ef342e41ce349b8a64dde446cfd4,
         type: 2}
-      propertyPath: holdTime
-      value: 99999
+      propertyPath: showBlackScreen
+      value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 114251675280043454, guid: 4fc1ef342e41ce349b8a64dde446cfd4,
-        type: 2}
-      propertyPath: mainCamera
-      value: 
-      objectReference: {fileID: 406177148}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4fc1ef342e41ce349b8a64dde446cfd4, type: 2}
   m_IsPrefabParent: 0

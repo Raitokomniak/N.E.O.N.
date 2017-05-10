@@ -1,13 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class cinematicAspect : MonoBehaviour {
+    public CanvasRenderer blackScreen;
+    public Text titleText;
+    public string textForTitle;
     public GameObject upBar;
     public GameObject downBar;
     public Camera mainCamera;
     public float divider;
     public int holdTime = 3;
+    public bool showBlackScreen;
     bool start = false;
     float up1Y = 277;
     float up2Y = 230;
@@ -22,16 +27,39 @@ public class cinematicAspect : MonoBehaviour {
     float upY;
     float downY;
     bool back;
+    bool flag = true;
     // Use this for initialization
     void Start () {
         deltaUpY = up1Y - up2Y;
         deltaDownY = down2Y - down1Y;
         deltaFieldOfView = cinematicFieldOfView - startingFieldOfView;
-	}
+    }
 	
 	// Update is called once per frame
+    IEnumerator waitBlack()
+    {
+        yield return new WaitForSecondsRealtime(3f);
+        showBlackScreen = false;
+    }
 	void Update ()
     {
+        if (showBlackScreen&&flag)
+        {
+            setScreen(1);
+            titleText.gameObject.SetActive(true);
+            titleText.text = textForTitle;
+            StartCoroutine(waitBlack());
+            flag = false;
+        }
+
+        if (!showBlackScreen&&!flag)
+        {
+            frasierize();
+            //if (blackScreen.GetAlpha() < 0.6f)
+           // {
+                titleText.color = new Vector4(titleText.color.r, titleText.color.g, titleText.color.b, blackScreen.GetAlpha());
+        //    }
+        }
         if (start)
         {
             //move bars into the picture
@@ -69,6 +97,20 @@ public class cinematicAspect : MonoBehaviour {
             }
         }
 	}
+
+    void setScreen(int value)
+    {
+        blackScreen.SetAlpha(value);
+    }
+    void frasierize()
+    {
+        if (!blackScreen.gameObject.activeSelf)
+        {
+            blackScreen.gameObject.SetActive(true);
+        }
+        
+        blackScreen.SetAlpha(Mathf.Lerp(blackScreen.GetAlpha(), 0, Time.unscaledDeltaTime));
+    }
 
     public void startCinema()
     {
