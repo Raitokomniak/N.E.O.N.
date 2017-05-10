@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: 2863ed99271fb9d42a8be93d006420e1
+timeCreated: 1494409471
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: PCap Terminal
+  fontNames:
+  - PCap Terminal
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 003114d4b3ba510488f68b2b83d34a51, type: 3}
+  - {fileID: 12800000, guid: 240e59eb22c10ed4faa0e8847130a0a2, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

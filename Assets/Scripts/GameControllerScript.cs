@@ -10,6 +10,7 @@ using UnityEngine.UI;
 public class GameControllerScript : MonoBehaviour {
 
     // Use this for initialization
+    public Text gameOverText;
     public GameObject currentLevelPart;
     public float alertTime = 20;
     bool playerDead;
@@ -42,10 +43,14 @@ public class GameControllerScript : MonoBehaviour {
     public int crushing;
     public PlayerHealth playerHealth;
     musicController music;
+    Vector4 originalColor;
     //FMOD.Studio.PLAYBACK_STATE musicState;
     void Awake()
     {
         // guards = new ArrayList();
+        gameOverText.enabled = false;
+        originalColor = gameOverText.color;
+        gameOverText.color = Vector4.zero;
         guards = new List<GameObject>();
         guards.AddRange(GameObject.FindGameObjectsWithTag("Enemy"));
         gameAudio = GetComponent<AudioSource>();
@@ -142,6 +147,12 @@ public class GameControllerScript : MonoBehaviour {
         {
             //setPlayerDead();
             playerHealth.takeDamage(100);
+        }
+        if (playerDead)
+        {
+            SpriteRenderer sr = player.GetComponent<SpriteRenderer>();
+            sr.color = Vector4.Lerp(sr.color, new Vector4(0, 1, 0, 0.4f), 2*Time.unscaledDeltaTime);
+            gameOverText.color = Vector4.Lerp(gameOverText.color, new Vector4(originalColor.x, originalColor.y, originalColor.z, 0.5f), 2 * Time.unscaledDeltaTime);
         }
         /*
         if (!gameAudio.isPlaying)
@@ -259,11 +270,14 @@ public class GameControllerScript : MonoBehaviour {
     {
         deaths++;
         playerDead = true;
-        player.SetActive(false);
+        gameOverText.enabled = true;
+        gameOverText.text = "SYSTEM FAILURE";
+        //player.SetActive(false);
         //Music.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
         music.stopMusic();
         StartCoroutine(reloadScene());
     }
+
 
     public void setPlayerAlive()
     {
@@ -277,7 +291,7 @@ public class GameControllerScript : MonoBehaviour {
 
     IEnumerator reloadScene()
     {
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSecondsRealtime(4);
         reload();
     }
 

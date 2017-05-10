@@ -35,7 +35,7 @@ public class TimeHandler : MonoBehaviour {
 
     void handleTime()
     {
-        if (gScript.pauseOn)
+        if (gScript.pauseOn||gScript.isDead())
         {
             Time.timeScale = 0f;
         }
