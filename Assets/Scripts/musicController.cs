@@ -7,6 +7,7 @@ public class musicController : MonoBehaviour {
     string music = "event:/Music/Background 1";
     static FMOD.Studio.EventInstance Music;
     FMOD.Studio.PLAYBACK_STATE musicState;
+    float originalVolume;
     // Use this for initialization
     void Awake () {
 		if(instance == null)
@@ -20,8 +21,7 @@ public class musicController : MonoBehaviour {
         if(Music == null)
         {
             Music = FMODUnity.RuntimeManager.CreateInstance(music);
-        }
-
+        }      
     }
 
     void Start()
@@ -47,5 +47,13 @@ public class musicController : MonoBehaviour {
     public void stopMusic()
     {
         Music.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+    }
+    public void volumeDown()
+    {
+        Music.setVolume(0.3f);
+    }
+    public void volumeUp()
+    {
+        Music.setVolume(1f);
     }
 }

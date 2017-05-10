@@ -47,6 +47,7 @@ public class GameControllerScript : MonoBehaviour {
     musicController music;
     Vector4 originalColor;
     //FMOD.Studio.PLAYBACK_STATE musicState;
+    cinematicAspect cinema;
     void Awake()
     {
         // guards = new ArrayList();
@@ -64,6 +65,7 @@ public class GameControllerScript : MonoBehaviour {
         player = GameObject.FindGameObjectWithTag("Player");
         camera = GameObject.FindGameObjectWithTag("MainCamera");
         music = gameObject.GetComponent<musicController>();
+        cinema = GetComponent<cinematicAspect>();
         //Music = FMODUnity.RuntimeManager.CreateInstance(music);
         playerHealth = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHealth>();
         crushing = 0;
@@ -106,6 +108,16 @@ public class GameControllerScript : MonoBehaviour {
         playerDead = false;
         guardsAlerted = false;
         countdownTimer = 0;
+        if(SceneManager.GetActiveScene().buildIndex == 4)
+        {
+            cinema.startCinema();
+            checkpointText.SetActive(false);
+            music.volumeDown();
+        }
+        else
+        {
+            music.volumeUp();
+        }
         /*Music.setParameterValue("Music speed", 0);
         Music.getPlaybackState(out musicState);
         if (musicState != FMOD.Studio.PLAYBACK_STATE.PLAYING)

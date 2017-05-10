@@ -7,6 +7,7 @@ public class cinematicAspect : MonoBehaviour {
     public GameObject downBar;
     public Camera mainCamera;
     public float divider;
+    public int holdTime = 3;
     bool start = false;
     float up1Y = 277;
     float up2Y = 230;
@@ -75,7 +76,7 @@ public class cinematicAspect : MonoBehaviour {
     }
     IEnumerator wait()
     {
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(holdTime);
         start = false;
         back = true;
     }
