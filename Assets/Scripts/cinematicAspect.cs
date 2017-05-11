@@ -97,11 +97,11 @@ public class cinematicAspect : MonoBehaviour {
             }
             else
             {
-                upY = upBar.transform.localPosition.y - (deltaUpY / divider * Time.deltaTime);
+                upY = upBar.transform.localPosition.y - (deltaUpY / divider * Time.unscaledDeltaTime);
                 upBar.transform.localPosition = new Vector3(upBar.transform.localPosition.x, upY, upBar.transform.localPosition.z);
-                downY = downBar.transform.localPosition.y + (deltaDownY / divider * Time.deltaTime);
+                downY = downBar.transform.localPosition.y + (deltaDownY / divider * Time.unscaledDeltaTime);
                 downBar.transform.localPosition = new Vector3(downBar.transform.localPosition.x, downY, downBar.transform.localPosition.z);
-                mainCamera.fieldOfView = mainCamera.fieldOfView + (deltaFieldOfView / divider * Time.deltaTime);
+                mainCamera.fieldOfView = mainCamera.fieldOfView + (deltaFieldOfView / divider * Time.unscaledDeltaTime);
             }
         }
         if (back)
@@ -112,11 +112,11 @@ public class cinematicAspect : MonoBehaviour {
             }
             else
             {
-                upY = upBar.transform.localPosition.y + (deltaUpY / divider * Time.deltaTime);
+                upY = upBar.transform.localPosition.y + (deltaUpY / divider * Time.unscaledDeltaTime);
                 upBar.transform.localPosition = new Vector3(upBar.transform.localPosition.x, upY, upBar.transform.localPosition.z);
-                downY = downBar.transform.localPosition.y - (deltaDownY / divider * Time.deltaTime);
+                downY = downBar.transform.localPosition.y - (deltaDownY / divider * Time.unscaledDeltaTime);
                 downBar.transform.localPosition = new Vector3(downBar.transform.localPosition.x, downY, downBar.transform.localPosition.z);
-                mainCamera.fieldOfView = mainCamera.fieldOfView - (deltaFieldOfView / divider * Time.deltaTime);
+                mainCamera.fieldOfView = mainCamera.fieldOfView - (deltaFieldOfView / divider * Time.unscaledDeltaTime);
             }
         }
 	}
