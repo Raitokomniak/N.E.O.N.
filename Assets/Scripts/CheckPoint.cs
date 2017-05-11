@@ -66,6 +66,7 @@ public class CheckPoint : MonoBehaviour
 
     void moveCameraToPoint()
     {
+        playerMov.playAnimation("Crouch");
         Time.timeScale = Mathf.Lerp(Time.timeScale, 0, cameraMoveSpeedToB * Time.unscaledDeltaTime);
         Time.fixedDeltaTime = Mathf.Lerp(Time.fixedDeltaTime, 0, cameraMoveSpeedToB * Time.unscaledDeltaTime);
         takeControlOfCameraAndTimeHandler(true);
@@ -83,11 +84,12 @@ public class CheckPoint : MonoBehaviour
 
     void returnToOrigin()
     {
+        playerMov.playAnimation("Crouch");
         CameraScript camScript = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraScript>();
         Camera cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         Vector3 targetPos = originPosition;
         cam.transform.position = Vector3.Lerp(cam.transform.position, targetPos, cameraMoveSpeedBackToA * Time.unscaledDeltaTime);
-        if (Vector3.Distance(cam.transform.position, targetPos) < 1)
+        if (Vector3.Distance(cam.transform.position, targetPos) < 10)
         {
             Time.timeScale = Mathf.Lerp(Time.timeScale, 1, cameraMoveSpeedBackToA * Time.unscaledDeltaTime);
             Time.fixedDeltaTime = Mathf.Lerp(Time.fixedDeltaTime, 0.2f, cameraMoveSpeedBackToA * Time.unscaledDeltaTime);

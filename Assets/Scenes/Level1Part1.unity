@@ -9669,6 +9669,80 @@ CanvasRenderer:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 557751804}
+--- !u!1001 &558445983
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1747774939}
+    m_Modifications:
+    - target: {fileID: 4081683442668188, guid: db2cba9164f3170448bb766747c9af29, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -113.83
+      objectReference: {fileID: 0}
+    - target: {fileID: 4081683442668188, guid: db2cba9164f3170448bb766747c9af29, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 47.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 4081683442668188, guid: db2cba9164f3170448bb766747c9af29, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4081683442668188, guid: db2cba9164f3170448bb766747c9af29, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4081683442668188, guid: db2cba9164f3170448bb766747c9af29, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4081683442668188, guid: db2cba9164f3170448bb766747c9af29, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4081683442668188, guid: db2cba9164f3170448bb766747c9af29, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4081683442668188, guid: db2cba9164f3170448bb766747c9af29, type: 2}
+      propertyPath: m_RootOrder
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 1202351105167626, guid: db2cba9164f3170448bb766747c9af29, type: 2}
+      propertyPath: m_Name
+      value: CheckPoint (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 114178821325699324, guid: db2cba9164f3170448bb766747c9af29,
+        type: 2}
+      propertyPath: usedForCinematicPurposes
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114178821325699324, guid: db2cba9164f3170448bb766747c9af29,
+        type: 2}
+      propertyPath: cameraMoveSpeedToB
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114178821325699324, guid: db2cba9164f3170448bb766747c9af29,
+        type: 2}
+      propertyPath: cameraMoveSpeedBackToA
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114178821325699324, guid: db2cba9164f3170448bb766747c9af29,
+        type: 2}
+      propertyPath: cameraStayTimeInTarget
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4652105529152304, guid: db2cba9164f3170448bb766747c9af29, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: -44.91
+      objectReference: {fileID: 0}
+    - target: {fileID: 4652105529152304, guid: db2cba9164f3170448bb766747c9af29, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 64.04
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: db2cba9164f3170448bb766747c9af29, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1 &559381376
 GameObject:
   m_ObjectHideFlags: 0
@@ -9814,6 +9888,11 @@ Prefab:
         type: 2}
       propertyPath: showBlackScreen
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114390035348187042, guid: 4fc1ef342e41ce349b8a64dde446cfd4,
+        type: 2}
+      propertyPath: useSaveFile
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4fc1ef342e41ce349b8a64dde446cfd4, type: 2}
@@ -24550,6 +24629,11 @@ Light:
   m_UseColorTemperature: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!4 &1392013413 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 4081683442668188, guid: db2cba9164f3170448bb766747c9af29,
+    type: 2}
+  m_PrefabInternal: {fileID: 558445983}
 --- !u!1 &1393930711
 GameObject:
   m_ObjectHideFlags: 0
@@ -30532,6 +30616,7 @@ Transform:
   - {fileID: 689841494}
   - {fileID: 1841123293}
   - {fileID: 812659393}
+  - {fileID: 1392013413}
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

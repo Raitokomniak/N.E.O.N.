@@ -327,6 +327,7 @@ MonoBehaviour:
   maxVelocity_walk: 3
   wallFriction: 6
   timeBetweensteps: 0.5
+  wallStickiness: 0.4
   stepSounds:
   - {fileID: 8300000, guid: fa32ecb5626513d48aeddba4e63203c6, type: 3}
   - {fileID: 8300000, guid: b436f3ff32503dd4b8f5071fa019d13f, type: 3}

@@ -181,9 +181,14 @@ public class PlayerMovement : MonoBehaviour
         {
             movementHandler();
         }
+        else
+        {
+            playerRig.velocity = Vector2.zero;
+           
+        }
     }
     string animName;
-    void playAnimation(string name)
+    public void playAnimation(string name)
     {
         if (animName != "Jump" && animName != "Landing")
         {
