@@ -1633,8 +1633,8 @@ MonoBehaviour:
   downBar: {fileID: 1860817266060386}
   mainCamera: {fileID: 0}
   divider: 2
-  holdTime: 99999
-  showBlackScreen: 0
+  holdTime: 3
+  showBlackScreen: 1
 --- !u!114 &114304022624265916
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1786,7 +1786,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 1012168da10947c46b01c9247c4587ae, type: 3}
   - {fileID: 0}
   - {fileID: 8300000, guid: 3a50d15e93b89bd4fa9fd329689560ea, type: 3}
-  useSaveFile: 1
+  useSaveFile: 0
   checkpointText: {fileID: 1552453626062350}
   pauseMenuCanvas: {fileID: 1746535808641164}
   pauseOn: 0

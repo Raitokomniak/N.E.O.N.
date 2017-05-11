@@ -11,6 +11,7 @@ public class GameControllerScript : MonoBehaviour {
 
     // Use this for initialization
     public CanvasRenderer blackScreen;
+    public CanvasRenderer character;
     public Text titleText;
     public Text gameOverText;
     public Text reloadText;
@@ -113,12 +114,11 @@ public class GameControllerScript : MonoBehaviour {
         {
             cinema.startCinema();
             checkpointText.SetActive(false);
-            //music.volumeDown();
-            music.stopMusic();
+            music.volumeDown();
         }
         else
         {
-            //music.volumeUp();
+            music.volumeUp();
         }
         /*Music.setParameterValue("Music speed", 0);
         Music.getPlaybackState(out musicState);
@@ -174,8 +174,9 @@ public class GameControllerScript : MonoBehaviour {
             SpriteRenderer sr = player.GetComponent<SpriteRenderer>();
             sr.color = Vector4.Lerp(sr.color, new Vector4(0, 1, 0, 0.4f), 2*Time.unscaledDeltaTime);
             gameOverText.color = Vector4.Lerp(gameOverText.color, new Vector4(originalColor.x, originalColor.y, originalColor.z, 0.5f), 2 * Time.unscaledDeltaTime);
-            blackScreen.SetAlpha(Mathf.Lerp(blackScreen.GetAlpha(), 1, 0.5f*Time.unscaledDeltaTime));
+            blackScreen.SetAlpha(Mathf.Lerp(blackScreen.GetAlpha(), 1, 1.5f*Time.unscaledDeltaTime));
             titleText.enabled = false;
+            character.SetAlpha(1-blackScreen.GetAlpha() *2);
             if (reloadText.enabled)
             {
                 reloadText.color = Vector4.Lerp(reloadText.color, new Vector4(originalColor.x, originalColor.y, originalColor.z, 0.5f), 4 * Time.unscaledDeltaTime);
