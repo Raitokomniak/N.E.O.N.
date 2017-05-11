@@ -112,7 +112,9 @@ public class GameControllerScript : MonoBehaviour {
         countdownTimer = 0;
         if(SceneManager.GetActiveScene().buildIndex == 4)
         {
+            cinema.setTitleScreen("The Chamber of Horrors");
             cinema.startCinema();
+            cinema.holdTime = 999999;
             checkpointText.SetActive(false);
             //music.volumeDown();
             music.stopMusic();
