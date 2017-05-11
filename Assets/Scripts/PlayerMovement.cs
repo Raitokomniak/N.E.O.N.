@@ -14,6 +14,7 @@ public class PlayerMovement : MonoBehaviour
     public float maxVelocity_walk = 10;
     public float wallFriction = 6;
     public float timeBetweensteps = 0.5f;
+    public float wallStickiness = 0.5f;
     float _jumpForce;
     float _maxVelocity_run;
     float _maxVelocity_walk;
@@ -354,7 +355,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 wallTimer = 0;
             }
-            if (wallTimer > 0.75f)
+            if (wallTimer > wallStickiness)
             {
                 playerRig.AddForce(new Vector2((x * (acceleration / 3)), 0));
             }

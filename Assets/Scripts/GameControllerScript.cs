@@ -11,6 +11,7 @@ public class GameControllerScript : MonoBehaviour {
 
     // Use this for initialization
     public CanvasRenderer blackScreen;
+    public Text titleText;
     public Text gameOverText;
     public Text reloadText;
     public GameObject currentLevelPart;
@@ -173,6 +174,7 @@ public class GameControllerScript : MonoBehaviour {
             sr.color = Vector4.Lerp(sr.color, new Vector4(0, 1, 0, 0.4f), 2*Time.unscaledDeltaTime);
             gameOverText.color = Vector4.Lerp(gameOverText.color, new Vector4(originalColor.x, originalColor.y, originalColor.z, 0.5f), 2 * Time.unscaledDeltaTime);
             blackScreen.SetAlpha(Mathf.Lerp(blackScreen.GetAlpha(), 1, 0.5f*Time.unscaledDeltaTime));
+            titleText.enabled = false;
             if (reloadText.enabled)
             {
                 reloadText.color = Vector4.Lerp(reloadText.color, new Vector4(originalColor.x, originalColor.y, originalColor.z, 0.5f), 4 * Time.unscaledDeltaTime);

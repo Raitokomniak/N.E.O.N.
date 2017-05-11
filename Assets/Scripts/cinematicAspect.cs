@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class cinematicAspect : MonoBehaviour {
     public CanvasRenderer blackScreen;
@@ -27,31 +28,53 @@ public class cinematicAspect : MonoBehaviour {
     float upY;
     float downY;
     bool back;
-    bool flag = true;
+    bool flag;
     // Use this for initialization
+
+    private void Awake()
+    {
+        flag = true;
+    }
+
+    
     void Start () {
         deltaUpY = up1Y - up2Y;
         deltaDownY = down2Y - down1Y;
         deltaFieldOfView = cinematicFieldOfView - startingFieldOfView;
+        
+        Debug.Log("Moi");
     }
 	
 	// Update is called once per frame
+    public void setTitleScreen(string text)
+    {
+        textForTitle = text;
+        flag = true;
+        showBlackScreen = true;
+    }
+
     IEnumerator waitBlack()
     {
+        Time.timeScale = 0;
         yield return new WaitForSecondsRealtime(3f);
+        Time.timeScale = 1;
         showBlackScreen = false;
     }
 	void Update ()
     {
         if (showBlackScreen&&flag)
         {
-            setScreen(1);
-            titleText.gameObject.SetActive(true);
-            titleText.text = textForTitle;
-            StartCoroutine(waitBlack());
-            flag = false;
+            if (!GetComponent<GameControllerScript>().isDead())
+            {
+                setScreen(1);
+                titleText.enabled = true;
+                Debug.Log(textForTitle);
+                titleText.text = textForTitle;
+                StartCoroutine(waitBlack());
+                flag = false;
+            }
         }
-
+        
         if (!showBlackScreen&&!flag)
         {
             frasierize();

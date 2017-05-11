@@ -9815,11 +9815,6 @@ Prefab:
       propertyPath: showBlackScreen
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 114251675280043454, guid: 4fc1ef342e41ce349b8a64dde446cfd4,
-        type: 2}
-      propertyPath: textForTitle
-      value: Welcome to New Era Of NeuroScience
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4fc1ef342e41ce349b8a64dde446cfd4, type: 2}
   m_IsPrefabParent: 0
@@ -15653,6 +15648,10 @@ Prefab:
     - target: {fileID: 1923293649421786, guid: ba6bddb509230714aa82669ace2b0bc9, type: 2}
       propertyPath: m_Name
       value: Guard (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4422126561963344, guid: ba6bddb509230714aa82669ace2b0bc9, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -1.34
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ba6bddb509230714aa82669ace2b0bc9, type: 2}
