@@ -113,11 +113,12 @@ public class GameControllerScript : MonoBehaviour {
         {
             cinema.startCinema();
             checkpointText.SetActive(false);
-            music.volumeDown();
+            //music.volumeDown();
+            music.stopMusic();
         }
         else
         {
-            music.volumeUp();
+            //music.volumeUp();
         }
         /*Music.setParameterValue("Music speed", 0);
         Music.getPlaybackState(out musicState);
