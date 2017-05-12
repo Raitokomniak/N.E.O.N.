@@ -75,9 +75,6 @@ public class EnemyAIAiming : MonoBehaviour {
 	void Update ()
     {
         turnHandler();
-
-       // lightTurner(light);
-       // lightTurner(spotLight);
         if (!stunned&&!movement.controlledBySomeone())
         {
             aimTowardPlayer();
@@ -116,7 +113,7 @@ public class EnemyAIAiming : MonoBehaviour {
         }
         
             
-        if ((!gScript.isDead()&&sensing.playerInSight())||movement.checks())
+        if ((sensing.playerInSight())||movement.checks())
         {
             Vector2 playerPos = sensing.playerLastSeenPosition();
             turnHead(playerPos);
