@@ -11,6 +11,7 @@ public class cinematicAspect : MonoBehaviour {
     public GameObject upBar;
     public GameObject downBar;
     public Camera mainCamera;
+    TimeHandler timeHandler;
     public float divider;
     public int holdTime = 3;
     public bool showBlackScreen;
@@ -34,15 +35,15 @@ public class cinematicAspect : MonoBehaviour {
     private void Awake()
     {
         flag = true;
+        timeHandler = GameObject.FindGameObjectWithTag("GameController").GetComponent<TimeHandler>();
     }
 
     
-    void Start () {
+    void Start ()
+    {
         deltaUpY = up1Y - up2Y;
         deltaDownY = down2Y - down1Y;
         deltaFieldOfView = cinematicFieldOfView - startingFieldOfView;
-        
-        Debug.Log("Moi");
     }
 	
 	// Update is called once per frame
@@ -55,9 +56,7 @@ public class cinematicAspect : MonoBehaviour {
 
     IEnumerator waitBlack()
     {
-        Time.timeScale = 0;
-        yield return new WaitForSecondsRealtime(3f);
-        Time.timeScale = 1;
+        yield return new WaitForSecondsRealtime(2f);
         showBlackScreen = false;
     }
 	void Update ()
@@ -67,21 +66,24 @@ public class cinematicAspect : MonoBehaviour {
             if (!GetComponent<GameControllerScript>().isDead())
             {
                 setScreen(1);
+                timeHandler.setTimeFromOutside(true);
+                Time.timeScale = 0;
+                Time.fixedDeltaTime = 0;
                 titleText.enabled = true;
-                Debug.Log(textForTitle);
                 titleText.text = textForTitle;
                 StartCoroutine(waitBlack());
                 flag = false;
             }
         }
-        
-        if (!showBlackScreen&&!flag)
+
+        if (!showBlackScreen && !flag)
         {
             frasierize();
-            //if (blackScreen.GetAlpha() < 0.6f)
-           // {
-                titleText.color = new Vector4(titleText.color.r, titleText.color.g, titleText.color.b, blackScreen.GetAlpha());
-        //    }
+            if (blackScreen.GetAlpha() < 0.6f)
+            {
+                timeHandler.setTimeFromOutside(false);
+            }
+            titleText.color = new Vector4(titleText.color.r, titleText.color.g, titleText.color.b, blackScreen.GetAlpha());
         }
         if (start)
         {
@@ -127,11 +129,6 @@ public class cinematicAspect : MonoBehaviour {
     }
     void frasierize()
     {
-        if (!blackScreen.gameObject.activeSelf)
-        {
-            blackScreen.gameObject.SetActive(true);
-        }
-        
         blackScreen.SetAlpha(Mathf.Lerp(blackScreen.GetAlpha(), 0, Time.unscaledDeltaTime));
     }
 

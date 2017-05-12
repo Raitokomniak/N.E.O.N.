@@ -56,7 +56,6 @@ public class CheckPoint : MonoBehaviour
             gScript.setCheckpoint(this.transform.position);
             if (usedForCinematicPurposes)
             {
-                playerMov.setPerformAction(true);
                 originPosition = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>().transform.position;
                 camAction += moveCameraToPoint;
             }
@@ -66,9 +65,13 @@ public class CheckPoint : MonoBehaviour
 
     void moveCameraToPoint()
     {
-        playerMov.playAnimation("Crouch");
-        Time.timeScale = Mathf.Lerp(Time.timeScale, 0, cameraMoveSpeedToB * Time.unscaledDeltaTime);
-        Time.fixedDeltaTime = Mathf.Lerp(Time.fixedDeltaTime, 0, cameraMoveSpeedToB * Time.unscaledDeltaTime);
+        if (playerMov.isGrounded())
+        {
+            playerMov.setPerformAction(true);
+            playerMov.playAnimation("Crouch");
+            Time.timeScale = Mathf.Lerp(Time.timeScale, 0, cameraMoveSpeedToB * Time.unscaledDeltaTime);
+            Time.fixedDeltaTime = Mathf.Lerp(Time.fixedDeltaTime, 0, cameraMoveSpeedToB * Time.unscaledDeltaTime);
+        }
         takeControlOfCameraAndTimeHandler(true);
         CameraScript camScript = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraScript>();
         Camera cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();

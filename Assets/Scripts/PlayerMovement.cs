@@ -183,7 +183,10 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            playerRig.velocity = Vector2.zero;
+            if (grounded)
+            {
+                playerRig.velocity = Vector2.zero;
+            }
            
         }
     }

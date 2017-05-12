@@ -60,7 +60,9 @@ public class GameControllerScript : MonoBehaviour {
         reloadText.gameObject.SetActive(false);
         originalColor = gameOverText.color;
         gameOverText.color = Vector4.zero;
-        reloadText.color = Vector4.zero;
+        reloadText.color = new Vector4(reloadText.color.a, reloadText.color.g, reloadText.color.b, 0.25f);
+       
+        // reloadText.color = Vector4.zero;
         guards = new List<GameObject>();
         guards.AddRange(GameObject.FindGameObjectsWithTag("Enemy"));
         gameAudio = GetComponent<AudioSource>();
@@ -110,7 +112,7 @@ public class GameControllerScript : MonoBehaviour {
         playerDead = false;
         guardsAlerted = false;
         countdownTimer = 0;
-        if(SceneManager.GetActiveScene().buildIndex == 4)
+        if (SceneManager.GetActiveScene().buildIndex == 4)
         {
             cinema.setTitleScreen("The Chamber of Horrors");
             cinema.startCinema();
@@ -118,6 +120,10 @@ public class GameControllerScript : MonoBehaviour {
             checkpointText.SetActive(false);
             //music.volumeDown();
             music.stopMusic();
+        }
+        else if (SceneManager.GetActiveScene().buildIndex == 2)
+        {
+            cinema.setTitleScreen("Welcome to New Era Of NeuroScience");
         }
         else
         {
@@ -177,13 +183,16 @@ public class GameControllerScript : MonoBehaviour {
             SpriteRenderer sr = player.GetComponent<SpriteRenderer>();
             sr.color = Vector4.Lerp(sr.color, new Vector4(0, 1, 0, 0.4f), 2*Time.unscaledDeltaTime);
             gameOverText.color = Vector4.Lerp(gameOverText.color, new Vector4(originalColor.x, originalColor.y, originalColor.z, 0.5f), 2 * Time.unscaledDeltaTime);
-            blackScreen.SetAlpha(Mathf.Lerp(blackScreen.GetAlpha(), 1, 1.5f*Time.unscaledDeltaTime));
+            blackScreen.SetAlpha(Mathf.Lerp(blackScreen.GetAlpha(), 1.8f, 1.5f*Time.unscaledDeltaTime));
             titleText.enabled = false;
             character.SetAlpha(1-blackScreen.GetAlpha() *2);
-            if (reloadText.enabled)
+            if (reloadText.gameObject.activeSelf)
             {
-                reloadText.color = Vector4.Lerp(reloadText.color, new Vector4(originalColor.x, originalColor.y, originalColor.z, 0.5f), 4 * Time.unscaledDeltaTime);
+                reloadText.enabled = true;
+                reloadText.text = "Simulation resetting";
+                reloadText.color = Vector4.Lerp(reloadText.color, new Vector4(originalColor.x,originalColor.y,originalColor.z, 0.5f), 8 * Time.unscaledDeltaTime);
             }
+           
         }
         /*
         if (!gameAudio.isPlaying)
