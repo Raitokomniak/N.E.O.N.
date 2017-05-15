@@ -139,6 +139,7 @@ public class EnemyPatrollingMovement : MonoBehaviour {
         gotHit = true;
         yield return new WaitForSeconds(4f);
         sensing.setHitStatus(false);
+        gScript.setAlertState(true);
         gotHit = false;
     }
 
