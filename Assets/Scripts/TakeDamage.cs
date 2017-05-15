@@ -63,6 +63,7 @@ public class TakeDamage : MonoBehaviour {
             }
             if (takedownStarted)
             {
+                timer += Time.unscaledDeltaTime;
                 switchOffSystem();
             }
         }
@@ -100,7 +101,7 @@ public class TakeDamage : MonoBehaviour {
     {
         Debug.Log(direction);
         int stickDir = Mathf.RoundToInt(Input.GetAxisRaw("Horizontal"));
-        timer += Time.deltaTime;
+        
         sr.sprite = (direction == 1) ? rightStick : leftStick;
         sr.enabled = true;
         if (timer < takeDownTime)
@@ -120,7 +121,8 @@ public class TakeDamage : MonoBehaviour {
         else
         {
             enemyMov.silentKill(false);
-            enemyMov.playerIsHeard(player.transform.position);
+            //enemyMov.playerIsHeard(player.transform.position);
+            GetComponentInParent<EnemyAISensing>().setPlayerInSight(true);
             takedownStarted = false;
             sr.enabled = false;
             player.GetComponent<PlayerMovement>().setPerformAction(false);

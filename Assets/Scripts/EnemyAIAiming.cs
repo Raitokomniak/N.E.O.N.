@@ -119,26 +119,32 @@ public class EnemyAIAiming : MonoBehaviour {
             turnHead(playerPos);
             Vector2 direction = playerPos - new Vector2(this.transform.parent.position.x, this.transform.parent.position.y);
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-
+            bool turn = true;
             if (movement.facingRight()){
                 angle = Mathf.Clamp(angle, -50, 50);
                 sensing.checkIfPlayerIsBehind();
             }
             else
             {
+                if (angle >-50&&angle < 50)
+                {
+                    turn = false;
+                }
                 sensing.checkIfPlayerIsBehind();
             }
             Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward * Time.smoothDeltaTime);
-            this.transform.rotation = rotation;
-            
-            if (!movement.facingRight())
+            if (turn)
             {
-                sr.flipY = true;
-                sr.flipX = false;
-            }
-            else
-            {
-                sr.flipY = false;
+                this.transform.rotation = rotation;
+                if (!movement.facingRight())
+                {
+                    sr.flipY = true;
+                    sr.flipX = false;
+                }
+                else
+                {
+                    sr.flipY = false;
+                }
             }
         }
         else

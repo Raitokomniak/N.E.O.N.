@@ -203,6 +203,19 @@ public class EnemyAISensing : MonoBehaviour {
             }
         }
     }
+
+    IEnumerator checkPlayer()
+    {
+        yield return new WaitForSeconds(1f);
+        playerSeen = false;
+    }
+
+    public void setPlayerInSight(bool option)
+    {
+        playerSeen = option;
+        StartCoroutine(checkPlayer());
+    }
+
     public bool playerInSight()
     {
         return playerSeen;
