@@ -135,6 +135,7 @@ public class EnemyPatrollingMovement : MonoBehaviour {
 
     IEnumerator getStunned()
     {
+        FMODUnity.RuntimeManager.PlayOneShot("event:/Character sounds/GIZMO/Stun pulse");
         sensing.setHitStatus(true);
         gotHit = true;
         yield return new WaitForSeconds(4f);

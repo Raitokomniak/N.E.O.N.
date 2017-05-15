@@ -308,6 +308,7 @@ public class GameControllerScript : MonoBehaviour {
 
     public void setPlayerDead()
     {
+        FMODUnity.RuntimeManager.PlayOneShot("event:/Character sounds/Death");
         deaths++;
         playerDead = true;
         gameOverText.enabled = true;
