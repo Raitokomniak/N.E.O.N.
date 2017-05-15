@@ -320,7 +320,7 @@ public class EnemyPatrollingMovement : MonoBehaviour {
         
     }
 
-    void moveToDirection(Vector3 point)
+    public void moveToDirection(Vector3 point)
     {
         if (grounded)
         {

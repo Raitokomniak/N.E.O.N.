@@ -77,7 +77,6 @@ public class CheckPoint : MonoBehaviour
         Camera cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         Vector3 targetPos = moveCamera.position;
         cam.transform.position = Vector3.Lerp(cam.transform.position, targetPos, cameraMoveSpeedToB * Time.unscaledDeltaTime);
-        Debug.Log(Vector3.Distance(cam.transform.position, targetPos));
         if (Vector3.Distance(cam.transform.position, targetPos) < 15&&!flag2)
         {
             flag2 = true;

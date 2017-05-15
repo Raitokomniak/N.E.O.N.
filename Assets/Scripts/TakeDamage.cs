@@ -18,7 +18,8 @@ public class TakeDamage : MonoBehaviour {
     bool takedownStarted;
     int direction;
     bool playerInTheArea = false;
-    
+
+
     void Awake () {
         gScript = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameControllerScript>();
         player = GameObject.FindGameObjectWithTag("Player");
@@ -27,6 +28,7 @@ public class TakeDamage : MonoBehaviour {
         direction = 0;
         takedownStarted = false;
         sr.enabled = false;
+
     }
    
     // Update is called once per frame
@@ -99,9 +101,7 @@ public class TakeDamage : MonoBehaviour {
 
     void switchOffSystem()
     {
-        Debug.Log(direction);
         int stickDir = Mathf.RoundToInt(Input.GetAxisRaw("Horizontal"));
-        
         sr.sprite = (direction == 1) ? rightStick : leftStick;
         sr.enabled = true;
         if (timer < takeDownTime)
@@ -118,11 +118,13 @@ public class TakeDamage : MonoBehaviour {
                 die();
             }           
         }
-        else
+        else if (timer > takeDownTime)
         {
             enemyMov.silentKill(false);
-            //enemyMov.playerIsHeard(player.transform.position);
+            enemyMov.playerIsHeard(player.transform.position);
+            enemyMov.moveToDirection(new Vector3(player.transform.position.x, this.transform.parent.position.y, 0));
             GetComponentInParent<EnemyAISensing>().setPlayerInSight(true);
+            GetComponentInParent<EnemyAISensing>().setPlayerIsAt(player.transform.position);
             takedownStarted = false;
             sr.enabled = false;
             player.GetComponent<PlayerMovement>().setPerformAction(false);

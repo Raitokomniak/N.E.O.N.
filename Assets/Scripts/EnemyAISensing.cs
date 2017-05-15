@@ -105,6 +105,10 @@ public class EnemyAISensing : MonoBehaviour {
             anotherTimer = 0;
         }
     }
+    public void setPlayerIsAt(Vector2 place)
+    {
+        playerIsAt = place;
+    }
 
     void hearing(Collider2D col)
     {
