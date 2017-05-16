@@ -28,13 +28,14 @@ public class EnemyPatrollingMovement : MonoBehaviour {
     public bool startPointReached;
     Transform waypoint;
     Rigidbody2D enemyRig;
-    SpriteRenderer spriteRend;
+    public SpriteRenderer spriteRend;
     EnemyAISensing sensing;
     GameControllerScript gScript;
     AudioSource gunAudio;
     AudioSource stepAudio;
     Vector3 startPosition;
     Vector3 lastDetectedPosition;
+    Animator anim;
     //PlayerInsideAlertZone AlertZone;
     float speed = 8;
     float maxSpeed = 4;
@@ -74,7 +75,8 @@ public class EnemyPatrollingMovement : MonoBehaviour {
         gunAudio = audios[0];
         stepAudio = audios[1];
         enemyRig = GetComponent<Rigidbody2D>();
-        spriteRend = GetComponent<SpriteRenderer>();
+        //spriteRend = GetComponentInChil<SpriteRenderer>();
+        anim = GetComponentInChildren<Animator>();
         sensing = GetComponent<EnemyAISensing>();
         timer = 0f;
        // AlertZone = GetComponentInChildren<PlayerInsideAlertZone>();
@@ -114,6 +116,10 @@ public class EnemyPatrollingMovement : MonoBehaviour {
                 }
                 flipHandler();
                 inUse = true;
+                if (Mathf.Abs(enemyRig.velocity.x) < 0.2f)
+                {
+                    anim.Play("idle");
+                }
 
             }
             else
@@ -169,6 +175,7 @@ public class EnemyPatrollingMovement : MonoBehaviour {
         startPosition = new Vector3(startPosition.x, this.transform.position.y);
         if (!startPointReached)
         {
+            
             moveToDirection(startPosition);
             if (Vector2.Distance(this.transform.position, startPosition) < 1)
             {
@@ -327,6 +334,15 @@ public class EnemyPatrollingMovement : MonoBehaviour {
         {
             if (!controlledByGameController || (controlledByGameController && !(Mathf.Approximately(this.transform.position.x, startPosition.x))))
             {
+                if (Mathf.Abs(enemyRig.velocity.x) < 0.2f)
+                {
+                    anim.Play("idle");
+                }
+                else
+                {
+                    anim.Play("walk");
+                }
+                anim.speed = state == states.normal ? 0.4f : 0.8f;
                 targetOnRightOrLeft(point);
                 Vector3 direction = (point - transform.position).normalized;
                 //  enemyRig.MovePosition(transform.position + direction * speed * Time.deltaTime);
