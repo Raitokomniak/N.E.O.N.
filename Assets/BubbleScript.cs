@@ -41,6 +41,19 @@ public class BubbleScript : MonoBehaviour {
         setActive(true);
     }
 
+    public void setChainedText(string[] text, float showTime)
+    {
+        StartCoroutine(writeText(text, showTime));
+    }
+
+    IEnumerator writeText(string[] messages, float textShowTime)
+    {
+        foreach (string message in messages)
+        {
+            setText(message, textShowTime);
+            yield return new WaitForSecondsRealtime(textShowTime);
+        }
+    }
     public void setActive(bool option)
     {
         bubble.SetActive(option);

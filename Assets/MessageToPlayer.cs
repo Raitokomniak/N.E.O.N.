@@ -19,17 +19,9 @@ public class MessageToPlayer : MonoBehaviour {
     {
 	    if (col.gameObject.CompareTag("Player")&&flag)
         {
-            StartCoroutine(writeText());
+            //StartCoroutine(writeText());
+            bubble.setChainedText(messages, textShowTime);
             flag = false;
         }
 	}
-
-    IEnumerator writeText()
-    {
-        foreach (string message in messages)
-        {
-            bubble.setText(message, textShowTime);
-            yield return new WaitForSecondsRealtime(textShowTime);
-        }
-    }
 }
