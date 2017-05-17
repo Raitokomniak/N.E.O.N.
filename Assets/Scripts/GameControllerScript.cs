@@ -50,6 +50,7 @@ public class GameControllerScript : MonoBehaviour {
     Vector4 originalColor;
     //FMOD.Studio.PLAYBACK_STATE musicState;
     cinematicAspect cinema;
+    bool showCharacter;
     void Awake()
     {
         // guards = new ArrayList();
@@ -106,6 +107,7 @@ public class GameControllerScript : MonoBehaviour {
         pauseMenuCanvas.SetActive(false);
         pauseOn = false;
         alertIndicator.SetActive(false);
+        showCharacter = false;
     }
 
 	void Start () {
@@ -140,9 +142,14 @@ public class GameControllerScript : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
+    public void setCharacterVisible(bool option)
+    {
+        showCharacter = option;
+    }
+
     void handleCharacter()
     {
-        if (playerHealth.wounded())
+        if (playerHealth.wounded()&&!showCharacter)
         {
             if (character.GetAlpha() != 0f)
             {
