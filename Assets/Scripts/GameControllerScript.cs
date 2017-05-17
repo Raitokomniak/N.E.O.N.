@@ -140,6 +140,32 @@ public class GameControllerScript : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
+    void handleCharacter()
+    {
+        if (playerHealth.wounded())
+        {
+            if (character.GetAlpha() != 0f)
+            {
+                character.SetAlpha(Mathf.Lerp(character.GetAlpha(), 0, Time.unscaledDeltaTime));
+                foreach(CanvasRenderer cr in character.gameObject.GetComponentsInChildren<CanvasRenderer>())
+                {
+                    cr.SetAlpha(Mathf.Lerp(character.GetAlpha(), 0f, Time.unscaledDeltaTime));
+                }
+            }
+        }
+        else
+        {
+            if (character.GetAlpha() != 0.75f)
+            {
+                character.SetAlpha(Mathf.Lerp(character.GetAlpha(), 0.75f, 2f * Time.unscaledDeltaTime));
+                foreach (CanvasRenderer cr in character.gameObject.GetComponentsInChildren<CanvasRenderer>())
+                {
+                    cr.SetAlpha(Mathf.Lerp(character.GetAlpha(), 0.75f, 2f * Time.unscaledDeltaTime));
+                }
+            }
+        }
+    }
+
     void Update()
     {
         if (Input.GetButtonDown("Cancel"))
@@ -194,6 +220,7 @@ public class GameControllerScript : MonoBehaviour {
             }
            
         }
+        handleCharacter();
         /*
         if (!gameAudio.isPlaying)
         {

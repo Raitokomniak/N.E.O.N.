@@ -71,7 +71,10 @@ public class PlayerHealth : MonoBehaviour {
 		ui.UpdateHealth (health);
 
     }
-
+    public bool wounded()
+    {
+        return health >= 100;
+    }
     void die()
     {
         gScript.setPlayerDead();

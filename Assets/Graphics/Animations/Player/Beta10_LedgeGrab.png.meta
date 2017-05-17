@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 244bbd9ba4b511a479c124d4ccfcd88d
-timeCreated: 1494406578
+timeCreated: 1495001622
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -96,19 +96,6 @@ TextureImporter:
   spriteSheet:
     serializedVersion: 2
     sprites:
-    - serializedVersion: 2
-      name: Beta10_LedgeGrab_0
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 0
-        width: 1142
-        height: 1260
-      alignment: 9
-      pivot: {x: 0.8944678, y: 0.8014644}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
     - serializedVersion: 2
       name: Beta10_LedgeGrab_1
       rect:

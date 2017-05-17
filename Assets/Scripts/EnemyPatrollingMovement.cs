@@ -143,6 +143,7 @@ public class EnemyPatrollingMovement : MonoBehaviour {
     {
         sensing.setHitStatus(true);
         gotHit = true;
+        anim.Play("idle");
         yield return new WaitForSeconds(4f);
         sensing.setHitStatus(false);
         gScript.setAlertState(true);
@@ -175,7 +176,6 @@ public class EnemyPatrollingMovement : MonoBehaviour {
         startPosition = new Vector3(startPosition.x, this.transform.position.y);
         if (!startPointReached)
         {
-            
             moveToDirection(startPosition);
             if (Vector2.Distance(this.transform.position, startPosition) < 1)
             {
