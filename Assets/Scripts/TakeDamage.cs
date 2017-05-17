@@ -13,14 +13,18 @@ public class TakeDamage : MonoBehaviour {
     public Sprite rightStick;
     public Sprite xButton;
     public SpriteRenderer sr;
+    public Light destructLight;
     public float takeDownTime = 2f;
     float timer;
     bool takedownStarted;
     int direction;
+    bool died;
     bool playerInTheArea = false;
+    float targetIntensity = 100;
 
 
     void Awake () {
+        destructLight.enabled = false;
         gScript = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameControllerScript>();
         player = GameObject.FindGameObjectWithTag("Player");
         enemyMov = GetComponentInParent<EnemyPatrollingMovement>();
@@ -28,15 +32,24 @@ public class TakeDamage : MonoBehaviour {
         direction = 0;
         takedownStarted = false;
         sr.enabled = false;
-
+        died = false;
     }
-   
+
     // Update is called once per frame
     private void Update()
     {
         if (!playerInTheArea && sr.enabled)
         {
             sr.enabled = false;
+        }
+        if (died)
+        {
+            destructLight.intensity = Mathf.Lerp(destructLight.intensity, targetIntensity, 2* Time.unscaledDeltaTime);
+            destructLight.range = destructLight.intensity;
+        }
+        else
+        {
+            destructLight.enabled = false;
         }
     }
     private void OnTriggerEnter2D(Collider2D col)
@@ -95,8 +108,17 @@ public class TakeDamage : MonoBehaviour {
 
     void die()
     {
-        gScript.killGuard(this.transform.parent.gameObject);
+        StartCoroutine(kill());
         player.GetComponent<PlayerMovement>().setPerformAction(false);
+    }
+
+    IEnumerator kill()
+    {
+        died = true;
+        sr.enabled = false;
+        destructLight.enabled = true;
+        yield return new WaitForSeconds(1f);
+        gScript.killGuard(this.transform.parent.gameObject);
     }
 
     void switchOffSystem()
@@ -110,17 +132,21 @@ public class TakeDamage : MonoBehaviour {
             {
                 FMODUnity.RuntimeManager.PlayOneShot("event:/Character sounds/GIZMO/Takedown (silent)", transform.position);
                 player.GetComponent<PlayerMovement>().takeDown();
+                targetIntensity = 30;
+               // destructLight.color = Color.green;
                 die();              
             }
             else if (stickDir == direction * -1)
             {
                 FMODUnity.RuntimeManager.PlayOneShot("event:/Character sounds/GIZMO/Takedown (loud)", transform.position);
                 gScript.setAlertState(true);
+            //    destructLight.color = Color.red;
+                targetIntensity = 50;
                 player.GetComponent<PlayerMovement>().takeDown();
                 die();
             }           
         }
-        else if (timer > takeDownTime)
+        else if (timer > takeDownTime&&!died)
         {
             enemyMov.silentKill(false);
             enemyMov.playerIsHeard(player.transform.position);

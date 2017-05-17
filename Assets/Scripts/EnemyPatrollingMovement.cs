@@ -97,6 +97,7 @@ public class EnemyPatrollingMovement : MonoBehaviour {
         getSilentlyKilled = false;
         gotHit = false;
         gunSound = FMODUnity.RuntimeManager.CreateInstance("event:/Enemy sounds/Guard (cyborg grunt)/Gunshots/Single");
+        
     }
 
     void Update()
@@ -193,6 +194,10 @@ public class EnemyPatrollingMovement : MonoBehaviour {
     void toggleObjectOnorOff(bool option)
     {
         spriteRend.enabled = option;
+       // if (!option)
+       // {
+            GetComponentInChildren<TakeDamage>().destructLight.enabled = false;
+        //}
         if (option == false)
         {
             enemyRig.Sleep();
