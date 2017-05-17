@@ -109,12 +109,14 @@ public class TakeDamage : MonoBehaviour {
             if (stickDir == direction)
             {
                 FMODUnity.RuntimeManager.PlayOneShot("event:/Character sounds/GIZMO/Takedown (silent)", transform.position);
-                die();
+                player.GetComponent<PlayerMovement>().takeDown();
+                die();              
             }
             else if (stickDir == direction * -1)
             {
                 FMODUnity.RuntimeManager.PlayOneShot("event:/Character sounds/GIZMO/Takedown (loud)", transform.position);
                 gScript.setAlertState(true);
+                player.GetComponent<PlayerMovement>().takeDown();
                 die();
             }           
         }

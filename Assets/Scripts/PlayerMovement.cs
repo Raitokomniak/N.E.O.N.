@@ -122,7 +122,10 @@ public class PlayerMovement : MonoBehaviour
             facing = face;
         }
     }
-
+    public void takeDown()
+    {
+        playAnimation("Takedown");
+    }
     void initialize()
     {
         anim.Play("Idle");
@@ -164,7 +167,8 @@ public class PlayerMovement : MonoBehaviour
                 if (!anim.GetCurrentAnimatorStateInfo(0).IsName("Jump"))
                 {
                     //anim.Play("MidAir");
-                    playAnimation("MidAir");
+                    string animation = GetComponent<LineRenderer>().enabled ? "hookswing" : "MidAir";
+                    playAnimation(animation);
                 }
             }
         }
