@@ -29,6 +29,7 @@ public class EnemyPatrollingMovement : MonoBehaviour {
     Transform waypoint;
     Rigidbody2D enemyRig;
     public SpriteRenderer spriteRend;
+    public SpriteRenderer arms;
     EnemyAISensing sensing;
     GameControllerScript gScript;
     AudioSource gunAudio;
@@ -397,12 +398,14 @@ public class EnemyPatrollingMovement : MonoBehaviour {
     {
         if (facing == 1)
         {
+            arms.sortingOrder = headSpriteRend.sortingOrder + 1;
             spriteRend.flipX = false;
 			headSpriteRend.flipX = false;
             sightRend.flipX = false;
         }
         else
         {
+            arms.sortingOrder = spriteRend.sortingOrder - 1;
             spriteRend.flipX = true;
 			headSpriteRend.flipX = true;
             sightRend.flipX = true;

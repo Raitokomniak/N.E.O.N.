@@ -1222,6 +1222,7 @@ MonoBehaviour:
   inUse: 0
   startPointReached: 0
   spriteRend: {fileID: 212495776083429212}
+  arms: {fileID: 212633558063825946}
 --- !u!114 &114386847471623610
 MonoBehaviour:
   m_ObjectHideFlags: 1
