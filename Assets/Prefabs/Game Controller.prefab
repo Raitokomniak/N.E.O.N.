@@ -229,7 +229,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1274748981904552
 GameObject:
   m_ObjectHideFlags: 1
@@ -1680,7 +1680,7 @@ MonoBehaviour:
   downBar: {fileID: 1860817266060386}
   mainCamera: {fileID: 0}
   divider: 2
-  holdTime: 9999999
+  holdTime: 3
   showBlackScreen: 0
 --- !u!114 &114278563718879796
 MonoBehaviour:

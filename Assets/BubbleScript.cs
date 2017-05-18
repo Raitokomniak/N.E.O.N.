@@ -23,20 +23,19 @@ public class BubbleScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         if (time > 0 && bubble.activeSelf)
-        {
+        {       
             time -= Time.unscaledDeltaTime;
+            Time.timeScale = 0;
         }
         else if (time <= 0 && bubble.activeSelf)
         {
-            setActive(false);
-            gScript.setCharacterVisible(false);
+            setActive(false);  
         }
 	}
 
     public void setText(string text, float showTime)
     {
         time = showTime;
-        gScript.setCharacterVisible(true);
         speechText.text = text;
         setActive(true);
     }
@@ -54,8 +53,11 @@ public class BubbleScript : MonoBehaviour {
             yield return new WaitForSecondsRealtime(textShowTime);
         }
     }
+
     public void setActive(bool option)
     {
+        gScript.setCharacterVisible(option);
+        gScript.gameObject.GetComponent<TimeHandler>().setTimeFromOutside(option);
         bubble.SetActive(option);
     }
 }
