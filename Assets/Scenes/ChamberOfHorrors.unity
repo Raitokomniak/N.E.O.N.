@@ -20,7 +20,7 @@ RenderSettings:
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
+  m_AmbientSkyColor: {r: 0.36078432, g: 0.3019608, b: 0.3019608, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
@@ -191,7 +191,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!23 &31726917
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -494,6 +494,48 @@ Light:
   m_UseColorTemperature: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!1001 &312633684
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4717876300616770, guid: 438dd017392ccab4f84714a15c7c0e71, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 12.622437
+      objectReference: {fileID: 0}
+    - target: {fileID: 4717876300616770, guid: 438dd017392ccab4f84714a15c7c0e71, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 3.5400102
+      objectReference: {fileID: 0}
+    - target: {fileID: 4717876300616770, guid: 438dd017392ccab4f84714a15c7c0e71, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 2.3203125
+      objectReference: {fileID: 0}
+    - target: {fileID: 4717876300616770, guid: 438dd017392ccab4f84714a15c7c0e71, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4717876300616770, guid: 438dd017392ccab4f84714a15c7c0e71, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4717876300616770, guid: 438dd017392ccab4f84714a15c7c0e71, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4717876300616770, guid: 438dd017392ccab4f84714a15c7c0e71, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4717876300616770, guid: 438dd017392ccab4f84714a15c7c0e71, type: 2}
+      propertyPath: m_RootOrder
+      value: 19
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 438dd017392ccab4f84714a15c7c0e71, type: 2}
+  m_IsPrefabParent: 0
 --- !u!20 &406177148 stripped
 Camera:
   m_PrefabParentObject: {fileID: 20405655192840700, guid: f88fd1a851cde0045a5f7fb33c6b6591,
@@ -624,7 +666,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!23 &617223456
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -706,7 +748,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!23 &629341991
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -830,7 +872,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!23 &688204949
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -912,7 +954,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!23 &830511207
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -996,7 +1038,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &900810338
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1067,7 +1109,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &903828863
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1310,7 +1352,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &1140991366
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1637,7 +1679,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!23 &1485433565
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2046,7 +2088,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &1871670785
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2278,7 +2320,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &2144732224
 SpriteRenderer:
   m_ObjectHideFlags: 0
