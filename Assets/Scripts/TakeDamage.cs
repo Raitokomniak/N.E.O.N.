@@ -44,8 +44,14 @@ public class TakeDamage : MonoBehaviour {
         }
         if (died)
         {
-            destructLight.intensity = Mathf.Lerp(destructLight.intensity, targetIntensity, 2* Time.unscaledDeltaTime);
-            destructLight.range = destructLight.intensity;
+            float multiplier = (targetIntensity == 30) ? 1 : 0.5f;
+            destructLight.intensity = Mathf.Lerp(destructLight.intensity, targetIntensity / 2, multiplier* Time.unscaledDeltaTime);
+            destructLight.range = destructLight.intensity*2;
+            sr.enabled = false;
+            foreach (SpriteRenderer srend in this.transform.parent.gameObject.GetComponentsInChildren<SpriteRenderer>())
+            {
+                srend.color = Vector4.Lerp(srend.color, new Vector4(1, 1, 1, 0),  Time.unscaledDeltaTime);
+            }
         }
         else
         {
@@ -117,7 +123,7 @@ public class TakeDamage : MonoBehaviour {
         died = true;
         sr.enabled = false;
         destructLight.enabled = true;
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSecondsRealtime(targetIntensity == 30 ? 3 : 5);
         gScript.killGuard(this.transform.parent.gameObject);
     }
 
