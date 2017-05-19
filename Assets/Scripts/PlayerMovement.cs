@@ -48,6 +48,7 @@ public class PlayerMovement : MonoBehaviour
     bool adding;
     bool checker;
     bool performingAction;
+    bool gizmoAvailable;
     string runSound = "event:/Character sounds/Footsteps/Running";
     string jumpSound = "event:/Character sounds/Jumping";
     string wallJumpSound = "event:/Character sounds/Wall jumping";
@@ -79,6 +80,16 @@ public class PlayerMovement : MonoBehaviour
         stepTimer = 0;
         performingAction = false;
         initialize();
+    }
+
+    public bool gizmo()
+    {
+        return gizmoAvailable;
+    }
+
+    public void setGizmo(bool option)
+    {
+        gizmoAvailable = option;
     }
 
     void steps()

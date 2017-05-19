@@ -9,20 +9,24 @@ public class VantagePointScript : MonoBehaviour {
     GrapplingHook gHook;
     Light lite;
     float intensity;
+    PlayerMovement playMov;
     void Awake ()
     {
         lite = GetComponentInChildren<Light>();
         intensity = lite.intensity;
+        player = GameObject.FindGameObjectWithTag("Player");
+        playMov = player.GetComponent<PlayerMovement>();
+        gHook = player.GetComponent<GrapplingHook>();
+
     }
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
-        gHook = player.GetComponent<GrapplingHook>();
+        
     }
 	
 	// Update is called once per frame
 	void OnTriggerStay2D(Collider2D col) {
-		if (col.gameObject == player)
+		if (col.gameObject == player&&playMov.gizmo())
         {
             gHook.setGHookable(this.gameObject);
         }
@@ -30,7 +34,7 @@ public class VantagePointScript : MonoBehaviour {
 
     void OnTriggerExit2D(Collider2D col)
     {
-        if (col.gameObject == player)
+        if (col.gameObject == player && playMov.gizmo())
         {
             gHook.unSetGHookable(this.gameObject);
             setLight(intensity);

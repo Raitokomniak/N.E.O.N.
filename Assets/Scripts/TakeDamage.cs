@@ -67,7 +67,7 @@ public class TakeDamage : MonoBehaviour {
     }
     private void OnTriggerStay2D(Collider2D col)
     {
-        if (col.gameObject == player)
+        if (col.gameObject == player&&player.GetComponent<PlayerMovement>().gizmo())
         {
             int dir = enemyMov.facingRight() ? 1 : -1;
             Vector2 directionToTarget = transform.position - player.transform.position;

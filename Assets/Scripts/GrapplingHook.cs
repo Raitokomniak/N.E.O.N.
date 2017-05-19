@@ -42,37 +42,39 @@ public class GrapplingHook : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-        if (targets.Count == 0)
+        if (playMov.gizmo())
         {
-            ableToShoot = false;
-            shootSpot = null;
-        }
-        else
-        {
-           shootSpot = setShootSpot(shootSpot);
-        }
-       
-        
-        if (connected && Input.GetButton("Jump"))
-        {
-            detachHook();
-        }
-
-        if (ableToShoot && Input.GetButtonDown("FireGHook") && !connected)
-        {
-            Vector2 direction = shootSpot.transform.position - this.transform.position;
-            RaycastHit2D ray = Physics2D.Raycast(this.transform.position, direction);
-            Debug.DrawRay(this.transform.position, direction, Color.red);
-            if (ray.collider.gameObject == shootSpot)
+            if (targets.Count == 0)
             {
-                if (shootSpot)
+                ableToShoot = false;
+                shootSpot = null;
+            }
+            else
+            {
+               shootSpot = setShootSpot(shootSpot);
+            }
+       
+            
+            if (connected && Input.GetButton("Jump"))
+            {
+                detachHook();
+            }
+
+            if (ableToShoot && Input.GetButtonDown("FireGHook") && !connected)
+            {
+                Vector2 direction = shootSpot.transform.position - this.transform.position;
+                RaycastHit2D ray = Physics2D.Raycast(this.transform.position, direction);
+                Debug.DrawRay(this.transform.position, direction, Color.red);
+                if (ray.collider.gameObject == shootSpot)
                 {
-                    fireGHook();
-                    hookSound.start();
+                    if (shootSpot)
+                    {
+                        fireGHook();
+                        hookSound.start();
+                    }
                 }
             }
         }
-
     }
 
     void detachHook()

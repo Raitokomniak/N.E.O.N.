@@ -28,21 +28,24 @@ public class PlayerAim : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-        timer += Time.deltaTime;
-        if (Input.GetAxis("Aim") !=0 && !gScript.pauseOn)
+        if (playMov.gizmo())
         {
-            aim();
-            sr.enabled = true;
-            Time.timeScale = Mathf.Lerp(Time.timeScale, 0.001f, 30 * Time.deltaTime);
-            Time.fixedDeltaTime = 0.02F * Time.timeScale;
-            if (Input.GetAxisRaw("Throw") == 1 && timer > timeBetweedThrows)
+            timer += Time.deltaTime;
+            if (Input.GetAxis("Aim") != 0 && !gScript.pauseOn)
             {
-                throwDagger();
+                aim();
+                sr.enabled = true;
+                Time.timeScale = Mathf.Lerp(Time.timeScale, 0.001f, 30 * Time.deltaTime);
+                Time.fixedDeltaTime = 0.02F * Time.timeScale;
+                if (Input.GetAxisRaw("Throw") == 1 && timer > timeBetweedThrows)
+                {
+                    throwDagger();
+                }
             }
-        }
-        else
-        {
-            sr.enabled = false;
+            else
+            {
+                sr.enabled = false;
+            }
         }
     }
 

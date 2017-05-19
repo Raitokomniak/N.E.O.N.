@@ -51,6 +51,7 @@ public class GameControllerScript : MonoBehaviour {
     //FMOD.Studio.PLAYBACK_STATE musicState;
     cinematicAspect cinema;
     bool showCharacter;
+    bool gizmo;
     void Awake()
     {
         // guards = new ArrayList();
@@ -62,7 +63,7 @@ public class GameControllerScript : MonoBehaviour {
         originalColor = gameOverText.color;
         gameOverText.color = Vector4.zero;
         reloadText.color = new Vector4(reloadText.color.a, reloadText.color.g, reloadText.color.b, 0.25f);
-       
+        gizmo = false;
         // reloadText.color = Vector4.zero;
         guards = new List<GameObject>();
         guards.AddRange(GameObject.FindGameObjectsWithTag("Enemy"));
@@ -126,9 +127,13 @@ public class GameControllerScript : MonoBehaviour {
         else if (SceneManager.GetActiveScene().buildIndex == 2)
         {
             cinema.setTitleScreen("Welcome to New Era Of NeuroScience");
+           // gizmo = false;
+            player.GetComponent<PlayerMovement>().setGizmo(gizmo);
         }
         else
         {
+            gizmo = true;
+            player.GetComponent<PlayerMovement>().setGizmo(gizmo);
             //music.volumeUp();
         }
         /*Music.setParameterValue("Music speed", 0);
@@ -172,7 +177,16 @@ public class GameControllerScript : MonoBehaviour {
             }
         }
     }
+    public void setGizmo(bool option)
+    {
+        gizmo = true;
+        player.GetComponent<PlayerMovement>().setGizmo(gizmo);
+    }
 
+    public bool getGizmo()
+    {
+        return gizmo;
+    }
     void Update()
     {
         if (Input.GetButtonDown("Cancel"))

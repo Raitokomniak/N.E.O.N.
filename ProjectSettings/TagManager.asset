@@ -8,6 +8,8 @@ TagManager:
   - Cutscene_SpeechBubble
   - Cutscene_SFX
   - Cutscene_BG
+  - LevelPart1
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -17,7 +19,7 @@ TagManager:
   - UI
   - 
   - 
-  - 
+  - Test
   - 
   - 
   - 
@@ -44,4 +46,7 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: 
+    uniqueID: 3333816247
     locked: 0

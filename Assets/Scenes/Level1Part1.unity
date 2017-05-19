@@ -2376,6 +2376,92 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
+--- !u!1001 &97767015
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 114129104182384940, guid: 6ee5b802e4925e44c98121856c916357,
+        type: 2}
+      propertyPath: messages.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4558488321935946, guid: 6ee5b802e4925e44c98121856c916357, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -114.58
+      objectReference: {fileID: 0}
+    - target: {fileID: 4558488321935946, guid: 6ee5b802e4925e44c98121856c916357, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 48.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4558488321935946, guid: 6ee5b802e4925e44c98121856c916357, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4558488321935946, guid: 6ee5b802e4925e44c98121856c916357, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4558488321935946, guid: 6ee5b802e4925e44c98121856c916357, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4558488321935946, guid: 6ee5b802e4925e44c98121856c916357, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4558488321935946, guid: 6ee5b802e4925e44c98121856c916357, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4558488321935946, guid: 6ee5b802e4925e44c98121856c916357, type: 2}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1273165101052528, guid: 6ee5b802e4925e44c98121856c916357, type: 2}
+      propertyPath: m_Name
+      value: Messenger (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 61307070713020780, guid: 6ee5b802e4925e44c98121856c916357,
+        type: 2}
+      propertyPath: m_Offset.x
+      value: -0.3179456
+      objectReference: {fileID: 0}
+    - target: {fileID: 61307070713020780, guid: 6ee5b802e4925e44c98121856c916357,
+        type: 2}
+      propertyPath: m_Size.x
+      value: 1.635891
+      objectReference: {fileID: 0}
+    - target: {fileID: 61307070713020780, guid: 6ee5b802e4925e44c98121856c916357,
+        type: 2}
+      propertyPath: m_Offset.y
+      value: 0.7369963
+      objectReference: {fileID: 0}
+    - target: {fileID: 61307070713020780, guid: 6ee5b802e4925e44c98121856c916357,
+        type: 2}
+      propertyPath: m_Size.y
+      value: 2.7661397
+      objectReference: {fileID: 0}
+    - target: {fileID: 114129104182384940, guid: 6ee5b802e4925e44c98121856c916357,
+        type: 2}
+      propertyPath: messages.Array.data[0]
+      value: "Damn, can\u2019t reach the ledge."
+      objectReference: {fileID: 0}
+    - target: {fileID: 114129104182384940, guid: 6ee5b802e4925e44c98121856c916357,
+        type: 2}
+      propertyPath: messages.Array.data[1]
+      value: I need to find some way to get up there.
+      objectReference: {fileID: 0}
+    - target: {fileID: 114129104182384940, guid: 6ee5b802e4925e44c98121856c916357,
+        type: 2}
+      propertyPath: textShowTime
+      value: 3
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 6ee5b802e4925e44c98121856c916357, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1 &102401413
 GameObject:
   m_ObjectHideFlags: 0
@@ -12058,6 +12144,11 @@ Prefab:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114390035348187042, guid: 4fc1ef342e41ce349b8a64dde446cfd4,
+        type: 2}
+      propertyPath: useSaveFile
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4fc1ef342e41ce349b8a64dde446cfd4, type: 2}
   m_IsPrefabParent: 0
@@ -12115,6 +12206,11 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ba6bddb509230714aa82669ace2b0bc9, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &565802177 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1202351105167626, guid: db2cba9164f3170448bb766747c9af29,
+    type: 2}
+  m_PrefabInternal: {fileID: 558445983}
 --- !u!1 &569216828
 GameObject:
   m_ObjectHideFlags: 0
@@ -13576,7 +13672,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4572609316326450, guid: 915944e62122382498a5d80585a0e563, type: 2}
       propertyPath: m_RootOrder
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 915944e62122382498a5d80585a0e563, type: 2}
@@ -14420,6 +14516,23 @@ Transform:
   m_PrefabParentObject: {fileID: 4507256706563188, guid: 5cac05c8a889d334dab826915f6dc49e,
     type: 2}
   m_PrefabInternal: {fileID: 958342764}
+--- !u!1 &674685731 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1273165101052528, guid: 6ee5b802e4925e44c98121856c916357,
+    type: 2}
+  m_PrefabInternal: {fileID: 97767015}
+--- !u!114 &674685735
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 674685731}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe44edb92f584ce4eaaf30bf9bb0d7e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  checkPoint: {fileID: 565802177}
 --- !u!4 &676621470 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4089234628428472, guid: 7137f79be316db5458dd96e15bbb542e,
@@ -18689,6 +18802,10 @@ Prefab:
       propertyPath: m_Name
       value: Guard (6)
       objectReference: {fileID: 0}
+    - target: {fileID: 1923293649421786, guid: ba6bddb509230714aa82669ace2b0bc9, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ba6bddb509230714aa82669ace2b0bc9, type: 2}
   m_IsPrefabParent: 0
@@ -19206,6 +19323,68 @@ Transform:
   m_PrefabParentObject: {fileID: 4089234628428472, guid: 7137f79be316db5458dd96e15bbb542e,
     type: 2}
   m_PrefabInternal: {fileID: 1133230481}
+--- !u!1001 &866216183
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 114129104182384940, guid: 6ee5b802e4925e44c98121856c916357,
+        type: 2}
+      propertyPath: messages.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4558488321935946, guid: 6ee5b802e4925e44c98121856c916357, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -158.73643
+      objectReference: {fileID: 0}
+    - target: {fileID: 4558488321935946, guid: 6ee5b802e4925e44c98121856c916357, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 36.800365
+      objectReference: {fileID: 0}
+    - target: {fileID: 4558488321935946, guid: 6ee5b802e4925e44c98121856c916357, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4558488321935946, guid: 6ee5b802e4925e44c98121856c916357, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4558488321935946, guid: 6ee5b802e4925e44c98121856c916357, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4558488321935946, guid: 6ee5b802e4925e44c98121856c916357, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4558488321935946, guid: 6ee5b802e4925e44c98121856c916357, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4558488321935946, guid: 6ee5b802e4925e44c98121856c916357, type: 2}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114129104182384940, guid: 6ee5b802e4925e44c98121856c916357,
+        type: 2}
+      propertyPath: messages.Array.data[0]
+      value: "Hmm. That\u2019s a nifty-looking gadget."
+      objectReference: {fileID: 0}
+    - target: {fileID: 114129104182384940, guid: 6ee5b802e4925e44c98121856c916357,
+        type: 2}
+      propertyPath: textShowTime
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 114129104182384940, guid: 6ee5b802e4925e44c98121856c916357,
+        type: 2}
+      propertyPath: messages.Array.data[1]
+      value: "I think I\u2019ll grab it, might come in useful."
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 6ee5b802e4925e44c98121856c916357, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1001 &867433209
 Prefab:
   m_ObjectHideFlags: 0
@@ -19390,7 +19569,7 @@ Transform:
   - {fileID: 370782079}
   - {fileID: 1349381571}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &894657796 stripped
 Transform:
@@ -24916,7 +25095,7 @@ Transform:
   - {fileID: 1373214613}
   - {fileID: 274390693}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1154696402
 GameObject:
@@ -27271,6 +27450,22 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
+--- !u!1 &1285304714 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1273165101052528, guid: 6ee5b802e4925e44c98121856c916357,
+    type: 2}
+  m_PrefabInternal: {fileID: 866216183}
+--- !u!114 &1285304715
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1285304714}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 877e9bc695d787547b658a638310c654, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1285613195
 GameObject:
   m_ObjectHideFlags: 0
@@ -30155,7 +30350,7 @@ Transform:
   - {fileID: 674365417}
   - {fileID: 1762174290}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1409780129
 GameObject:
@@ -34027,7 +34222,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4913519899775816, guid: f88fd1a851cde0045a5f7fb33c6b6591, type: 2}
       propertyPath: m_RootOrder
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 20405655192840700, guid: f88fd1a851cde0045a5f7fb33c6b6591,
         type: 2}
@@ -36081,7 +36276,7 @@ Transform:
   - {fileID: 689841494}
   - {fileID: 1392013413}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1695696433 stripped
 Transform:
@@ -36586,7 +36781,7 @@ Transform:
   - {fileID: 867433210}
   - {fileID: 812659393}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1747776636
 GameObject:
@@ -39447,6 +39642,77 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
+--- !u!1001 &1848944763
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 114129104182384940, guid: 6ee5b802e4925e44c98121856c916357,
+        type: 2}
+      propertyPath: messages.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4558488321935946, guid: 6ee5b802e4925e44c98121856c916357, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0.07424879
+      objectReference: {fileID: 0}
+    - target: {fileID: 4558488321935946, guid: 6ee5b802e4925e44c98121856c916357, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0.23384213
+      objectReference: {fileID: 0}
+    - target: {fileID: 4558488321935946, guid: 6ee5b802e4925e44c98121856c916357, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4558488321935946, guid: 6ee5b802e4925e44c98121856c916357, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4558488321935946, guid: 6ee5b802e4925e44c98121856c916357, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4558488321935946, guid: 6ee5b802e4925e44c98121856c916357, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4558488321935946, guid: 6ee5b802e4925e44c98121856c916357, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4558488321935946, guid: 6ee5b802e4925e44c98121856c916357, type: 2}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1273165101052528, guid: 6ee5b802e4925e44c98121856c916357, type: 2}
+      propertyPath: m_Name
+      value: Messenger (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 114129104182384940, guid: 6ee5b802e4925e44c98121856c916357,
+        type: 2}
+      propertyPath: textShowTime
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 114129104182384940, guid: 6ee5b802e4925e44c98121856c916357,
+        type: 2}
+      propertyPath: messages.Array.data[1]
+      value: What is this place?
+      objectReference: {fileID: 0}
+    - target: {fileID: 114129104182384940, guid: 6ee5b802e4925e44c98121856c916357,
+        type: 2}
+      propertyPath: messages.Array.data[2]
+      value: What were they trying to do to me?
+      objectReference: {fileID: 0}
+    - target: {fileID: 114129104182384940, guid: 6ee5b802e4925e44c98121856c916357,
+        type: 2}
+      propertyPath: messages.Array.data[3]
+      value: I need to get out.
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 6ee5b802e4925e44c98121856c916357, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1 &1852043377
 GameObject:
   m_ObjectHideFlags: 0
