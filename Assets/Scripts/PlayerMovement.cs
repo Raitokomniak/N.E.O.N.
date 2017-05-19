@@ -155,27 +155,35 @@ public class PlayerMovement : MonoBehaviour
         if (!performingAction)
         {
             characterHandler();
-        }
-        flipHandler();
-        if (wall == null)
-        {
-            ledgeHold = false;
-            wallJumpAble = false;
-            if (!grounded)
+            flipHandler();
+            if (wall == null)
             {
-                state = charStates.midAir;
-                if (!anim.GetCurrentAnimatorStateInfo(0).IsName("Jump"))
+                ledgeHold = false;
+                wallJumpAble = false;
+                if (!grounded)
                 {
-                    //anim.Play("MidAir");
-                    string animation = GetComponent<LineRenderer>().enabled ? "hookswing" : "MidAir";
-                    playAnimation(animation);
+                    state = charStates.midAir;
+                    if (!anim.GetCurrentAnimatorStateInfo(0).IsName("Jump"))
+                    {
+                        //anim.Play("MidAir");
+                        string animation = GetComponent<LineRenderer>().enabled ? "hookswing" : "MidAir";
+                        playAnimation(animation);
+                    }
                 }
             }
+            if (grounded)
+            {
+                wallJumpAble = false;
+                wall = null;
+            }
         }
-        if (grounded)
+        else
         {
-            wallJumpAble = false;
-            wall = null;
+            if (grounded)
+            {
+                playerRig.velocity = Vector2.zero;
+            }
+
         }
     }
 
@@ -185,14 +193,7 @@ public class PlayerMovement : MonoBehaviour
         {
             movementHandler();
         }
-        else
-        {
-            if (grounded)
-            {
-                playerRig.velocity = Vector2.zero;
-            }
-           
-        }
+        
     }
     string animName;
     public void playAnimation(string name)
@@ -433,7 +434,7 @@ public class PlayerMovement : MonoBehaviour
         if (crouched)
         {
             state = charStates.crouch;
-            playAnimation("Crouch");
+            playAnimation(Mathf.Abs(playerRig.velocity.x) < 0.1f ? "Crouch" : "Crawl");
             box.size = new Vector2(box.size.x, crouchingSize);
             box.offset = new Vector2(box.offset.x, crouchingOffset);
         }

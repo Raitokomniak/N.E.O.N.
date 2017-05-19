@@ -114,8 +114,8 @@ public class TakeDamage : MonoBehaviour {
 
     void die()
     {
+        Invoke("setTakeDownOff", 1);
         StartCoroutine(kill());
-        player.GetComponent<PlayerMovement>().setPerformAction(false);
     }
 
     IEnumerator kill()
@@ -124,6 +124,7 @@ public class TakeDamage : MonoBehaviour {
         sr.enabled = false;
         destructLight.enabled = true;
         yield return new WaitForSecondsRealtime(targetIntensity == 30 ? 3 : 5);
+        setTakeDownOff();
         gScript.killGuard(this.transform.parent.gameObject);
     }
 
@@ -137,7 +138,7 @@ public class TakeDamage : MonoBehaviour {
             if (stickDir == direction)
             {
                 FMODUnity.RuntimeManager.PlayOneShot("event:/Character sounds/GIZMO/Takedown (silent)", transform.position);
-                player.GetComponent<PlayerMovement>().takeDown();
+                player.GetComponent<PlayerMovement>().playAnimation("Takedown");
                 targetIntensity = 30;
                // destructLight.color = Color.green;
                 die();              
@@ -148,7 +149,7 @@ public class TakeDamage : MonoBehaviour {
                 gScript.setAlertState(true);
             //    destructLight.color = Color.red;
                 targetIntensity = 50;
-                player.GetComponent<PlayerMovement>().takeDown();
+                player.GetComponent<PlayerMovement>().playAnimation("Takedown");
                 die();
             }           
         }
@@ -161,11 +162,15 @@ public class TakeDamage : MonoBehaviour {
             GetComponentInParent<EnemyAISensing>().setPlayerIsAt(player.transform.position);
             takedownStarted = false;
             sr.enabled = false;
-            player.GetComponent<PlayerMovement>().setPerformAction(false);
+            setTakeDownOff();
             
         }
 
     }
 
+    void setTakeDownOff()
+    {
+        player.GetComponent<PlayerMovement>().setPerformAction(false);
+    }
 
 }
