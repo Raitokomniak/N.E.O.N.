@@ -86,6 +86,7 @@ public class GameControllerScript : MonoBehaviour {
                 //4. line deaths int
                 //5. line alarms int
                 //6. line time float
+                //7. line gizmo
                 sw.WriteLine("2");
                 sw.WriteLine("0.0");
                 sw.WriteLine("0.0");
@@ -93,6 +94,7 @@ public class GameControllerScript : MonoBehaviour {
                 sw.WriteLine("0");
                 sw.WriteLine("0");
                 sw.WriteLine("0.0");
+                sw.WriteLine("false");
             }
             readSaveFile();
         }
@@ -341,7 +343,8 @@ public class GameControllerScript : MonoBehaviour {
         deaths = Convert.ToInt32(rawRead[4]);
         alarms = Convert.ToInt32(rawRead[5]);
         time = Convert.ToSingle(rawRead[6]);
-        Debug.Log("savefile read: scene = " + currentScene + ", checkpoint = " + currentCheckpoint + ", deaths = " + deaths + ", alarms = " + alarms + ", time = " + time);
+        gizmo = Convert.ToBoolean(rawRead[7]);
+        Debug.Log("savefile read: scene = " + currentScene + ", checkpoint = " + currentCheckpoint + ", deaths = " + deaths + ", alarms = " + alarms + ", time = " + time +", gizmo = " + gizmo);
     }
 
     void loadSaveFile()
@@ -502,6 +505,7 @@ public class GameControllerScript : MonoBehaviour {
             sw.WriteLine(deaths);
             sw.WriteLine(alarms);
             sw.WriteLine(time);
+            sw.WriteLine(gizmo);
         }
     }
 
