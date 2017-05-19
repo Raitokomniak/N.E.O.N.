@@ -1846,15 +1846,15 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4652105529152304, guid: db2cba9164f3170448bb766747c9af29, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 9.71
+      value: 11.77
       objectReference: {fileID: 0}
     - target: {fileID: 4652105529152304, guid: db2cba9164f3170448bb766747c9af29, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 52.34
+      value: 58.04
       objectReference: {fileID: 0}
     - target: {fileID: 4652105529152304, guid: db2cba9164f3170448bb766747c9af29, type: 2}
       propertyPath: m_LocalPosition.z
-      value: -21.58
+      value: -24.32
       objectReference: {fileID: 0}
     - target: {fileID: 114178821325699324, guid: db2cba9164f3170448bb766747c9af29,
         type: 2}
