@@ -18,6 +18,7 @@ public class Opener : MonoBehaviour {
             if (collision.gameObject.GetComponent<PlayerMovement>().gizmo())
             {
                 checkPoint.SetActive(true);
+                this.gameObject.SetActive(false);
             }
             else
             {
