@@ -597,9 +597,11 @@ public class EnemyPatrollingMovement : MonoBehaviour {
         lastDetectedPosition = new Vector2(pPos.x, this.transform.position.y);
         float hearingTime = 1.4f;
         float newTimer = 0;
+        
         while (newTimer < hearingTime)
         {
             newTimer += Time.deltaTime;
+            facing = this.transform.position.x < lastDetectedPosition.x ? 1 : -1;
         }
         personalAlert = true;
     }

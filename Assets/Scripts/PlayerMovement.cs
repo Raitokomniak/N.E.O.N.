@@ -52,6 +52,7 @@ public class PlayerMovement : MonoBehaviour
     string runSound = "event:/Character sounds/Footsteps/Running";
     string jumpSound = "event:/Character sounds/Jumping";
     string wallJumpSound = "event:/Character sounds/Wall jumping";
+    bool ledgeClimbed = false;
 
     enum charStates
     {
@@ -80,6 +81,11 @@ public class PlayerMovement : MonoBehaviour
         stepTimer = 0;
         performingAction = false;
         initialize();
+        RaycastHit2D ground = Physics2D.Raycast(this.transform.position, -this.transform.up);
+        if (ground)
+        {
+            this.transform.position = new Vector3(ground.point.x, ground.point.y, 0) + this.transform.up;
+        }
     }
 
     public bool gizmo()
@@ -114,11 +120,7 @@ public class PlayerMovement : MonoBehaviour
   
     void Start()
     {
-        RaycastHit2D ground = Physics2D.Raycast(this.transform.position, -this.transform.up);
-        if (ground)
-        {
-            this.transform.position = new Vector3(ground.point.x, ground.point.y, 0) + this.transform.up;
-        }
+        
     }
 
     public void setPerformAction(bool action)
@@ -174,7 +176,7 @@ public class PlayerMovement : MonoBehaviour
                 if (!grounded)
                 {
                     state = charStates.midAir;
-                    if (!anim.GetCurrentAnimatorStateInfo(0).IsName("Jump"))
+                    if (!anim.GetCurrentAnimatorStateInfo(0).IsName("Jump")&&!ledgeClimbed&&!crouched)
                     {
                         //anim.Play("MidAir");
                         string animation = GetComponent<LineRenderer>().enabled ? "hookswing" : "MidAir";
@@ -207,19 +209,49 @@ public class PlayerMovement : MonoBehaviour
         
     }
     string animName;
+    bool animationRunning = false;
     public void playAnimation(string name)
     {
-        if (animName != "Jump" && animName != "Landing")
+        if (!animationRunning)
         {
-            anim.Play(name);
-            animName = name;
-        }
-        else
-        {
-            anim.Play(name);
+            if (name == "Jump" || name == "Landing")
+            {
+                animationRunning = true;
+                Invoke("playDesiredAnimation", 0.15f);
+                anim.Play(name);
+                animName = name;
+            }
+            else
+            {
+                anim.Play(name);
+            }
         }
     }
    
+    void setAnimRunningOff()
+    {
+        animationRunning = false;
+    }
+    public void playThrowAnimation()
+    {
+        animationRunning = true;
+        anim.Play(!grounded ? "ThrowAir" : "ThrowGround");
+        Invoke("setAnimRunningOff", 0.25f);
+    }
+
+    void playLedgeClimbAnimation()
+    {
+        anim.Play("LedgeClimb");
+        performingAction = true;
+        Invoke("ledgeClimb", 0.25f);
+    }
+
+    void playDesiredAnimation()
+    {
+        //anim.Play(animName);
+        anim.Play(grounded ? "Idle" : "MidAir");
+        animationRunning = false;
+    }
 
     bool animatorInTheMiddle()
     {
@@ -236,8 +268,11 @@ public class PlayerMovement : MonoBehaviour
         wallJump();
         if (!grounded && feet.isFeetOnGround())
         {
-            playAnimation("Landing");
-            FMODUnity.RuntimeManager.PlayOneShot("event:/Character sounds/Landing");
+            if (!crouched)
+            {
+                playAnimation("Landing");
+                FMODUnity.RuntimeManager.PlayOneShot("event:/Character sounds/Landing");
+            }
         }
         grounded = feet.isFeetOnGround();
        
@@ -326,13 +361,20 @@ public class PlayerMovement : MonoBehaviour
     {
         if (ledgeHold&& y > 0.5f)
         {
-            Collider2D col = wall;
-            Vector2 upper = col.bounds.center + (col.bounds.size / 2);
-            int dir = (this.transform.position.x > wall.transform.position.x) ? -1 : 1;
-            this.transform.position = new Vector2(box.transform.position.x+((box.size.x/4)*dir), upper.y+box.transform.up.y);
-            crouched = true;
-            ledgeHold = false;
+            ledgeClimbed = true;
+            playLedgeClimbAnimation();
         }
+    }
+    void ledgeClimb()
+    {
+        performingAction = false;
+        Collider2D col = wall;
+        Vector2 upper = col.bounds.center + (col.bounds.size / 2);
+        int dir = (this.transform.position.x > wall.transform.position.x) ? -1 : 1;
+        this.transform.position = new Vector2(box.transform.position.x + ((box.size.x / 4) * dir), upper.y + box.transform.up.y);
+        crouched = true;
+        ledgeHold = false;
+        ledgeClimbed = false;
     }
 
     void movementHandler()

@@ -6,8 +6,9 @@ public class Opener : MonoBehaviour {
 
     // Use this for initialization
     public GameObject checkPoint;
+    bool flag;
 	void Start () {
-		
+        flag = false;
 	}
 
     // Update is called once per frame

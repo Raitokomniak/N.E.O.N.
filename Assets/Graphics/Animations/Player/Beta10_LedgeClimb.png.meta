@@ -1,12 +1,13 @@
 fileFormatVersion: 2
-guid: 98fc5e8106977ce499de01ed2ba36f48
-timeCreated: 1495360986
+guid: f6fb8bd1f4e24e74990a37f8094be08d
+timeCreated: 1495361891
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: Beta10_WallJump_0
-    21300002: Beta10_WallJump_1
-    21300004: Beta10_WallJump_2
+    21300000: Beta10_LedgeClimb_0
+    21300002: Beta10_LedgeClimb_1
+    21300004: Beta10_LedgeClimb_2
+    21300006: Beta10_LedgeClimb_3
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -97,41 +98,54 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Beta10_WallJump_0
+      name: Beta10_LedgeClimb_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 1150
-        height: 1260
+        height: 1400
       alignment: 9
-      pivot: {x: 0.7830671, y: 0.4973363}
+      pivot: {x: 0.57587373, y: 0.47842604}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Beta10_WallJump_1
+      name: Beta10_LedgeClimb_1
       rect:
         serializedVersion: 2
         x: 1150
         y: 0
         width: 1150
-        height: 1260
+        height: 1400
       alignment: 9
-      pivot: {x: 0.7830671, y: 0.4973363}
+      pivot: {x: 0.5758737, y: 0.478426}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Beta10_WallJump_2
+      name: Beta10_LedgeClimb_2
       rect:
         serializedVersion: 2
         x: 2300
         y: 0
         width: 1150
-        height: 1260
+        height: 1400
       alignment: 9
-      pivot: {x: 0.7830671, y: 0.4973363}
+      pivot: {x: 0.5758737, y: 0.478426}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Beta10_LedgeClimb_3
+      rect:
+        serializedVersion: 2
+        x: 3450
+        y: 0
+        width: 1150
+        height: 1400
+      alignment: 9
+      pivot: {x: 0.5758737, y: 0.478426}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0

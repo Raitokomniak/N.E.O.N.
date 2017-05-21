@@ -65,6 +65,7 @@ public class PlayerAim : MonoBehaviour {
     void throwDagger()
     {
         timer = 0;
+        playMov.playThrowAnimation();
         GameObject projectile = getDagger();
         projectile.SetActive(true);
         projectile.transform.position = this.transform.position + this.transform.right;
