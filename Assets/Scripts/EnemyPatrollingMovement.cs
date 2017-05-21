@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class EnemyPatrollingMovement : MonoBehaviour {
 
-   // [FMODUnity.EventRef]
-   // public string inputSound = "event:/Input_1";
+    // [FMODUnity.EventRef]
+    // public string inputSound = "event:/Input_1";
+    public Light gunLite;
     public Transform[] waypoints;
     public Transform gunBarrell;
     public AudioClip[] guardSteps;
@@ -132,6 +133,10 @@ public class EnemyPatrollingMovement : MonoBehaviour {
                 }
                 inUse = false;
             }
+        }
+        if (!sensing.playerInSight() && gunLite.enabled)
+        {
+            gunLite.enabled = false;
         }
 
     }
@@ -512,6 +517,11 @@ public class EnemyPatrollingMovement : MonoBehaviour {
         }
     }
 
+    void shutDownLight()
+    {
+        gunLite.enabled = false;
+    }
+
     void Shoot()
     {
         if (sensing.playerInSight())
@@ -521,6 +531,8 @@ public class EnemyPatrollingMovement : MonoBehaviour {
             {
                 GameObject projectile = (GameObject)Instantiate(bullet, gunBarrell.position, gunBarrell.rotation);
                 Rigidbody2D rigidbody = projectile.GetComponent<Rigidbody2D>();
+                gunLite.enabled = true;
+                Invoke("shutDownLight", 0.05f);
                 //gunAudio.Play();
                 // FMODUnity.RuntimeManager.PlayOneShot(inputSound);
                 gunSound.start();

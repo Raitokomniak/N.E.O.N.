@@ -151,7 +151,7 @@ public class EnemyAISensing : MonoBehaviour {
                         {
                             playerSeen = true;
                         }
-                        playerIsAt = new Vector2(box.transform.position.x, box.transform.position.y) + box.offset;
+                        playerIsAt = new Vector2(box.transform.position.x, box.transform.position.y) + box.offset/2;
                     }
                     else
                     {
