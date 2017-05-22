@@ -10,7 +10,7 @@ public class TachyIndicator : MonoBehaviour {
     {
         for (int i = 0; i < hexagons.Length; i++)
         {
-            hexagons[i].SetColor(hexagons[i].GetColor() * 2);
+            
             // hexagons[i].SetAlpha(0);
         }
     }
