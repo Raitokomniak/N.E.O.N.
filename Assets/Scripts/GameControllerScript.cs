@@ -132,10 +132,6 @@ public class GameControllerScript : MonoBehaviour {
            // gizmo = false;
             player.GetComponent<PlayerMovement>().setGizmo(gizmo);
         }
-        else if (SceneManager.GetActiveScene().buildIndex == 5)
-        {
-            FMODUnity.RuntimeManager.PlayOneShot("event:/Environmental sounds/Intruder alarm");
-        }
         else
         {
             gizmo = true;

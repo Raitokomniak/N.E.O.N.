@@ -10,19 +10,18 @@ public class TachyIndicator : MonoBehaviour {
     {
         for (int i = 0; i < hexagons.Length; i++)
         {
-            hexagons[i].SetAlpha(0);
-            hexagons[i].SetColor(new Color(0.925f, 0.2f, 0.816f));
+            hexagons[i].SetColor(hexagons[i].GetColor() * 2);
+            // hexagons[i].SetAlpha(0);
         }
     }
 	void Update () {
+        
         handleHexagons();
 	}
 
     void handleHexagons()
-    {
-       
+    {     
         float a = Time.timeScale < 0.2f ? 1 - Time.timeScale : 0f;
-        
         for (int i = 0; i < hexagons.Length; i++)
         {
             if (i == 0)
