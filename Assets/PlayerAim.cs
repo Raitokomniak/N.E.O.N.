@@ -12,17 +12,20 @@ public class PlayerAim : MonoBehaviour {
     GameControllerScript gScript;
     SpriteRenderer sr;
     List<GameObject> daggers;
+    Light lite;
     float timer;
 	
     void Awake()
     {
         daggers = new List<GameObject>();
+        lite = GetComponentInChildren<Light>();
         playMov = GetComponentInParent<PlayerMovement>();
         sr = GetComponent<SpriteRenderer>();
         gScript = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameControllerScript>();
         timer = timeBetweedThrows;
         sr.enabled = false;
         sr.color = new Vector4(0, 1, 0, 0.5f);
+        lite.enabled = false;
     }
 
 
@@ -31,8 +34,14 @@ public class PlayerAim : MonoBehaviour {
         if (playMov.gizmo())
         {
             timer += Time.deltaTime;
-            if (Input.GetAxis("Aim") != 0 && !gScript.pauseOn)
+            if (Input.GetAxis("Aim") != 0 && !gScript.pauseOn && timer > timeBetweedThrows)
             {
+                lite.enabled = true;
+                float maxValue = Random.Range(1.6f, 2.2f);
+                lite.range = Mathf.Clamp(lite.range, 0, maxValue);
+                lite.intensity = Mathf.Clamp(lite.intensity, 0, maxValue);
+                lite.intensity += 2*Time.unscaledDeltaTime;
+                lite.range += 2*Time.unscaledDeltaTime;
                 aim();
                 sr.enabled = true;
                 Time.timeScale = Mathf.Lerp(Time.timeScale, 0.001f, 30 * Time.deltaTime);
@@ -44,6 +53,9 @@ public class PlayerAim : MonoBehaviour {
             }
             else
             {
+                lite.range = 0;
+                lite.intensity = 0;
+                lite.enabled = false;
                 sr.enabled = false;
             }
         }
@@ -97,6 +109,7 @@ public class PlayerAim : MonoBehaviour {
     void createDaggerToList()
     {
         GameObject projectile = (GameObject)Instantiate(dagger, this.transform.position, this.transform.rotation);
+        projectile.GetComponent<SpriteRenderer>().color = new Vector4(0.1f, 0.85f, 0.2f, 0.5f);
         projectile.SetActive(false);
         daggers.Add(projectile);
     }

@@ -13857,8 +13857,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   waitTime: 1
-  speed: 50
-  targetIntensity: 5
+  speed: 10
+  targetIntensity: 10
 --- !u!4 &651402575
 Transform:
   m_ObjectHideFlags: 0
@@ -18727,6 +18727,22 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 846966405}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &849118083 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1194865976844242, guid: 5dab81c666f342b4385affe628f87d82,
+    type: 2}
+  m_PrefabInternal: {fileID: 906742913}
+--- !u!114 &849118086
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 849118083}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e96640dc4327d944b9c6635df83338d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &854234641 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4227773749689022, guid: ba6bddb509230714aa82669ace2b0bc9,
@@ -22595,6 +22611,11 @@ Prefab:
       propertyPath: mainCamera
       value: 
       objectReference: {fileID: 1591290458}
+    - target: {fileID: 114390035348187042, guid: 4fc1ef342e41ce349b8a64dde446cfd4,
+        type: 2}
+      propertyPath: useSaveFile
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4fc1ef342e41ce349b8a64dde446cfd4, type: 2}
   m_IsPrefabParent: 0
