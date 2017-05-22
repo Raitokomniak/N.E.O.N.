@@ -2641,7 +2641,7 @@ Prefab:
     - target: {fileID: 114178821325699324, guid: db2cba9164f3170448bb766747c9af29,
         type: 2}
       propertyPath: cameraMoveSpeedToB
-      value: 0.2
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 114178821325699324, guid: db2cba9164f3170448bb766747c9af29,
         type: 2}
@@ -2651,7 +2651,7 @@ Prefab:
     - target: {fileID: 114178821325699324, guid: db2cba9164f3170448bb766747c9af29,
         type: 2}
       propertyPath: cameraStayTimeInTarget
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: db2cba9164f3170448bb766747c9af29, type: 2}
