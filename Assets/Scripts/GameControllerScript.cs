@@ -117,6 +117,7 @@ public class GameControllerScript : MonoBehaviour {
         playerDead = false;
         guardsAlerted = false;
         countdownTimer = 0;
+
         if (SceneManager.GetActiveScene().buildIndex == 4)
         {
             cinema.setTitleScreen("The Chamber of Horrors");
@@ -132,25 +133,25 @@ public class GameControllerScript : MonoBehaviour {
            // gizmo = false;
             player.GetComponent<PlayerMovement>().setGizmo(gizmo);
         }
-        /*else if (SceneManager.GetActiveScene().buildIndex == 5)
-        {
-            FMODUnity.RuntimeManager.PlayOneShot("event:/Environmental sounds/Intruder alarm");
-        }*/
         else
         {
             gizmo = true;
             player.GetComponent<PlayerMovement>().setGizmo(gizmo);
             //music.volumeUp();
         }
+        if (SceneManager.GetActiveScene().buildIndex == 5)
+        {
+            FMODUnity.RuntimeManager.PlayOneShot("event:/Environmental sounds/Intruder alarm");
+        }
         /*Music.setParameterValue("Music speed", 0);
         Music.getPlaybackState(out musicState);
         if (musicState != FMOD.Studio.PLAYBACK_STATE.PLAYING)
         {
             Music.start();
-        }*/      
+        }*/
         //gameAudio.clip = musics[0];
         //gameAudio.Play();
-	}
+    }
 	
 	// Update is called once per frame
     public void setCharacterVisible(bool option)
