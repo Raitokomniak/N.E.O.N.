@@ -13821,6 +13821,28 @@ Prefab:
       propertyPath: m_Name
       value: Guard (9)
       objectReference: {fileID: 0}
+    - target: {fileID: 61202864377258030, guid: ba6bddb509230714aa82669ace2b0bc9,
+        type: 2}
+      propertyPath: m_Offset.x
+      value: -0.02398394
+      objectReference: {fileID: 0}
+    - target: {fileID: 61202864377258030, guid: ba6bddb509230714aa82669ace2b0bc9,
+        type: 2}
+      propertyPath: m_Size.x
+      value: 0.3925031
+      objectReference: {fileID: 0}
+    - target: {fileID: 4401910046791840, guid: ba6bddb509230714aa82669ace2b0bc9, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4401910046791840, guid: ba6bddb509230714aa82669ace2b0bc9, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4401910046791840, guid: ba6bddb509230714aa82669ace2b0bc9, type: 2}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ba6bddb509230714aa82669ace2b0bc9, type: 2}
   m_IsPrefabParent: 0
@@ -22615,6 +22637,87 @@ Prefab:
         type: 2}
       propertyPath: useSaveFile
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114313351183923168, guid: 4fc1ef342e41ce349b8a64dde446cfd4,
+        type: 2}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: b6b7d5c2c5c624240afd1a94030abf92,
+        type: 3}
+    - target: {fileID: 1249141623097884, guid: 4fc1ef342e41ce349b8a64dde446cfd4, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224824553249841068, guid: 4fc1ef342e41ce349b8a64dde446cfd4,
+        type: 2}
+      propertyPath: m_AnchoredPosition.x
+      value: -488
+      objectReference: {fileID: 0}
+    - target: {fileID: 224824553249841068, guid: 4fc1ef342e41ce349b8a64dde446cfd4,
+        type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: -219
+      objectReference: {fileID: 0}
+    - target: {fileID: 224824553249841068, guid: 4fc1ef342e41ce349b8a64dde446cfd4,
+        type: 2}
+      propertyPath: m_SizeDelta.x
+      value: 704
+      objectReference: {fileID: 0}
+    - target: {fileID: 224824553249841068, guid: 4fc1ef342e41ce349b8a64dde446cfd4,
+        type: 2}
+      propertyPath: m_SizeDelta.y
+      value: 161
+      objectReference: {fileID: 0}
+    - target: {fileID: 114278563718879796, guid: 4fc1ef342e41ce349b8a64dde446cfd4,
+        type: 2}
+      propertyPath: m_Text
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 114278563718879796, guid: 4fc1ef342e41ce349b8a64dde446cfd4,
+        type: 2}
+      propertyPath: m_Color.r
+      value: 0.16314296
+      objectReference: {fileID: 0}
+    - target: {fileID: 114278563718879796, guid: 4fc1ef342e41ce349b8a64dde446cfd4,
+        type: 2}
+      propertyPath: m_Color.g
+      value: 0.8897059
+      objectReference: {fileID: 0}
+    - target: {fileID: 114278563718879796, guid: 4fc1ef342e41ce349b8a64dde446cfd4,
+        type: 2}
+      propertyPath: m_Color.b
+      value: 0.026167845
+      objectReference: {fileID: 0}
+    - target: {fileID: 224394758278414402, guid: 4fc1ef342e41ce349b8a64dde446cfd4,
+        type: 2}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224394758278414402, guid: 4fc1ef342e41ce349b8a64dde446cfd4,
+        type: 2}
+      propertyPath: m_SizeDelta.x
+      value: 199
+      objectReference: {fileID: 0}
+    - target: {fileID: 224394758278414402, guid: 4fc1ef342e41ce349b8a64dde446cfd4,
+        type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 224394758278414402, guid: 4fc1ef342e41ce349b8a64dde446cfd4,
+        type: 2}
+      propertyPath: m_SizeDelta.y
+      value: 66
+      objectReference: {fileID: 0}
+    - target: {fileID: 114278563718879796, guid: 4fc1ef342e41ce349b8a64dde446cfd4,
+        type: 2}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: fa05cba6eed04c54785c1abb81aadfc0,
+        type: 3}
+    - target: {fileID: 224824553249841068, guid: 4fc1ef342e41ce349b8a64dde446cfd4,
+        type: 2}
+      propertyPath: m_LocalScale.x
+      value: 1.2625
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4fc1ef342e41ce349b8a64dde446cfd4, type: 2}
@@ -40518,7 +40621,7 @@ Prefab:
     - target: {fileID: 114129104182384940, guid: 6ee5b802e4925e44c98121856c916357,
         type: 2}
       propertyPath: messages.Array.size
-      value: 4
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 4558488321935946, guid: 6ee5b802e4925e44c98121856c916357, type: 2}
       propertyPath: m_LocalPosition.x
@@ -40564,16 +40667,31 @@ Prefab:
     - target: {fileID: 114129104182384940, guid: 6ee5b802e4925e44c98121856c916357,
         type: 2}
       propertyPath: messages.Array.data[1]
-      value: What is this place?
+      value: 'Login: Beta10'
       objectReference: {fileID: 0}
     - target: {fileID: 114129104182384940, guid: 6ee5b802e4925e44c98121856c916357,
         type: 2}
       propertyPath: messages.Array.data[2]
-      value: What were they trying to do to me?
+      value: 'Password: *******'
       objectReference: {fileID: 0}
     - target: {fileID: 114129104182384940, guid: 6ee5b802e4925e44c98121856c916357,
         type: 2}
       propertyPath: messages.Array.data[3]
+      value: What is this place?
+      objectReference: {fileID: 0}
+    - target: {fileID: 114129104182384940, guid: 6ee5b802e4925e44c98121856c916357,
+        type: 2}
+      propertyPath: messages.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 114129104182384940, guid: 6ee5b802e4925e44c98121856c916357,
+        type: 2}
+      propertyPath: messages.Array.data[4]
+      value: What were they trying to do to me?
+      objectReference: {fileID: 0}
+    - target: {fileID: 114129104182384940, guid: 6ee5b802e4925e44c98121856c916357,
+        type: 2}
+      propertyPath: messages.Array.data[5]
       value: I need to get out.
       objectReference: {fileID: 0}
     m_RemovedComponents: []

@@ -25,7 +25,6 @@ public class BubbleScript : MonoBehaviour {
         if (time > 0 && bubble.activeSelf)
         {       
             time -= Time.unscaledDeltaTime;
-            Time.timeScale = 0;
         }
         else if (time <= 0 && bubble.activeSelf)
         {
@@ -57,7 +56,6 @@ public class BubbleScript : MonoBehaviour {
     public void setActive(bool option)
     {
         gScript.setCharacterVisible(option);
-        gScript.gameObject.GetComponent<TimeHandler>().setTimeFromOutside(option);
         bubble.SetActive(option);
     }
 }
