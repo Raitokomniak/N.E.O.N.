@@ -1570,6 +1570,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bubble: {fileID: 1249141623097884}
+  showChar: 1
 --- !u!114 &114220178451816686
 MonoBehaviour:
   m_ObjectHideFlags: 1
