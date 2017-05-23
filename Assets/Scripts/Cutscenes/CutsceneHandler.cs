@@ -23,6 +23,7 @@ public class CutsceneHandler : MonoBehaviour
 	public Canvas cutsceneCanvas;
 	public Text endText;
 	public Image progressionBar;
+	public Image curtain;
 
 	int onGoingCutscene;
 	int onGoingPage;
@@ -49,6 +50,7 @@ public class CutsceneHandler : MonoBehaviour
 			onGoingCutscene = CheckProgression ();
 			StartCutscene ();
 			progressionBar.transform.SetAsLastSibling ();
+			curtain.transform.SetAsLastSibling ();
 		}
 	}
 
@@ -65,7 +67,7 @@ public class CutsceneHandler : MonoBehaviour
 			if (cutSceneRunning)
 				NextPanel ();
 			else {
-				NextScene ();
+				
 			}
 		}
 	}
@@ -78,7 +80,19 @@ public class CutsceneHandler : MonoBehaviour
 		cutSceneRunning = true;
 		onGoingPage = -1;
 		onGoingPanel = -1;
+		StartCoroutine (CurtainIn ());
 		NextPage ();
+	}
+
+	IEnumerator CurtainIn(){
+		/*AudioSource audioSource = GetComponent<AudioSource> ();
+		for (float a = 1.0f; a > 0.0f; a -= 0.02f) {
+			curtain.color = new Color (1, 1, 1, a);
+			yield return new WaitForSeconds (0.03f);
+		}*/
+		curtain.color = new Color (1, 1, 1, 0);
+		curtain.gameObject.SetActive (false);
+		yield return new WaitForSeconds (1f);
 	}
 
 	void PlayBGM(string _bgm){
@@ -90,7 +104,7 @@ public class CutsceneHandler : MonoBehaviour
 
 	void NextPage ()
 	{
-		if (currentPage != null) Destroy (currentPage);
+		//if (currentPage != null) Destroy (currentPage);
 
 		onGoingPage++;
 
@@ -98,6 +112,7 @@ public class CutsceneHandler : MonoBehaviour
 			NewPage ();
 			NextPanel ();
 		} else {
+			
 			EndCutScene ();
 		}
 
@@ -145,15 +160,33 @@ public class CutsceneHandler : MonoBehaviour
 			yield return new WaitForSeconds (12f);
 		}
 		if (onGoingPanel < panels.Length - 1) {
+			yield return new WaitForSeconds (2f);
 			NextPanel ();
 		}
 	}
 
 	void EndCutScene (){
-		endText.gameObject.SetActive (true);
+		//endText.gameObject.SetActive (true);
 		cutSceneRunning = false;
 		Debug.Log ("End cutscene");
+
+
+		StartCoroutine (FadeOut (curtain));
 	}
+
+	IEnumerator FadeOut(Image component){
+		curtain.gameObject.SetActive (true);
+		AudioSource audioSource = GetComponent<AudioSource> ();
+		for (float a = 0.0f; a < 1.0f; a += 0.02f) {
+			component.color = new Color (1, 1, 1, a);
+			audioSource.volume -= 0.02f;
+			yield return new WaitForSeconds (0.05f);
+		}
+		component.color = new Color (1, 1, 1, 1);
+		yield return new WaitForSeconds (1f);
+		NextScene ();
+	}
+
 
 	void NextScene(){
 		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
@@ -173,15 +206,15 @@ public class CutsceneHandler : MonoBehaviour
 		currentPage.GetComponent<RectTransform> ().offsetMax = new Vector2 (0, 0);
 		currentPage.GetComponent<RectTransform> ().offsetMin = new Vector2 (0, 0);
 		currentPage.transform.localScale = new Vector3 (1f, 1f, 1);
-		//currentPage.transform.position = new Vector3 (0, 0, 0);
 
 		panels = new Image[currentCutscene.pages [onGoingPage].panelCount];
 
-		for (int i = 0; i < currentCutscene.pages [onGoingPage].panelCount; i++) {
-			panels [i] = currentPage.transform.GetChild (i).GetComponent<Image> ();
+		for (int i = 0; i < 3; i++) {
+				panels [i] = currentPage.transform.GetChild (i).GetComponent<Image> ();
 		}
 
 		foreach (Image panel in panels) {
+//			Debug.Log ("woop");
 			overlays = panel.GetComponentsInChildren<Image> ();
 			foreach (Image overlay in overlays) {
 				overlay.color = new Color (1, 1, 1, 0);

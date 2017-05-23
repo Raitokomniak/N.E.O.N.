@@ -63,6 +63,7 @@ public class PanelHandler : MonoBehaviour
 	}
 	public IEnumerator ScalePanel(Image panel)
 	{
+		
 		scalingDone = false;
 		RectTransform panelRect = panel.GetComponent<RectTransform> ();
 		previousPanelScale = panelRect.sizeDelta;
@@ -86,10 +87,12 @@ public class PanelHandler : MonoBehaviour
 			//yield return new WaitForSeconds (4f);
 
 			yield return new WaitUntil (() => textProcessed == true);
-			Debug.Log ("textprocessed");
+			yield return new WaitForSeconds (5f);
+			//Debug.Log ("textprocessed");
 			/////////////
 			/// SCALE DOWN
 			/////////////
+			yield return new WaitForSeconds (1f);
 			float width = 0;
 			float height = panelRect.sizeDelta.y;
 
@@ -103,7 +106,7 @@ public class PanelHandler : MonoBehaviour
 					height = 1440f;
 				}
 				panelRect.sizeDelta = new Vector2 (i, height);
-				yield return new WaitForSeconds (0.001f);
+				yield return new WaitForSeconds (0.010f);
 			}
 			panelRect.sizeDelta = previousPanelScale;
 			scalingDone = true;
@@ -115,28 +118,31 @@ public class PanelHandler : MonoBehaviour
 
 	public IEnumerator FadeInPanel (Image panel, int panelIndex, int pageIndex)
 	{
-		
 		panelOutline.enabled = true;
 		foreach (Image component in components) {
+			yield return new WaitForSeconds (.4f);
 			if (component.tag == "Cutscene_SpeechBubble") {
 				ProcessText = _ProcessText (component);
+
 				StartCoroutine (ProcessText);
 			}
+				
 			if (component.tag == "Cutscene_SFX") {
 				PlaySFX (panelIndex, pageIndex);
 			}
 			if (switchingOverlay && component.tag == "Cutscene_Overlay" && previousComponent.tag == "Cutscene_Overlay") {
 					StartCoroutine(FadeOut (previousComponent));
+					switchingOverlay = false;
 			}
 
 		
 				for (float a = 0.0f; a <= 1.0f; a += 0.02f) {
-				if (monochromeIn) component.color = new Color (1, 1, 1, a);
+				if (monochromeIn) component.color = new Color (1, 1, 1, a * 0.44f);
 				else component.color = new Color (1, 1, 1, a);
 					yield return new WaitForSeconds (0.01f);
 			}
 		
-
+			yield return new WaitForSeconds (1f);
 			previousComponent = component;
 		}
 		//ForceFadeAll (true);
@@ -169,9 +175,10 @@ public class PanelHandler : MonoBehaviour
 			if (fadein) {
 				component.color = new Color (1, 1, 1, 1);
 				if (component.tag == "Cutscene_SpeechBubble") {
+					component.color = new Color (1, 1, 1, 1 * 0.44f);
 					StopAllCoroutines ();
 					Text textComponent = component.GetComponentInChildren<Text> ();
-					textComponent.color = new Color (0, 0, 0, 1);
+					textComponent.color = new Color (1, 1, 1, 1);
 					textComponent.text = speechLines[textIndex] as string;
 					textIndex++;
 				}
@@ -203,7 +210,7 @@ public class PanelHandler : MonoBehaviour
 	{
 		textProcessed = false;
 		Text textBox = speechBubble.GetComponentInChildren<Text> ();
-		textBox.color = new Color (0, 0, 0, 1);
+		textBox.color = new Color (1, 1, 1, 1);
 
 		string text = speechLines [textIndex] as string;
 		textIndex++;
@@ -212,7 +219,7 @@ public class PanelHandler : MonoBehaviour
 
 		for (int i = 0; i < characters.Length; i++) {
 			textBox.text = textBox.text + characters [i];
-			float dynamicWrite = Random.Range (0.01f, 0.04f);
+			float dynamicWrite = Random.Range (0.03f, 0.06f);
 			yield return new WaitForSeconds (dynamicWrite);
 		}
 		if (textIndex >= speechLines.Length) {
