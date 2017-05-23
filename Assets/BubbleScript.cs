@@ -11,6 +11,7 @@ public class BubbleScript : MonoBehaviour {
     Text speechText;
     GameControllerScript gScript;
     float time;
+    public bool showChar = true;
 
 	void Awake () {
         speechBubble = bubble.GetComponent<CanvasRenderer>();
@@ -23,12 +24,14 @@ public class BubbleScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         if (time > 0 && bubble.activeSelf)
-        {       
+        {
+            speechBubble.SetAlpha(1);
             time -= Time.unscaledDeltaTime;
         }
-        else if (time <= 0 && bubble.activeSelf)
+        else if (time <= 0&&bubble.activeSelf)
         {
-            setActive(false);  
+            setActive(false);
+            shutDown();
         }
 	}
 
@@ -55,7 +58,22 @@ public class BubbleScript : MonoBehaviour {
 
     public void setActive(bool option)
     {
-        gScript.setCharacterVisible(option);
-        bubble.SetActive(option);
+        if (showChar)
+        {
+            gScript.setCharacterVisible(option);
+        }
+        if (option)
+        {
+            bubble.SetActive(option);
+        }
+    }
+    
+    void shutDown()
+    {    
+        speechBubble.SetAlpha(Mathf.Lerp(speechBubble.GetAlpha(), 0, 4 * Time.unscaledDeltaTime));
+        if (speechBubble.GetAlpha() < 0.2f)
+        {
+            bubble.SetActive(false);
+        }
     }
 }
