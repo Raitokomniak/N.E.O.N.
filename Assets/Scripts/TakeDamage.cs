@@ -21,7 +21,10 @@ public class TakeDamage : MonoBehaviour {
     bool died;
     bool playerInTheArea = false;
     float targetIntensity = 100;
-
+    FMOD.Studio.EventInstance silent;
+    FMOD.Studio.EventInstance loud;
+    FMOD.Studio.PLAYBACK_STATE silentState;
+    FMOD.Studio.PLAYBACK_STATE loudState;
 
     void Awake () {
         destructLight.enabled = false;
@@ -33,6 +36,8 @@ public class TakeDamage : MonoBehaviour {
         takedownStarted = false;
         sr.enabled = false;
         died = false;
+        silent = FMODUnity.RuntimeManager.CreateInstance("event:/Character sounds/GIZMO/Takedown (silent)");
+        loud = FMODUnity.RuntimeManager.CreateInstance("event:/Character sounds/GIZMO/Takedown (loud)");
     }
 
     // Update is called once per frame
@@ -137,7 +142,12 @@ public class TakeDamage : MonoBehaviour {
         {
             if (stickDir == direction)
             {
-                FMODUnity.RuntimeManager.PlayOneShot("event:/Character sounds/GIZMO/Takedown (silent)", transform.position);
+                //FMODUnity.RuntimeManager.PlayOneShot(, transform.position);
+                silent.getPlaybackState(out silentState);
+                if(silentState != FMOD.Studio.PLAYBACK_STATE.PLAYING)
+                {
+                    silent.start();
+                }
                 player.GetComponent<PlayerMovement>().playAnimation("Takedown");
                 targetIntensity = 30;
                // destructLight.color = Color.green;
@@ -145,7 +155,12 @@ public class TakeDamage : MonoBehaviour {
             }
             else if (stickDir == direction * -1)
             {
-                FMODUnity.RuntimeManager.PlayOneShot("event:/Character sounds/GIZMO/Takedown (loud)", transform.position);
+                //FMODUnity.RuntimeManager.PlayOneShot("", transform.position);
+                loud.getPlaybackState(out loudState);
+                if(loudState != FMOD.Studio.PLAYBACK_STATE.PLAYING)
+                {
+                    loud.start();
+                }
                 gScript.setAlertState(true);
             //    destructLight.color = Color.red;
                 targetIntensity = 50;

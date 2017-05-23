@@ -76,6 +76,7 @@ public class PlayerAim : MonoBehaviour {
 
     void throwDagger()
     {
+        FMODUnity.RuntimeManager.PlayOneShot("event:/Character sounds/GIZMO/Stun pulse", transform.position);
         timer = 0;
         playMov.playThrowAnimation();
         GameObject projectile = getDagger();
