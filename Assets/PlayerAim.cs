@@ -14,7 +14,10 @@ public class PlayerAim : MonoBehaviour {
     List<GameObject> daggers;
     Light lite;
     float timer;
-	
+    FMOD.Studio.EventInstance buildUp;
+    FMOD.ATTRIBUTES_3D Attributes;
+    FMOD.Studio.PLAYBACK_STATE buildUpState;
+
     void Awake()
     {
         daggers = new List<GameObject>();
@@ -26,6 +29,8 @@ public class PlayerAim : MonoBehaviour {
         sr.enabled = false;
         sr.color = new Vector4(0, 1, 0, 0.5f);
         lite.enabled = false;
+        buildUp = FMODUnity.RuntimeManager.CreateInstance("event:/Character sounds/GIZMO/Buildup");
+
     }
 
 
@@ -36,6 +41,16 @@ public class PlayerAim : MonoBehaviour {
             timer += Time.deltaTime;
             if (Input.GetAxis("Aim") != 0 && !gScript.pauseOn && timer > timeBetweedThrows)
             {
+                Vector3 position = transform.position;
+                Attributes = FMODUnity.RuntimeUtils.To3DAttributes(position);
+                buildUp.set3DAttributes(Attributes);
+                buildUp.getPlaybackState(out buildUpState);
+                if(buildUpState != FMOD.Studio.PLAYBACK_STATE.PLAYING)
+                {
+                    buildUp.start();
+                }
+                
+
                 lite.enabled = true;
                 float maxValue = Random.Range(1.6f, 2.2f);
                 lite.range = Mathf.Clamp(lite.range, 0, maxValue);
@@ -53,6 +68,7 @@ public class PlayerAim : MonoBehaviour {
             }
             else
             {
+                buildUp.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
                 lite.range = 0;
                 lite.intensity = 0;
                 lite.enabled = false;
@@ -76,6 +92,7 @@ public class PlayerAim : MonoBehaviour {
 
     void throwDagger()
     {
+        FMODUnity.RuntimeManager.PlayOneShot("event:/Character sounds/GIZMO/Stun pulse", transform.position);
         timer = 0;
         playMov.playThrowAnimation();
         GameObject projectile = getDagger();

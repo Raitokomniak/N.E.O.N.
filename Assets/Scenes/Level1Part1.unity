@@ -40621,7 +40621,7 @@ Prefab:
     - target: {fileID: 114129104182384940, guid: 6ee5b802e4925e44c98121856c916357,
         type: 2}
       propertyPath: messages.Array.size
-      value: 6
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4558488321935946, guid: 6ee5b802e4925e44c98121856c916357, type: 2}
       propertyPath: m_LocalPosition.x
@@ -40667,17 +40667,17 @@ Prefab:
     - target: {fileID: 114129104182384940, guid: 6ee5b802e4925e44c98121856c916357,
         type: 2}
       propertyPath: messages.Array.data[1]
-      value: 'Login: Beta10'
+      value: What is this place?
       objectReference: {fileID: 0}
     - target: {fileID: 114129104182384940, guid: 6ee5b802e4925e44c98121856c916357,
         type: 2}
       propertyPath: messages.Array.data[2]
-      value: 'Password: *******'
+      value: What were they trying to do to me?
       objectReference: {fileID: 0}
     - target: {fileID: 114129104182384940, guid: 6ee5b802e4925e44c98121856c916357,
         type: 2}
       propertyPath: messages.Array.data[3]
-      value: What is this place?
+      value: I need to get out.
       objectReference: {fileID: 0}
     - target: {fileID: 114129104182384940, guid: 6ee5b802e4925e44c98121856c916357,
         type: 2}
@@ -40687,12 +40687,12 @@ Prefab:
     - target: {fileID: 114129104182384940, guid: 6ee5b802e4925e44c98121856c916357,
         type: 2}
       propertyPath: messages.Array.data[4]
-      value: What were they trying to do to me?
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 114129104182384940, guid: 6ee5b802e4925e44c98121856c916357,
         type: 2}
       propertyPath: messages.Array.data[5]
-      value: I need to get out.
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 6ee5b802e4925e44c98121856c916357, type: 2}

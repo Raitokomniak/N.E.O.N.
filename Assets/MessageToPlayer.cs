@@ -8,11 +8,17 @@ public class MessageToPlayer : MonoBehaviour {
     BubbleScript bubble;
     public string[] messages;
     public float textShowTime = 5;
+    public bool showChar = true;
     bool flag;
 	void Awake () {
         bubble = GameObject.FindGameObjectWithTag("GameController").GetComponent<BubbleScript>();
         flag = true;
+        
 	}
+    void Start()
+    {
+        bubble.showChar = showChar;
+    }
 	
 	// Update is called once per frame
 	void OnTriggerEnter2D (Collider2D col)

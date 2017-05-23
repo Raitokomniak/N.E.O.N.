@@ -77,4 +77,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 661dfe168f870864ea93b186628443d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  message: What is this place? What were they trying to do to me? I need to get out.
+  messages: []
+  textShowTime: 5
