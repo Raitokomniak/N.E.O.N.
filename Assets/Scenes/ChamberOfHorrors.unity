@@ -254,7 +254,7 @@ Transform:
   m_LocalScale: {x: 47.67992, y: 8.352571, z: 16.164646}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 18
+  m_RootOrder: 20
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &95276322
 Prefab:
@@ -293,7 +293,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4572609316326450, guid: 915944e62122382498a5d80585a0e563, type: 2}
       propertyPath: m_RootOrder
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 915944e62122382498a5d80585a0e563, type: 2}
@@ -541,6 +541,108 @@ Camera:
   m_PrefabParentObject: {fileID: 20405655192840700, guid: f88fd1a851cde0045a5f7fb33c6b6591,
     type: 2}
   m_PrefabInternal: {fileID: 584932934}
+--- !u!1001 &461699878
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 114129104182384940, guid: 6ee5b802e4925e44c98121856c916357,
+        type: 2}
+      propertyPath: messages.Array.size
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4558488321935946, guid: 6ee5b802e4925e44c98121856c916357, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 23.28
+      objectReference: {fileID: 0}
+    - target: {fileID: 4558488321935946, guid: 6ee5b802e4925e44c98121856c916357, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0.95
+      objectReference: {fileID: 0}
+    - target: {fileID: 4558488321935946, guid: 6ee5b802e4925e44c98121856c916357, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4558488321935946, guid: 6ee5b802e4925e44c98121856c916357, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4558488321935946, guid: 6ee5b802e4925e44c98121856c916357, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4558488321935946, guid: 6ee5b802e4925e44c98121856c916357, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4558488321935946, guid: 6ee5b802e4925e44c98121856c916357, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4558488321935946, guid: 6ee5b802e4925e44c98121856c916357, type: 2}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114129104182384940, guid: 6ee5b802e4925e44c98121856c916357,
+        type: 2}
+      propertyPath: messages.Array.data[0]
+      value: 'Welcome to N.E.O.N. Corporation! Please help yourself to refreshments
+        made available during this short introductory video. '
+      objectReference: {fileID: 0}
+    - target: {fileID: 114129104182384940, guid: 6ee5b802e4925e44c98121856c916357,
+        type: 2}
+      propertyPath: messages.Array.data[1]
+      value: N.E.O.N. Corporation is involved in several different areas of operation
+        which is why the name actually stands for several different things.
+      objectReference: {fileID: 0}
+    - target: {fileID: 114129104182384940, guid: 6ee5b802e4925e44c98121856c916357,
+        type: 2}
+      propertyPath: messages.Array.data[2]
+      value: 'The umbrella organization is called New Era of Networks and it has three
+        main subsidiaries: New Era of Neuroscience, New Era of Nanotechnologies and
+        New Era of National Security.'
+      objectReference: {fileID: 0}
+    - target: {fileID: 114129104182384940, guid: 6ee5b802e4925e44c98121856c916357,
+        type: 2}
+      propertyPath: messages.Array.data[3]
+      value: You are currently visiting the laboratories of New Era of Neuroscience
+        which researches various different types of enhancements to the human nervous
+        system and the brain.
+      objectReference: {fileID: 0}
+    - target: {fileID: 114129104182384940, guid: 6ee5b802e4925e44c98121856c916357,
+        type: 2}
+      propertyPath: messages.Array.data[4]
+      value: In the next room you can find some examples of our ground-breaking work
+        on Beta Program. Beta Program is a pioneering leap into a revolutionary new
+        field of study
+      objectReference: {fileID: 0}
+    - target: {fileID: 114129104182384940, guid: 6ee5b802e4925e44c98121856c916357,
+        type: 2}
+      propertyPath: messages.Array.data[5]
+      value: which has a plethora of practical applications ranging from health and
+        medicine to education and crisis management.
+      objectReference: {fileID: 0}
+    - target: {fileID: 114129104182384940, guid: 6ee5b802e4925e44c98121856c916357,
+        type: 2}
+      propertyPath: messages.Array.data[6]
+      value: "This is just one example of many fascinating ongoing projects here at
+        N.E.O.N. Corporation. N.E.O.N. Corporation \u2013 A Brighter Future for Everyone."
+      objectReference: {fileID: 0}
+    - target: {fileID: 114129104182384940, guid: 6ee5b802e4925e44c98121856c916357,
+        type: 2}
+      propertyPath: textShowTime
+      value: 11.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114129104182384940, guid: 6ee5b802e4925e44c98121856c916357,
+        type: 2}
+      propertyPath: showChar
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 6ee5b802e4925e44c98121856c916357, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1 &565498539
 GameObject:
   m_ObjectHideFlags: 0
@@ -729,7 +831,7 @@ Transform:
   m_LocalScale: {x: 6.3314466, y: 7.160622, z: 16.164646}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 16
+  m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &629341990
 GameObject:
@@ -811,7 +913,7 @@ Transform:
   m_LocalScale: {x: 37.46385, y: 8.146169, z: 6.2847495}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &644178327
 Prefab:
@@ -850,7 +952,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4603794565450136, guid: 23711c7a1eb0b0045b8363c61a0bdfd4, type: 2}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 23711c7a1eb0b0045b8363c61a0bdfd4, type: 2}
@@ -935,7 +1037,7 @@ Transform:
   m_LocalScale: {x: 1.2152098, y: 6.2569585, z: 16.164646}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 17
+  m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &830511206
 GameObject:
@@ -1021,7 +1123,7 @@ Transform:
   - {fileID: 241479356}
   - {fileID: 29213210}
   m_Father: {fileID: 0}
-  m_RootOrder: 15
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &900810337
 GameObject:
@@ -1092,7 +1194,7 @@ Transform:
   - {fileID: 1789394893}
   - {fileID: 2055818005}
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &903828862
 GameObject:
@@ -1163,7 +1265,7 @@ Transform:
   - {fileID: 1681773837}
   - {fileID: 565498540}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &977760819
 Prefab:
@@ -1202,43 +1304,13 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4665473422344492, guid: 4fc1ef342e41ce349b8a64dde446cfd4, type: 2}
       propertyPath: m_RootOrder
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 114251675280043454, guid: 4fc1ef342e41ce349b8a64dde446cfd4,
         type: 2}
       propertyPath: mainCamera
       value: 
       objectReference: {fileID: 406177148}
-    - target: {fileID: 224645103800979488, guid: 4fc1ef342e41ce349b8a64dde446cfd4,
-        type: 2}
-      propertyPath: m_AnchorMax.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 224645103800979488, guid: 4fc1ef342e41ce349b8a64dde446cfd4,
-        type: 2}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114390035348187042, guid: 4fc1ef342e41ce349b8a64dde446cfd4,
-        type: 2}
-      propertyPath: useSaveFile
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114251675280043454, guid: 4fc1ef342e41ce349b8a64dde446cfd4,
-        type: 2}
-      propertyPath: showBlackScreen
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114251675280043454, guid: 4fc1ef342e41ce349b8a64dde446cfd4,
-        type: 2}
-      propertyPath: textForTitle
-      value: The Chamber of Horrors
-      objectReference: {fileID: 0}
-    - target: {fileID: 114251675280043454, guid: 4fc1ef342e41ce349b8a64dde446cfd4,
-        type: 2}
-      propertyPath: holdTime
-      value: 9999999
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4fc1ef342e41ce349b8a64dde446cfd4, type: 2}
   m_IsPrefabParent: 0
@@ -1335,7 +1407,7 @@ Transform:
   m_LocalScale: {x: 39.714767, y: 6.8664403, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1140991365
 GameObject:
@@ -1404,7 +1476,7 @@ Transform:
   m_LocalScale: {x: 6.62827, y: 6.6107197, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1353891806
 GameObject:
@@ -1565,7 +1637,7 @@ Transform:
   m_LocalScale: {x: 9.926141, y: 19.919098, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1429465448
 GameObject:
@@ -1660,7 +1732,7 @@ Transform:
   m_LocalScale: {x: 9.926141, y: 20.4412, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1485433564
 GameObject:
@@ -1745,7 +1817,7 @@ Transform:
   - {fileID: 1790160870}
   - {fileID: 1743210170}
   m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: -95.353004, z: 0}
 --- !u!1 &1624477495
 GameObject:
@@ -2142,7 +2214,7 @@ Transform:
   - {fileID: 1624477496}
   - {fileID: 1353891807}
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1987816666
 GameObject:
@@ -2237,7 +2309,7 @@ Transform:
   m_LocalScale: {x: 61.58414, y: 6.0610275, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2055818004
 GameObject:
@@ -2374,5 +2446,5 @@ Transform:
   - {fileID: 106985898}
   - {fileID: 118683037}
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
