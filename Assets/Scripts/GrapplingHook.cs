@@ -53,8 +53,8 @@ public class GrapplingHook : MonoBehaviour {
             {
                shootSpot = setShootSpot(shootSpot);
             }
-       
-            
+
+
             if (connected && Input.GetButton("Jump"))
             {
                 detachHook();
@@ -74,7 +74,13 @@ public class GrapplingHook : MonoBehaviour {
                     }
                 }
             }
+            
         }
+    }
+
+    public GameObject spotShoot()
+    {
+        return ableToShoot ? shootSpot : null;
     }
 
     void detachHook()
@@ -153,17 +159,17 @@ public class GrapplingHook : MonoBehaviour {
                 if (targets[i].transform.position.y > this.transform.position.y)
                 {
                     shooter = targets[i];
-                    shooter.GetComponent<VantagePointScript>().setLight(3);
+                   // shooter.GetComponent<VantagePointScript>().setLight(3);
                 }
                 else if (closestDistance == distance)
                 {
                     shooter = targets[i];
-                    shooter.GetComponent<VantagePointScript>().setLight(3);
+                   // shooter.GetComponent<VantagePointScript>().setLight(3);
                 }
             }
             if (shooter != targets[i] && !connected)
             {
-                targets[i].GetComponent<VantagePointScript>().setLight(1);
+               // targets[i].GetComponent<VantagePointScript>().setLight(1);
             }
         }
         if (!shooter)
@@ -192,7 +198,7 @@ public class GrapplingHook : MonoBehaviour {
                 }
                 if (shooter != targets[i] && !connected)
                 {
-                    targets[i].GetComponent<VantagePointScript>().setLight(1);
+                  //  targets[i].GetComponent<VantagePointScript>().setLight(1);
                 }
             }
 
@@ -207,6 +213,8 @@ public class GrapplingHook : MonoBehaviour {
         } 
         ableToShoot = true;
     }
+
+
 
     public void unSetGHookable(GameObject vantagePos)
     {

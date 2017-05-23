@@ -10,6 +10,7 @@ public class VantagePointScript : MonoBehaviour {
     Light lite;
     float intensity;
     PlayerMovement playMov;
+    public SpriteRenderer rB;
     void Awake ()
     {
         lite = GetComponentInChildren<Light>();
@@ -17,6 +18,7 @@ public class VantagePointScript : MonoBehaviour {
         player = GameObject.FindGameObjectWithTag("Player");
         playMov = player.GetComponent<PlayerMovement>();
         gHook = player.GetComponent<GrapplingHook>();
+        rB.enabled = false;
 
     }
     void Start()
@@ -28,6 +30,16 @@ public class VantagePointScript : MonoBehaviour {
 	void OnTriggerStay2D(Collider2D col) {
 		if (col.gameObject == player&&playMov.gizmo())
         {
+            if (this.gameObject == player.GetComponent<GrapplingHook>().spotShoot())
+            {
+                rB.enabled = true;
+                setLight(3);
+            }
+            else
+            {
+                rB.enabled = false;
+                setLight(1);
+            }
             gHook.setGHookable(this.gameObject);
         }
 	}
@@ -37,8 +49,14 @@ public class VantagePointScript : MonoBehaviour {
         if (col.gameObject == player && playMov.gizmo())
         {
             gHook.unSetGHookable(this.gameObject);
+            rB.enabled = false;
             setLight(intensity);
         }
+    }
+
+    public void setRB(bool option)
+    {
+        rB.enabled = option;
     }
     
     public void setLight(float intes)
