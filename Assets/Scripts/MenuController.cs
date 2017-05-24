@@ -16,6 +16,11 @@ public class MenuController : MonoBehaviour {
     public GameObject continueButton;
     public EventSystem eventSystem;
     public GameObject cancelButton;
+	public GameObject newGameButton;
+
+	void Start(){
+		
+	}
 
     void Awake()
     {
@@ -25,6 +30,9 @@ public class MenuController : MonoBehaviour {
         if (!File.Exists(saveFile))
         {
             continueButton.GetComponent<Button>().interactable = false;
+			continueButton.GetComponentInChildren<Text> ().color = Color.gray;
+			eventSystem.SetSelectedGameObject(newGameButton);
+			//eventSystem.
         }
         else
         {
@@ -42,7 +50,7 @@ public class MenuController : MonoBehaviour {
     {
         if (File.Exists(saveFile))
         {
-            basePanel.SetActive(false);
+           // basePanel.SetActive(false);
             confirmationPanel.SetActive(true);
             eventSystem.SetSelectedGameObject(cancelButton);
         }
@@ -64,7 +72,7 @@ public class MenuController : MonoBehaviour {
 
     public void CancelPressed()
     {
-        basePanel.SetActive(true);
+        //basePanel.SetActive(true);
         confirmationPanel.SetActive(false);
         eventSystem.SetSelectedGameObject(continueButton);
     }
