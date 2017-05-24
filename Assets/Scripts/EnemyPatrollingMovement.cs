@@ -354,7 +354,7 @@ public class EnemyPatrollingMovement : MonoBehaviour {
                 {
                     anim.Play("walk");
                 }
-                anim.speed = state == states.normal ? 0.4f : 0.8f;
+                anim.speed = state == states.normal ? 0.4f : 0.42f;
                 targetOnRightOrLeft(point);
                 Vector3 direction = (point - transform.position).normalized;
                 //  enemyRig.MovePosition(transform.position + direction * speed * Time.deltaTime);
