@@ -54,13 +54,13 @@ public class VantagePointScript : MonoBehaviour {
             {
                 //   rB.enabled = true;
                 showRB = true;
-                setLight(3);
+                setLight(0.5f);
             }
             else
             {
                 // rB.enabled = false;
                 showRB = false;
-                setLight(1);
+                setLight(0);
             }
             gHook.setGHookable(this.gameObject);
         }
