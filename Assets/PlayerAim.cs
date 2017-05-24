@@ -27,7 +27,7 @@ public class PlayerAim : MonoBehaviour {
         gScript = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameControllerScript>();
         timer = timeBetweedThrows;
         sr.enabled = false;
-        sr.color = new Vector4(0, 1, 0, 0.5f);
+        //sr.color = new Vector4(1, 1, 1, 0.5f);
         lite.enabled = false;
         buildUp = FMODUnity.RuntimeManager.CreateInstance("event:/Character sounds/GIZMO/Buildup");
 
