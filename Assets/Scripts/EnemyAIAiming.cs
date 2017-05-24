@@ -133,9 +133,9 @@ public class EnemyAIAiming : MonoBehaviour {
                 sensing.checkIfPlayerIsBehind();
             }
             Debug.Log(Vector2.Distance(this.transform.position, playerPos));
-            if (Vector2.Distance(this.transform.position, playerPos) < 2.5f)
+            if (Vector2.Distance(this.transform.position, playerPos) < 1.9f)
             {
-                angle = movement.facingRight() ? -40 : -125;
+                angle = movement.facingRight() ? -40 : -130;
             }
 
             Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward * Time.smoothDeltaTime);

@@ -39,7 +39,7 @@ public class EnemyPatrollingMovement : MonoBehaviour {
     Vector3 lastDetectedPosition;
     Animator anim;
     //PlayerInsideAlertZone AlertZone;
-    float speed = 8;
+    float speed = 80;
     float maxSpeed = 4;
     float timer;
     float bulletTimer;
