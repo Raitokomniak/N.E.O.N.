@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Gizmo : MonoBehaviour {
-
+    public GameObject gizmo;
     // Use this for initialization
 
     private void Awake()
@@ -17,6 +17,7 @@ public class Gizmo : MonoBehaviour {
         {
            GameObject.FindGameObjectWithTag("GameController").GetComponent<GameControllerScript>().setGizmo(true);
            GetComponent<Gizmo>().enabled = false;
+           gizmo.SetActive(false);
         }
     }
 }
