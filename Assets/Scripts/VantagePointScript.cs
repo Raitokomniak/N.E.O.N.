@@ -11,6 +11,7 @@ public class VantagePointScript : MonoBehaviour {
     float intensity;
     PlayerMovement playMov;
     public SpriteRenderer rB;
+    bool showRB;
     void Awake ()
     {
         lite = GetComponentInChildren<Light>();
@@ -19,11 +20,30 @@ public class VantagePointScript : MonoBehaviour {
         playMov = player.GetComponent<PlayerMovement>();
         gHook = player.GetComponent<GrapplingHook>();
         rB.enabled = false;
+        showRB = false;
 
     }
     void Start()
     {
         
+    }
+
+    void Update()
+    {
+        if (showRB)
+        {
+            rB.enabled = true;
+            rB.color = Vector4.Lerp(rB.color, new Vector4(1, 1, 1, 1), 10 * Time.unscaledDeltaTime);
+        }
+        else
+        {
+            rB.color = Vector4.Lerp(rB.color, new Vector4(1, 1, 1, 0), 10 * Time.unscaledDeltaTime);
+
+            if (rB.color.a < 0.2)
+            {
+                rB.enabled = false;
+            }
+        }
     }
 	
 	// Update is called once per frame
@@ -32,12 +52,14 @@ public class VantagePointScript : MonoBehaviour {
         {
             if (this.gameObject == player.GetComponent<GrapplingHook>().spotShoot())
             {
-                rB.enabled = true;
+                //   rB.enabled = true;
+                showRB = true;
                 setLight(3);
             }
             else
             {
-                rB.enabled = false;
+                // rB.enabled = false;
+                showRB = false;
                 setLight(1);
             }
             gHook.setGHookable(this.gameObject);
@@ -49,7 +71,7 @@ public class VantagePointScript : MonoBehaviour {
         if (col.gameObject == player && playMov.gizmo())
         {
             gHook.unSetGHookable(this.gameObject);
-            rB.enabled = false;
+            showRB = false;
             setLight(intensity);
         }
     }

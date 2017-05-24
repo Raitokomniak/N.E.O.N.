@@ -594,7 +594,7 @@ Prefab:
     - target: {fileID: 114129104182384940, guid: 6ee5b802e4925e44c98121856c916357,
         type: 2}
       propertyPath: messages.Array.data[1]
-      value: N.E.O.N. Corporation is involved in several different areas of operation
+      value: N.E.O.N. Corporation is involved in several different areas of operation,
         which is why the name actually stands for several different things.
       objectReference: {fileID: 0}
     - target: {fileID: 114129104182384940, guid: 6ee5b802e4925e44c98121856c916357,
@@ -607,7 +607,7 @@ Prefab:
     - target: {fileID: 114129104182384940, guid: 6ee5b802e4925e44c98121856c916357,
         type: 2}
       propertyPath: messages.Array.data[3]
-      value: You are currently visiting the laboratories of New Era of Neuroscience
+      value: You are currently visiting the laboratories of New Era of Neuroscience,
         which researches various different types of enhancements to the human nervous
         system and the brain.
       objectReference: {fileID: 0}
@@ -1315,6 +1315,26 @@ Prefab:
         type: 2}
       propertyPath: holdTime
       value: 999999999
+      objectReference: {fileID: 0}
+    - target: {fileID: 114390035348187042, guid: 4fc1ef342e41ce349b8a64dde446cfd4,
+        type: 2}
+      propertyPath: useSaveFile
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114278563718879796, guid: 4fc1ef342e41ce349b8a64dde446cfd4,
+        type: 2}
+      propertyPath: m_FontData.m_Alignment
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 224394758278414402, guid: 4fc1ef342e41ce349b8a64dde446cfd4,
+        type: 2}
+      propertyPath: m_AnchoredPosition.x
+      value: -7
+      objectReference: {fileID: 0}
+    - target: {fileID: 224394758278414402, guid: 4fc1ef342e41ce349b8a64dde446cfd4,
+        type: 2}
+      propertyPath: m_SizeDelta.x
+      value: 519
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4fc1ef342e41ce349b8a64dde446cfd4, type: 2}
