@@ -14,14 +14,14 @@ public class EndMenuController : MonoBehaviour {
 
     void Awake()
     {
-        string[] rawRead = System.IO.File.ReadAllLines(saveFile);
+       /* string[] rawRead = System.IO.File.ReadAllLines(saveFile);
         string Sdeaths = rawRead[4];
         string Salarms = rawRead[5];
         string Stime = rawRead[6];
 
         deaths.text = "You died " + Sdeaths + " times";
         alarms.text = "You triggered alarm " + Salarms + " times";
-        time.text = "And it took you " + Stime + " seconds in NEON time";
+        time.text = "And it took you " + Stime + " seconds in NEON time";*/
     }
 
     public void mainMenuPressed()

@@ -53,7 +53,7 @@ public class PlayerMovement : MonoBehaviour
     string jumpSound = "event:/Character sounds/Jumping";
     string wallJumpSound = "event:/Character sounds/Wall jumping";
     bool ledgeClimbed = false;
-
+    bool wallJumped = false;
     enum charStates
     {
         idle,
@@ -168,6 +168,7 @@ public class PlayerMovement : MonoBehaviour
         if (!performingAction)
         {
             characterHandler();
+            
             flipHandler();
             if (wall == null)
             {
@@ -187,6 +188,7 @@ public class PlayerMovement : MonoBehaviour
             if (grounded)
             {
                 wallJumpAble = false;
+                wallJumped = false;
                 wall = null;
             }
         }
@@ -198,6 +200,7 @@ public class PlayerMovement : MonoBehaviour
             }
 
         }
+        
     }
 
     void FixedUpdate()
@@ -205,6 +208,7 @@ public class PlayerMovement : MonoBehaviour
         if (!performingAction)
         {
             movementHandler();
+            
         }
         
     }
@@ -289,7 +293,7 @@ public class PlayerMovement : MonoBehaviour
             }
             else if (!checker)
             {
-                setAdrenalineRush(true);
+              //  setAdrenalineRush(true);
             }
         }
         if (adrenalineRush&&!reducing)
@@ -632,6 +636,8 @@ public class PlayerMovement : MonoBehaviour
             //landingSound.jumped();
         }
     }
+
+    
     void wallJump()
     {
         if (wallJumpAble)
@@ -641,6 +647,7 @@ public class PlayerMovement : MonoBehaviour
             
             if (Input.GetButtonDown("Jump"))
             {
+                wallJumped = true;
                 FMODUnity.RuntimeManager.PlayOneShot(wallJumpSound);
                 int dir = facing * -1;
                 playerRig.AddForce(new Vector2(dir * _jumpForce / 1.5f, _jumpForce), ForceMode2D.Impulse);
@@ -667,6 +674,15 @@ public class PlayerMovement : MonoBehaviour
 
     void flipHandler()
     {
+        if (wallJumped)
+        { 
+            facing = playerRig.velocity.x < 0 ? -1 : 1;
+            Debug.Log("wall " + facing + " " + playerRig.velocity.x);
+        }
+        if ((wallJumped&&playerRig.velocity.y < 0)||wallJumpAble)
+        {
+            wallJumped = false;
+        }
         sr.flipX = (facing == 1) ? false : true;
     }
 

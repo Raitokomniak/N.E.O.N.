@@ -45,13 +45,13 @@ public class CutsceneHandler : MonoBehaviour
 
 	void Awake ()
 	{
-		if (SceneManager.GetActiveScene().name == "cutScene") {
+		//if (SceneManager.GetActiveScene().name == "cutScene") {
 			endText.gameObject.SetActive (false);
 			onGoingCutscene = CheckProgression ();
 			StartCutscene ();
 			progressionBar.transform.SetAsLastSibling ();
 			curtain.transform.SetAsLastSibling ();
-		}
+		//}
 	}
 
 	int CheckProgression(){
@@ -63,7 +63,9 @@ public class CutsceneHandler : MonoBehaviour
 
 	void Update ()
 	{
-		if (Input.GetButtonDown("Jump")) {
+		if (Input.GetButtonDown("Jump"))
+        {
+            Debug.Log("Input");
 			if (cutSceneRunning)
 				NextPanel ();
 			else {
@@ -75,6 +77,7 @@ public class CutsceneHandler : MonoBehaviour
 
 	void StartCutscene ()
 	{
+        Debug.Log("Start cutscene");
 		currentCutscene = CreateCutscene ();
 		PlayBGM (currentCutscene.musicPath);
 		cutSceneRunning = true;
@@ -104,7 +107,8 @@ public class CutsceneHandler : MonoBehaviour
 
 	void NextPage ()
 	{
-		//if (currentPage != null) Destroy (currentPage);
+        //if (currentPage != null) Destroy (currentPage);
+        Debug.Log("Next Page");
 
 		onGoingPage++;
 
