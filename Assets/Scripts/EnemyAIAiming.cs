@@ -133,7 +133,7 @@ public class EnemyAIAiming : MonoBehaviour {
                 sensing.checkIfPlayerIsBehind();
             }
             Debug.Log(Vector2.Distance(this.transform.position, playerPos));
-            if (Vector2.Distance(this.transform.position, playerPos) < 1.9f)
+            if (Vector2.Distance(this.transform.position, playerPos) < 2f)
             {
                 angle = movement.facingRight() ? -40 : -130;
             }
